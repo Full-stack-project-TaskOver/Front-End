@@ -21,14 +21,6 @@ function useTaskCollection() {
               color: 'yellow.300',
             },
           ],
-          Blocked: [
-            {
-              id: uuidv4(),
-              column: ColumnType.BLOCKED,
-              title: 'Task 3',
-              color: 'red.300',
-            },
-          ],
           Completed: [
             {
               id: uuidv4(),

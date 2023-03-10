@@ -12,7 +12,6 @@ type TaskProps = {
     onUpdate: (id: TaskModel["id"], updateTask: TaskModel) => void;
     onDelete: (id: TaskModel["id"]) => void;
     onDropHover: (i: number, j: number) => void;
-
 };
 
 function Task({
@@ -40,7 +39,7 @@ function Task({
         role="group"
         position="relative"
         rounded="lg"
-        w={200}
+        // w={200}
         pl={3}
         pr={7}
         pt={3}
