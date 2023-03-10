@@ -16,7 +16,6 @@ import Task from './Task';
 const ColumnColorScheme: Record<ColumnType, string> = {
   Todo: 'gray',
   'In Progress': 'blue',
-  Blocked: 'red',
   Completed: 'green',
 };
 
@@ -58,7 +57,7 @@ function Column({ column }: { column: ColumnType }) {
             <Stack
             ref={dropRef}
             direction={{base:"row", md: "column"}}
-            h={{base: 300, md: 600}}
+            h={{base: 140, md: 600}}
             p={4}
             mt={2}
             spacing={4}

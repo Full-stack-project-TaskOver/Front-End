@@ -70,7 +70,7 @@ export default function SidebarWithHeader({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH="100vh" bg={useColorModeValue('white', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -90,6 +90,7 @@ export default function SidebarWithHeader({
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
+        <Box height="20"/>
         {children}
       </Box>
     </Box>
@@ -110,6 +111,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      zIndex={10}
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
@@ -135,7 +137,6 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
   return (
     <Link    to={`/${value}`} style={{ textDecoration: "none" }}>
       <Flex
-      
         align="center"
         p="4"
         mx="4"
@@ -169,7 +170,9 @@ interface MobileProps extends FlexProps {
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
     <Flex
-      ml={{ base: 0, md: 60 }}
+      position={'fixed'}
+      width={'100%'}
+      zIndex={9}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
