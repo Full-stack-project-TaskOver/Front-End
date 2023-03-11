@@ -58,7 +58,7 @@ interface LinkItemProps {
 
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FiHome, path: "" },
-  { name: 'Sessions', icon: FiTrendingUp, path: "Sessions" },
+  { name: 'Trending', icon: FiTrendingUp, path: "Trending" },
   { name: 'Explore', icon: FiCompass, path: "Explore" },
   { name: 'Favourites', icon: FiStar, path: "Favourites" },
   { name: 'Settings', icon: FiSettings, path: "Settings" },
@@ -146,9 +146,9 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.100",
+          bg: useColorModeValue("gray.100", "gray.800"),
           boxShadow:"sm",
-          color: "black",
+          // color: "black",
         }}
         transition={'250ms'}
         {...rest}>
@@ -157,7 +157,7 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "black",
+              // color: "black",
             }}
             as={icon}
           />
