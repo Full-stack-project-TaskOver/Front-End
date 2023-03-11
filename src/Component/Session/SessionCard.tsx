@@ -18,7 +18,7 @@ function SessionCard() {
   return (
     <Card
       maxW="18em"
-      backgroundColor={useColorModeValue("#FFDDD2", "white")}
+      backgroundColor={useColorModeValue("#FFDDD2", "#90E1DE")}
       shadow="sm"
       borderRadius={15}
       cursor="pointer"
@@ -28,14 +28,15 @@ function SessionCard() {
       }}>
       <CardBody pb={0.5}>
         <Stack spacing="2">
-          <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.700"></Icon>
+          <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900"></Icon>
           <Text
             as={"h3"}
             fontSize={{ base: "1rem", md: "1rem" }}
-            fontWeight="600">
+            fontWeight="600"
+            color="black">
             Rayan Family
           </Text>
-          <Text fontSize={{ base: "0.7rem", md: "0.8rem" }}>
+          <Text color="black" fontSize={{ base: "0.7rem", md: "0.8rem" }}>
             Here we have all of our family tasks and goals
           </Text>
         </Stack>
@@ -50,11 +51,7 @@ function SessionCard() {
             fontSize={"0.8em"}
             backgroundColor={useColorModeValue("#FCF2DB", "white")}>
             {/* Leaderboard Icon */}
-            <Icon
-              as={MdLeaderboard}
-              color={useColorModeValue("black", "white")}
-              boxSize="1.3em"
-            />
+            <Icon as={MdLeaderboard} color="black" boxSize="1.3em" />
           </Button>
           <Button
             py={0.5}

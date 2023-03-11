@@ -19,7 +19,7 @@ function AddSessionCard() {
     <Card
       as={"button"}
       maxW="18em"
-      backgroundColor={useColorModeValue("none", "white")}
+      backgroundColor={useColorModeValue("white", "gray.900")}
       shadow="sm"
       borderRadius={15}
       border="2px dashed gray"
@@ -27,7 +27,7 @@ function AddSessionCard() {
       transition={"200ms"}
       justifyContent="center"
       _hover={{
-        backgroundColor: useColorModeValue("gray.100", "white"),
+        backgroundColor: useColorModeValue("gray.100", "gray.800"),
       }}>
       <Icon
         as={AiOutlinePlus}
