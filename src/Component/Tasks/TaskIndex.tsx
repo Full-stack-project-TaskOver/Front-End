@@ -2,14 +2,12 @@ import { Box, Container, Heading, SimpleGrid } from '@chakra-ui/react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import Column from './Column'
-import DarkModeIconButton from './DarkModeIcon'
 import { ColumnType } from '../../utils/enums'
 
 function App() {
 
   return (
     <>
-    <DarkModeIconButton position={"absolute"} bottom={4} right={4}/>
     <Container maxWidth="container.lg" px={4} py={10}>
       <DndProvider backend={HTML5Backend}>
 
