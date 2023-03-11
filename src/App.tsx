@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import SessionsIndex from "./Component/Session/SessionsIndex";
 
 // Import Components
 import SessionCard from "./Component/Session/SessionsIndex";
@@ -12,7 +13,7 @@ function App() {
         <Route path="/" element={<SideNav children={<TaskIndex />} />}></Route>
         <Route
           path="Sessions"
-          element={<SideNav children={<SessionCard />} />}></Route>
+          element={<SideNav children={<SessionsIndex />} />}></Route>
       </Routes>
     </>
   );
