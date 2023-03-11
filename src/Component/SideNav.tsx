@@ -48,6 +48,7 @@ import { RiTeamLine } from 'react-icons/Ri'
 import { Route, Link, useLocation } from "react-router-dom";
 import { ReactJSXElementAttributesProperty } from "@emotion/react/types/jsx-namespace";
 import { ValueTarget } from "framer-motion";
+import DarkModeIconButton from './Tasks/DarkModeIcon';
 
 interface LinkItemProps {
   name: string;
@@ -124,6 +125,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
+      <DarkModeIconButton position={"absolute"} bottom={4} left={4}/>
     </Box>
   );
 };
@@ -144,21 +146,24 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
-          color: "white",
+          bg: "cyan.100",
+          boxShadow:"sm",
+          color: "black",
         }}
+        transition={'250ms'}
         {...rest}>
         {icon && (
           <Icon
             mr="4"
             fontSize="16"
             _groupHover={{
-              color: "white",
+              color: "black",
             }}
             as={icon}
           />
         )}
         {children}
+
       </Flex>
     </Link>
   );
@@ -198,6 +203,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
+
         <IconButton
           size="lg"
           variant="ghost"

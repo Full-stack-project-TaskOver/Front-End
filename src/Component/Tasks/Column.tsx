@@ -21,7 +21,7 @@ const ColumnColorScheme: Record<ColumnType, string> = {
 
 function Column({ column }: { column: ColumnType }) {
 
-    const {tasks, addEmptyTask, updateTask, deleteTask, dropTaskFrom, swapTasks} = useColumnTasks(column)
+    const {tasks, updateTask, deleteTask, dropTaskFrom, swapTasks} = useColumnTasks(column)
 
     const {dropRef, isOver} = useColumnDrop(column, dropTaskFrom)
 
@@ -41,19 +41,6 @@ function Column({ column }: { column: ColumnType }) {
 
                 </Badge>
             </Heading>
-            <IconButton
-                size="xs"
-                w="full"
-                color={useColorModeValue("gray.500", "gray.400")}
-                bgColor={useColorModeValue("gray.100", "gray.700")}
-                _hover={{bgColor: useColorModeValue("gray.200", "gray.600")}}
-                py={2}
-                variant="solid"
-                colorScheme="black"
-                aria-label="add-task"
-                icon={<AddIcon/>}
-                onClick = {addEmptyTask}
-            />
             <Stack
             ref={dropRef}
             direction={{base:"row", md: "column"}}
@@ -61,7 +48,7 @@ function Column({ column }: { column: ColumnType }) {
             p={4}
             mt={2}
             spacing={4}
-            bgColor={useColorModeValue("gray.50", "gray.900")}
+            bgColor={useColorModeValue("gray.50", "gray.800")}
             rounded="lg"
             boxShadow="md"
             overflow="auto"
