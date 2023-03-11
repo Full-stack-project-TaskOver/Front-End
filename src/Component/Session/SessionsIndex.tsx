@@ -12,33 +12,9 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlinePlus, AiOutlinePlusCircle } from "react-icons/Ai";
-import SessionCard from "./SessionCard";
+import SessionCard, { AddSessionCard } from "./SessionCard";
 
-function AddSessionCard() {
-  return (
-    <Card
-      as={"button"}
-      maxW="18em"
-      backgroundColor={useColorModeValue("white", "gray.900")}
-      shadow="sm"
-      borderRadius={15}
-      border="2px dashed gray"
-      cursor="pointer"
-      transition={"200ms"}
-      justifyContent="center"
-      _hover={{
-        backgroundColor: useColorModeValue("gray.100", "gray.800"),
-      }}>
-      <Icon
-        as={AiOutlinePlus}
-        boxSize={"3em"}
-        alignSelf="center"
-        color={"gray"}
-      />
-    </Card>
-  );
-}
-
+// Sessions Container Component
 function SessionsIndex() {
   return (
     <>
@@ -48,7 +24,11 @@ function SessionsIndex() {
       <Flex w="full" flexDirection="column">
         {/* As Member Section */}
         <Flex flexDirection={"column"} w="full">
-          <Heading as="h2" fontSize={{ md: "1.1rem" }} p="0.5em">
+          <Heading
+            as="h2"
+            fontSize={{ md: "1.1rem" }}
+            p="0.5em"
+            color={useColorModeValue("gray.700", "gray.50")}>
             As Member
           </Heading>
           <SimpleGrid
