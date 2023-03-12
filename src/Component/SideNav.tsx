@@ -46,7 +46,6 @@ import { BsCardText } from "react-icons/bs";
 import { RiTeamLine } from 'react-icons/Ri'
 
 import { Route, Link, useLocation } from "react-router-dom";
-import { ReactJSXElementAttributesProperty } from "@emotion/react/types/jsx-namespace";
 import { ValueTarget } from "framer-motion";
 import DarkModeIconButton from './Tasks/DarkModeIcon';
 
