@@ -49,6 +49,8 @@ import { Route, Link, useLocation } from "react-router-dom";
 import { ReactJSXElementAttributesProperty } from "@emotion/react/types/jsx-namespace";
 import { ValueTarget } from "framer-motion";
 import DarkModeIconButton from './Tasks/DarkModeIcon';
+import Buttons from './Authentication/Buttons';
+
 
 interface LinkItemProps {
   name: string;
@@ -201,7 +203,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         fontWeight="bold">
         Logo
       </Text>
-
+      <Buttons/>
       <HStack spacing={{ base: '0', md: '6' }}>
 
         <IconButton
@@ -210,6 +212,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           aria-label="open menu"
           icon={<FiBell />}
         />
+        
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
