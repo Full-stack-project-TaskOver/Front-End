@@ -4,7 +4,8 @@ import { AddIcon } from '@chakra-ui/icons'
 import useColumnTasks from '../../hooks/useColumnTask'
 import Column from './Column'
 import { ColumnType } from '../../utils/enums'
-
+// import { Standard } from "@typebot.io/react";
+// <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
 function TaskPage() {
 
     const {addEmptyTask} = useColumnTasks(ColumnType.TO_DO)
@@ -18,7 +19,7 @@ function TaskPage() {
   return (
     <>
     <IconButton 
-                onClick={onOpen}
+                // onClick={onOpen}
                 size="xs"
                 w = "100%"
                 h = "40px"
@@ -29,7 +30,7 @@ function TaskPage() {
                 colorScheme="black"
                 aria-label="add-task"
                 icon={<AddIcon/>}
-                // onClick = {addEmptyTask}
+                onClick = {addEmptyTask}
         />
 
     <Modal onClose={onClose} isOpen={isOpen} size={'full'} >
