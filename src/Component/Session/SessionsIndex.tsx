@@ -13,8 +13,8 @@ import {
 import React from "react";
 import { AiOutlinePlus, AiOutlinePlusCircle } from "react-icons/Ai";
 import SessionCard, { AddSessionCard } from "./SessionCard";
-import familyIcon from "C:/Users/Rayan/OneDrive/Doc/Courses/Tuwaiq_Academy/Final Project/Front-End/src/assets/family_icon.png";
-import adminIcon from "C:/Users/Rayan/OneDrive/Doc/Courses/Tuwaiq_Academy/Final Project/Front-End/src/assets/admin_icon.svg";
+import family from '../../assets/family.png'
+import adminIcon from "../../assets/admin_icon.svg";
 
 // Sessions Container Component
 function SessionsIndex() {
@@ -42,12 +42,12 @@ function SessionsIndex() {
           w="full"
           justifyItems={"center"}>
           <SessionCard
-            imgPath={familyIcon}
+            imgPath={family}
             title={"Javascript Bootcamp"}
             description="Bootcamp for 'حديثي التخرج' and abdullah"
           />
           <SessionCard
-            imgPath={familyIcon}
+            imgPath={family}
             title={"Javascript Bootcamp 2"}
             description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi autem maxime totam et labore. Voluptatibus, placeat soluta? Nulla ratione itaque voluptatum asperiores earum, ut rem quam est illo voluptas illum."
           />
