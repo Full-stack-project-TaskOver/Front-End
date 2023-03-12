@@ -13,51 +13,57 @@ import {
 import React from "react";
 import { AiOutlinePlus, AiOutlinePlusCircle } from "react-icons/Ai";
 import SessionCard, { AddSessionCard } from "./SessionCard";
+import familyIcon from "C:/Users/Rayan/OneDrive/Doc/Courses/Tuwaiq_Academy/Final Project/Front-End/src/assets/family_icon.png";
+import adminIcon from "C:/Users/Rayan/OneDrive/Doc/Courses/Tuwaiq_Academy/Final Project/Front-End/src/assets/admin_icon.svg";
 
 // Sessions Container Component
 function SessionsIndex() {
   return (
     <>
-      <Heading as={"h1"} fontSize={{ md: "2rem" }} pb="1.5em">
+      <Heading
+        as={"h1"}
+        fontSize="2rem"
+        py="1rem"
+        color={useColorModeValue("gray.700", "gray.100")}>
         Sessions
       </Heading>
-      <Flex w="full" flexDirection="column">
+      <Flex flexDirection={"column"} w="full" pt="1rem" pb="1.5rem" gap={"2em"}>
         {/* As Member Section */}
-        <Flex flexDirection={"column"} w="full">
-          <Heading
-            as="h2"
-            fontSize={{ md: "1.1rem" }}
-            p="0.5em"
-            color={useColorModeValue("gray.700", "gray.50")}>
-            As Member
-          </Heading>
-          <SimpleGrid
-            columns={{ base: 1, sm: 2, md: 3 }}
-            rowGap={3}
-            columnGap={3}
-            w="full">
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <AddSessionCard />
-          </SimpleGrid>
-        </Flex>
-        <Divider padding={2} />
+        <Heading
+          as="h2"
+          fontSize="1.1rem"
+          color={useColorModeValue("gray.700", "gray.100")}
+          alignSelf="start">
+          As Member
+        </Heading>
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
+          gap={5}
+          w="full"
+          justifyItems={"center"}>
+          <SessionCard
+            imgPath={familyIcon}
+            title={"Javascript Bootcamp"}
+            description="Bootcamp for 'حديثي التخرج' and abdullah"
+          />
+          <SessionCard
+            imgPath={familyIcon}
+            title={"Javascript Bootcamp 2"}
+            description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi autem maxime totam et labore. Voluptatibus, placeat soluta? Nulla ratione itaque voluptatum asperiores earum, ut rem quam est illo voluptas illum."
+          />
+          <AddSessionCard />
+        </SimpleGrid>
+        <Divider />
         {/* As Admin Section */}
-        <Flex flexDirection={"column"} w="full">
-          <Heading as="h2" fontSize={{ md: "1.1rem" }} p="0.5em">
+        <Flex flexDirection={"column"} w="full" pb="1.5rem" gap={"2em"}>
+          <Heading as="h2" fontSize={{ md: "1.1rem" }}>
             As Admin
           </Heading>
           <SimpleGrid
             columns={{ base: 1, sm: 2, md: 3 }}
-            rowGap={3}
-            columnGap={3}
-            w="full">
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
+            gap={5}
+            w="full"
+            justifyItems={"center"}>
             <AddSessionCard />
           </SimpleGrid>
         </Flex>

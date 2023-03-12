@@ -5,6 +5,7 @@ import SessionsIndex from "./Component/Session/SessionsIndex";
 import SessionCard from "./Component/Session/SessionsIndex";
 import SideNav from "./Component/SideNav";
 import TaskIndex from "./Component/Tasks/TaskIndex";
+import "./App.css";
 
 function App() {
   return (
