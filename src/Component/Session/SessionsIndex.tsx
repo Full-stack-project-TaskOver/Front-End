@@ -12,72 +12,58 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlinePlus, AiOutlinePlusCircle } from "react-icons/Ai";
-import SessionCard from "./SessionCard";
+import SessionCard, { AddSessionCard } from "./SessionCard";
+import family from '../../assets/family.png'
+import adminIcon from "../../assets/admin_icon.svg";
 
-function AddSessionCard() {
-  return (
-    <Card
-      as={"button"}
-      maxW="18em"
-      backgroundColor={useColorModeValue("white", "gray.900")}
-      shadow="sm"
-      borderRadius={15}
-      border="2px dashed gray"
-      cursor="pointer"
-      transition={"200ms"}
-      justifyContent="center"
-      _hover={{
-        backgroundColor: useColorModeValue("gray.100", "gray.800"),
-      }}>
-      <Icon
-        as={AiOutlinePlus}
-        boxSize={"3em"}
-        alignSelf="center"
-        color={"gray"}
-      />
-    </Card>
-  );
-}
-
+// Sessions Container Component
 function SessionsIndex() {
   return (
     <>
-      <Heading as={"h1"} fontSize={{ md: "2rem" }} pb="1.5em">
+      <Heading
+        as={"h1"}
+        fontSize="2rem"
+        py="1rem"
+        color={useColorModeValue("gray.700", "gray.100")}>
         Sessions
       </Heading>
-      <Flex w="full" flexDirection="column">
+      <Flex flexDirection={"column"} w="full" pt="1rem" pb="1.5rem" gap={"2em"}>
         {/* As Member Section */}
-        <Flex flexDirection={"column"} w="full">
-          <Heading as="h2" fontSize={{ md: "1.1rem" }} p="0.5em">
-            As Member
-          </Heading>
-          <SimpleGrid
-            columns={{ base: 1, sm: 2, md: 3 }}
-            rowGap={3}
-            columnGap={3}
-            w="full">
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <AddSessionCard />
-          </SimpleGrid>
-        </Flex>
-        <Divider padding={2} />
+        <Heading
+          as="h2"
+          fontSize="1.1rem"
+          color={useColorModeValue("gray.700", "gray.100")}
+          alignSelf="start">
+          As Member
+        </Heading>
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, md: 2, lg: 3 }}
+          gap={5}
+          w="full"
+          justifyItems={"center"}>
+          <SessionCard
+            imgPath={family}
+            title={"Javascript Bootcamp"}
+            description="Bootcamp for 'حديثي التخرج' and abdullah"
+          />
+          <SessionCard
+            imgPath={family}
+            title={"Javascript Bootcamp 2"}
+            description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi autem maxime totam et labore. Voluptatibus, placeat soluta? Nulla ratione itaque voluptatum asperiores earum, ut rem quam est illo voluptas illum."
+          />
+          <AddSessionCard />
+        </SimpleGrid>
+        <Divider />
         {/* As Admin Section */}
-        <Flex flexDirection={"column"} w="full">
-          <Heading as="h2" fontSize={{ md: "1.1rem" }} p="0.5em">
+        <Flex flexDirection={"column"} w="full" pb="1.5rem" gap={"2em"}>
+          <Heading as="h2" fontSize={{ md: "1.1rem" }}>
             As Admin
           </Heading>
           <SimpleGrid
             columns={{ base: 1, sm: 2, md: 3 }}
-            rowGap={3}
-            columnGap={3}
-            w="full">
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
-            <SessionCard />
+            gap={5}
+            w="full"
+            justifyItems={"center"}>
             <AddSessionCard />
           </SimpleGrid>
         </Flex>
