@@ -19,6 +19,8 @@ import {
   Collapse,
   Input,
   VStack,
+  Textarea,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
@@ -59,13 +61,15 @@ function RadioCard(props: any) {
 
       <Box
         {...checkbox}
+        className="radio"
         cursor="pointer"
         // borderWidth="1px"
         borderRadius="md"
         boxShadow="md"
-        fontSize={"xl"}
+        fontSize={{ base: "0.9rem", md: "1.1rem" }}
         bg="gray.100"
         transition={"200ms"}
+        textAlign="center"
         _checked={{
           bg: "#7BD0FF",
           color: "gray.50",
@@ -73,8 +77,8 @@ function RadioCard(props: any) {
         _focus={{
           boxShadow: "xl",
         }}
-        px={5}
-        py={4}>
+        px={{ base: 4, md: 5 }}
+        py={{ base: 3, md: 4 }}>
         {props.children}
       </Box>
     </Box>
@@ -82,10 +86,9 @@ function RadioCard(props: any) {
 }
 
 function SessionOverlay() {
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-  const [title, setTitle] = useState<string>();
-  const [desc, setDesc] = useState<string>();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [title, setTitle] = useState<string>('');
+  const [desc, setDesc] = useState<string>('');
   const options = ["Company", "Freelancers", "Family", "Personal"];
 
   // To handle the radio button value.
@@ -104,6 +107,12 @@ function SessionOverlay() {
   });
 
   const group = getRootProps();
+
+  const postSession = () => {
+    session.title = title
+    session.description = desc
+    console.log(session);
+  };
 
   return (
     <>
@@ -146,7 +155,7 @@ function SessionOverlay() {
         isCentered
         onClose={onClose}
         isOpen={isOpen}
-        size={"3xl"}
+        size={{ base: "xs", md: "3xl" }}
         motionPreset="scale">
         <ModalOverlay />
 
@@ -172,7 +181,11 @@ function SessionOverlay() {
 
           <ModalBody pt={1} justifyItems="center">
             {/* Radio Cards Here */}
-            <HStack {...group} justifyContent="center" gap={5}>
+            <SimpleGrid
+              {...group}
+              justifyContent="center"
+              gap={5}
+              columns={{ base: 2, md: 4 }}>
               {options.map((value) => {
                 const radio = getRadioProps({ value });
                 return (
@@ -181,7 +194,7 @@ function SessionOverlay() {
                   </RadioCard>
                 );
               })}
-            </HStack>
+            </SimpleGrid>
             <VStack spacing={3} p={6}>
               <Text alignSelf={"start"}>
                 Title
@@ -192,19 +205,19 @@ function SessionOverlay() {
               <Input
                 variant="outline"
                 placeholder="Enter Title Here"
+                required={true}
                 onChange={(e) => {
                   setTitle(e.target.value);
-                  title ? (session.title = title) : "undefined";
                 }}
               />
 
               <Text alignSelf={"start"}>Description</Text>
-              <Input
+              <Textarea
                 variant="outline"
-                placeholder="Enter Description Here"
+                placeholder="Enter Your Description Here"
+                size={"sm"}
                 onChange={(e) => {
                   setDesc(e.target.value);
-                  desc ? (session.description = desc) : "";
                 }}
               />
             </VStack>
@@ -215,7 +228,9 @@ function SessionOverlay() {
               Close
             </Button> */}
 
-            <Button variant="solid">Create Session</Button>
+            <Button size={"lg"} colorScheme="blue" onClick={postSession}>
+              Create Session
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

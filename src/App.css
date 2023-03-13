@@ -7,12 +7,12 @@
   -webkit-box-orient: vertical;
 }
 
-.tab:hover {
+.radio:hover {
   cursor: "pointer";
   background-color: "#eee";
   transform: scale(1.04);
 }
 
-.tab:active {
+.radio:active {
   transform: scale(1);
 }

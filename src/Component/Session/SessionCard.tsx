@@ -10,10 +10,15 @@ import {
   Icon,
   useColorModeValue,
   useDisclosure,
+  Flex,
+  IconButton,
+  MenuItem,
+  Menu,
+  MenuButton,
+  MenuList,
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
-import { IoIosAdd } from "react-icons/io";
-import { size } from "lodash";
+import { FiMoreVertical } from "react-icons/fi";
 
 // Add Session Component
 
@@ -25,6 +30,10 @@ interface sessionCard {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
+  const deleteSession = () => {
+    console.log("Delete Sesion");
+  };
+
   return (
     <Card
       w="80%"
@@ -41,11 +50,23 @@ function SessionCard(props: sessionCard) {
       <CardBody pb={0.5}>
         <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
-          <Image src={props.imgPath} boxSize={"2.5em"} />
-          <Text
-            as={"h3"}
-            fontSize={{ base: "1rem", md: "1rem" }}
-            fontWeight="600">
+          <Flex w="full" justifyContent="space-between">
+            <Image src={props.imgPath} boxSize={"2.5em"} />
+            <Menu>
+              <MenuButton
+                as={IconButton}
+                bg="none"
+                icon={<FiMoreVertical />}
+                w="0.5rem"
+              />
+              <MenuList minW={{ base: "4rem", md: "8rem" }}>
+                <MenuItem color={"red"} onClick={deleteSession}>
+                  Delete
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Flex>
+          <Text as={"h3"} fontSize="1rem" fontWeight="600">
             {props.title}
           </Text>
           <Text
