@@ -11,31 +11,71 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    useToast,
   } from '@chakra-ui/react';
 import React from 'react';
   
   export default function SimpleCard() {
     const [email, setEmail] = React.useState("")
     const [password, setPass] = React.useState("")
+    const toast = useToast();
 
-    function signIn() {
-        fetch('http://localhost:3003/user/sign-in',{
-            method: "POST",
-            headers:{
-                "Content-Type": "application/json"
-            },
-            body:JSON.stringify({
-                email,
-                password
-            })
-        }).then(res=>res.json())
-        .then(data=>{
-            console.log(data);
-            localStorage.setItem("token",data.token);
+    // function signIn() {
+    //     fetch('http://localhost:3003/user/sign-in',{
+    //         method: "POST",
+    //         headers:{
+    //             "Content-Type": "application/json"
+    //         },
+    //         body:JSON.stringify({
+    //             email,
+    //             password
+    //         })
+    //     }).then(res=>res.json())
+    //     .then(data=>{
+    //         console.log(data);
+    //         localStorage.setItem("token",data.token);
             
-            console.log(localStorage.getItem("token"))
+    //         console.log(localStorage.getItem("token"))
+    //     });
+    // }
+    const submitLogin = async () => {
+      try {
+        const request = await fetch("http://localhost:3003/user/sign-in", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         });
-    }
+          const data = await request.json();
+        if (request.status !== 200) {
+          toast({
+            title: data.message,
+            status: "error",
+            duration: 3000,
+            position: "top",
+          });
+          return;
+        }
+        toast({
+          title: data.message,
+          status: "success",
+          duration: 3000,
+          position: "top",
+        });
+        localStorage.setItem("token", data.token);
+        console.log( data.token);
+        // navigate("/");
+      } catch (error) {
+        toast({
+          title: "Server Error !",
+          status: "error",
+          duration: 3000,
+          position: "top",
+        });
+      }
+    };
+    
     return (
       <Flex
         minH={'100vh'}
@@ -71,7 +111,7 @@ import React from 'react';
                   <Checkbox>Remember me</Checkbox>
                   <Link color={'blue.400'}>Forgot password?</Link>
                 </Stack>
-                <Button onClick={signIn}
+                <Button onClick={submitLogin}
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
