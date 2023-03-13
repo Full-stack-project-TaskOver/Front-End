@@ -4,57 +4,18 @@ import {
   Card,
   CardBody,
   CardFooter,
-  Divider,
   Image,
   Stack,
   Text,
   Icon,
-  Flex,
   useColorModeValue,
-  Spacer,
+  useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { IconType } from "react-icons";
-import { AiOutlinePlus } from "react-icons/Ai";
-import { MdFamilyRestroom, MdLeaderboard } from "react-icons/md";
-import { GiLaurelsTrophy } from "react-icons/gi";
+import { MdLeaderboard } from "react-icons/md";
 import { IoIosAdd } from "react-icons/io";
+import { size } from "lodash";
 
 // Add Session Component
-export function AddSessionCard() {
-  return (
-    <Card
-      as={"button"}
-      w="80%"
-      h="12rem"
-      minW={"14rem"}
-      backgroundColor={useColorModeValue("white", "gray.900")}
-      shadow="sm"
-      borderRadius={15}
-      border="2px dashed"
-      borderColor={"gray.600"}
-      cursor="pointer"
-      transition={"200ms"}
-      justifyContent="center"
-      alignItems={"center"}
-      _hover={{
-        backgroundColor: useColorModeValue("gray.100", "gray.800"),
-        borderColor: useColorModeValue("gray.800", "gray.100"),
-      }}>
-      <Text color={useColorModeValue("gray.600", "gray.400")}>Add Session</Text>
-      <Icon
-        as={IoIosAdd}
-        boxSize={"3em"}
-        alignSelf={"center"}
-        color={"gray.500"}
-        transition={"200ms"}
-        _hover={{
-          color: useColorModeValue("gray.800", "gray.100"),
-        }}
-      />
-    </Card>
-  );
-}
 
 interface sessionCard {
   imgPath: string;
@@ -80,7 +41,7 @@ function SessionCard(props: sessionCard) {
       <CardBody pb={0.5}>
         <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
-          <Image src={props.imgPath} boxSize={"2.5em"}/>
+          <Image src={props.imgPath} boxSize={"2.5em"} />
           <Text
             as={"h3"}
             fontSize={{ base: "1rem", md: "1rem" }}
