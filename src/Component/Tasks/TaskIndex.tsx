@@ -7,28 +7,37 @@ import { AddIcon } from '@chakra-ui/icons'
 import useColumnTasks from '../../hooks/useColumnTask'
 import { useRef, useState } from 'react'
 import TaskPage from './TaskPage'
+// import { Standard } from "@typebot.io/react";
+// <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
 
 function App() {
 
   return (
     <>
+
     <Container maxWidth="container.lg" px={4} py={10} userSelect={'none'}>
       <Flex gap={4} >
         <Button rounded={8} p='4'                 
-                bgColor={useColorModeValue("gray.100", "gray.800")}
-                _hover={{bgColor: useColorModeValue("gray.200", "gray.600")}}
+                bgColor={useColorModeValue("white", "gray.900")}
+                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
+                border={'3px solid'}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
         >
             All Tasks
         </Button>
         <Button rounded={8} p='4'                 
-                bgColor={useColorModeValue("gray.100", "gray.800")}
-                _hover={{bgColor: useColorModeValue("gray.200", "gray.600")}}
+                bgColor={useColorModeValue("white", "gray.900")}
+                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
+                border={'3px solid'}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
         >
             For Me
         </Button>
         <Spacer />
         <Flex rounded={8} p='4' height='10' alignItems={'center'} fontWeight={'medium'}
-              bgColor={useColorModeValue("gray.100", "gray.800")}
+              bgColor={useColorModeValue("white", "gray.900")}
+              border={'3px solid'}
+              borderColor={useColorModeValue("#f0f0f0", "#242a38")}
         >
         🔥 Streak
         </Flex>

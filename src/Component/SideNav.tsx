@@ -25,6 +25,7 @@ import {
   Button,
   Img,
   Tooltip,
+  Spacer,
 } from "@chakra-ui/react";
 import {
   FiTrendingUp,
@@ -70,7 +71,7 @@ export default function SidebarWithHeader({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue("white", "gray.900")}>
+    <Box minH="100vh" bg={useColorModeValue("#fdfdfd", "gray.800")}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -113,10 +114,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       zIndex={10}
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="center">
+      <Flex h="20" alignItems="center" mx="8" >
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
+        <Spacer/>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
@@ -124,7 +126,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
-      <DarkModeIconButton position={"absolute"} bottom={4} left={4} />
+      {/* position={"absolute"} bottom={4} left={4}  */}
+          <DarkModeIconButton position={"absolute"} bottom={4} left={9}/>
     </Box>
   );
 };
@@ -164,7 +167,6 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
-        {/* {children} */}
       </Flex>
     </Link>
     </Tooltip>
