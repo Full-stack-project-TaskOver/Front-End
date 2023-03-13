@@ -44,10 +44,14 @@ function Column({ column }: { column: ColumnType }) {
             <Stack
             ref={dropRef}
             direction={{base:"row", md: "column"}}
-            h={{base: 140, md: 600}}
+            // h={{base: 200, md: 800}}
+            minH={166}
             p={2}
             mt={2}
             spacing={4}
+            rounded={8}
+            border={'3px dashed '}
+            borderColor={useColorModeValue("#f0f0f0", "#242a38")}
             // // bgColor={useColorModeValue("white", "gray.800")}
             // rounded="lg"
             // boxShadow="md"

@@ -69,14 +69,12 @@ function TaskPage() {
                 size="sm"
                 w = "50%"
                 h = "40px"
-                // color={useColorModeValue("white", "gray.400")}
-                bgColor={'#5addbe'}
+                color={useColorModeValue("white", "white")}
+                bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
                 border={'3px solid'}
                 borderColor={useColorModeValue("#5bc8ae", "#30917a")}
                 _hover={{
-                    bgColor: useColorModeValue("white", "gray.800"),
-                    color: useColorModeValue("black", "white")
-                
+                    bgColor: useColorModeValue("#2cb997", "#5addbe"),
                 }
                 }
                 variant="solid"

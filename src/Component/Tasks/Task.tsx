@@ -153,7 +153,7 @@ function Task({
         role="group"
         position="relative"
         rounded="lg"
-        // w={200}
+        minW={200}
         pt={2}
         px={7}
         pb={3}
@@ -166,7 +166,7 @@ function Task({
         flexGrow={0}
         flexShrink={0}
         opacity={isDragging ? 1: 1}
-        minH={70}
+        minH={150}
         maxH={200}
         color={useColorModeValue("gray.700", "gray.300")}
         fontWeight="semibold"
