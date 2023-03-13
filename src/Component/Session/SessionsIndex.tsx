@@ -1,20 +1,14 @@
 import {
-  Box,
-  Card,
+  Button,
   Divider,
   Flex,
-  Grid,
   Heading,
-  HStack,
-  Icon,
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
-import { AiOutlinePlus, AiOutlinePlusCircle } from "react-icons/Ai";
-import SessionCard, { AddSessionCard } from "./SessionCard";
-import family from '../../assets/family.png'
-import adminIcon from "../../assets/admin_icon.svg";
+import SessionCard from "./SessionCard";
+import family from "../../assets/family.png";
+import SessionOverlay from "./SessionOverlay";
 
 // Sessions Container Component
 function SessionsIndex() {
@@ -51,7 +45,7 @@ function SessionsIndex() {
             title={"Javascript Bootcamp 2"}
             description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi autem maxime totam et labore. Voluptatibus, placeat soluta? Nulla ratione itaque voluptatum asperiores earum, ut rem quam est illo voluptas illum."
           />
-          <AddSessionCard />
+          <SessionOverlay />
         </SimpleGrid>
         <Divider />
         {/* As Admin Section */}
@@ -64,7 +58,7 @@ function SessionsIndex() {
             gap={5}
             w="full"
             justifyItems={"center"}>
-            <AddSessionCard />
+            <SessionOverlay />
           </SimpleGrid>
         </Flex>
       </Flex>
