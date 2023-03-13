@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel } from '@chakra-ui/react'
+import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Icon } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import useColumnTasks from '../../hooks/useColumnTask'
 import Column from './Column'
 import { ColumnType } from '../../utils/enums'
-// import { Standard } from "@typebot.io/react";
-// <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
+
 function TaskPage() {
 
     const {addEmptyTask} = useColumnTasks(ColumnType.TO_DO)
@@ -18,20 +17,30 @@ function TaskPage() {
     
   return (
     <>
-    <IconButton 
-                // onClick={onOpen}
-                size="xs"
-                w = "100%"
+
+    <Button 
+                size="sm"
+                w = "50%"
                 h = "40px"
-                color={useColorModeValue("gray.500", "gray.400")}
-                bgColor={useColorModeValue("gray.100", "gray.800")}
-                _hover={{bgColor: useColorModeValue("gray.200", "gray.600")}}
+                // color={useColorModeValue("white", "gray.400")}
+                bgColor={'#5addbe'}
+                border={'3px solid'}
+                borderColor={useColorModeValue("#5bc8ae", "#30917a")}
+                _hover={{
+                    bgColor: useColorModeValue("white", "gray.800"),
+                    color: useColorModeValue("black", "white")
+                
+                }
+                }
                 variant="solid"
                 colorScheme="black"
                 aria-label="add-task"
-                icon={<AddIcon/>}
                 onClick = {addEmptyTask}
-        />
+        >
+
+            <Icon as={AddIcon} mr={2} /> Add Task
+
+        </Button>
 
     <Modal onClose={onClose} isOpen={isOpen} size={'full'} >
       <ModalOverlay />
@@ -114,7 +123,7 @@ function TaskPage() {
         </Accordion>
 
 
-        <Progress colorScheme='green' height='18px' value={20} rounded={18} my={6}/>
+        <Progress colorScheme='green' height='18px' value={20} rounded={18} my={6} />
 
         </ModalBody>
         <Divider/>
