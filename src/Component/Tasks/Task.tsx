@@ -5,6 +5,7 @@ import { AutoResizeTextArea } from "./AutoResizeTextArea";
 import { useTaskDragAndDrop } from "../../hooks/useTaskDragAndDrop";
 import _ from 'lodash';
 import { memo } from 'react';
+import { TfiMoreAlt } from 'react-icons/tfi';
 
 type TaskProps = {
     index: number;
@@ -60,7 +61,7 @@ function Task({
                 size="md"
                 colorScheme="solid"
                 color="gray.700"
-                icon={<DeleteIcon/>}
+                icon={<TfiMoreAlt/>}
                 opacity={0}
                 _groupHover={{ opacity: 1, }}
                 onClick={handleDeleteClick}

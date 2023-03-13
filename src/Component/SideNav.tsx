@@ -24,6 +24,7 @@ import {
   MenuList,
   Button,
   Img,
+  Tooltip,
 } from "@chakra-ui/react";
 import {
   FiTrendingUp,
@@ -88,7 +89,7 @@ export default function SidebarWithHeader({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: '7rem' }} p="4">
         <Box height="20" />
         {children}
       </Box>
@@ -107,19 +108,19 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      w={{ base: "full", md: '7rem' }}
       pos="fixed"
       h="full"
       zIndex={10}
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8" justifyContent="center">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} value={link.path}>
+        <NavItem p={".8rem"} m={"1.3rem"} key={link.name} icon={link.icon} value={link.path}>
           {link.name}
         </NavItem>
       ))}
@@ -135,12 +136,13 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
   return (
+    <Tooltip label={children} fontSize='md'>
+
     <Link to={`/${value}`} style={{ textDecoration: "none" }}>
       <Flex
+      flexDirection={'column'}
         align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
+        borderRadius="1.5rem"
         role="group"
         cursor="pointer"
         _hover={{
@@ -152,7 +154,7 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
         {...rest}>
         {icon && (
           <Icon
-            mr="4"
+          my="3"
             fontSize="16"
             _groupHover={
               {
@@ -162,9 +164,10 @@ const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
             as={icon}
           />
         )}
-        {children}
+        {/* {children} */}
       </Flex>
     </Link>
+    </Tooltip>
   );
 };
 

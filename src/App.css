@@ -6,3 +6,13 @@
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.radio:hover {
+  cursor: "pointer";
+  background-color: "#eee";
+  transform: scale(1.04);
+}
+
+.radio:active {
+  transform: scale(1);
+}
