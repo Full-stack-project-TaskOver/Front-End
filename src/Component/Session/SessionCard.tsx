@@ -19,6 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
 
 // Add Session Component
 
@@ -30,9 +32,32 @@ interface sessionCard {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
-  const deleteSession = () => {
-    console.log("Delete Sesion");
+  const navigate = useNavigate();
+
+  // const deleteSession = () => {
+  //   console.log("Delete Sesion");
+  // };
+  
+  const deleteSessions = async () => {
+    
+    const request = await fetch('http://localhost:3003/session', {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        id: "eee5438c-1d57-4141-86a7-8aca800fb391"
+        
+      })
+    });
+    console.log(request);
+   
+    console.log(await request.json());
   };
+
+  
+  
 
   return (
     <Card
@@ -60,7 +85,7 @@ function SessionCard(props: sessionCard) {
                 w="0.5rem"
               />
               <MenuList minW={{ base: "4rem", md: "8rem" }}>
-                <MenuItem color={"red"} onClick={deleteSession}>
+                <MenuItem color={"red"} onClick={deleteSessions}>
                   Delete
                 </MenuItem>
               </MenuList>
@@ -90,7 +115,7 @@ function SessionCard(props: sessionCard) {
             }}>
             {/* Trophy icon GiLaurelsTrophy */}
             {/* Leaderboard Icon */}
-            <Icon as={MdLeaderboard} color="black" boxSize="1.3em" />
+            <Icon as={MdLeaderboard} onClick={()=> navigate("/leaderboard")} color="black" boxSize="1.3em" />
           </Button>
           <Button
             py={0.5}

@@ -8,6 +8,7 @@ import TaskIndex from "./Component/Tasks/TaskIndex";
 import signUp from "./Component/Authentication/sign-up"
 import signIp from "./Component/Authentication/sign-in"
 import "./App.css";
+import Leaderboard from "./Component/Session/Leaderboard";
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route
           path="Sessions"
           element={<SideNav children={<SessionsIndex />} />}></Route>
+        <Route path="/leaderboard" element={<SideNav children={<Leaderboard />} />}></Route>
       </Routes>
     </>
   );
