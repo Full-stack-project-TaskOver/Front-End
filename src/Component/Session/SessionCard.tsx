@@ -19,6 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
 
 // Add Session Component
 
@@ -30,11 +32,14 @@ interface sessionCard {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
+  const navigate = useNavigate();
+
   // const deleteSession = () => {
   //   console.log("Delete Sesion");
   // };
   
   const deleteSessions = async () => {
+    
     const request = await fetch('http://localhost:3003/session', {
       method: 'DELETE',
       headers: {
@@ -110,7 +115,7 @@ function SessionCard(props: sessionCard) {
             }}>
             {/* Trophy icon GiLaurelsTrophy */}
             {/* Leaderboard Icon */}
-            <Icon as={MdLeaderboard} color="black" boxSize="1.3em" />
+            <Icon as={MdLeaderboard} onClick={()=> navigate("/leaderboard")} color="black" boxSize="1.3em" />
           </Button>
           <Button
             py={0.5}

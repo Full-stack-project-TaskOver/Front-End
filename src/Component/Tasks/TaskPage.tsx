@@ -26,6 +26,10 @@ function TaskPage() {
         },
       });
       const data = await request.json();
+      if(data.message === 'There is no Users in Sessions'){
+        return data.message
+      }
+      
       setEmployeess(Object.values(data)[0] as string[])
     
     };

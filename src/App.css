@@ -16,3 +16,17 @@
 .radio:active {
   transform: scale(1);
 }
+/* leaderboard css */
+
+.center-text{
+  justify-content: center;
+  display: flex;
+  font-size:  1.2rem;
+}
+
+.header{
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+/* leaderboard css */
