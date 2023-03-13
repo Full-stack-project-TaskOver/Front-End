@@ -14,7 +14,7 @@ import Task from './Task';
 
 
 const ColumnColorScheme: Record<ColumnType, string> = {
-  Todo: 'gray',
+  Todo: 'orange',
   'In Progress': 'blue',
   Completed: 'green',
 };
@@ -45,12 +45,12 @@ function Column({ column }: { column: ColumnType }) {
             ref={dropRef}
             direction={{base:"row", md: "column"}}
             h={{base: 140, md: 600}}
-            p={4}
+            p={2}
             mt={2}
             spacing={4}
-            bgColor={useColorModeValue("gray.50", "gray.800")}
-            rounded="lg"
-            boxShadow="md"
+            // // bgColor={useColorModeValue("white", "gray.800")}
+            // rounded="lg"
+            // boxShadow="md"
             overflow="auto"
             opacity={isOver ? 0.85: 1}
             >

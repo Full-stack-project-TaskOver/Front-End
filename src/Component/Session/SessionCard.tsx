@@ -30,9 +30,29 @@ interface sessionCard {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
-  const deleteSession = () => {
-    console.log("Delete Sesion");
+  // const deleteSession = () => {
+  //   console.log("Delete Sesion");
+  // };
+  
+  const deleteSessions = async () => {
+    const request = await fetch('http://localhost:3003/session', {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        id: "eee5438c-1d57-4141-86a7-8aca800fb391"
+        
+      })
+    });
+    console.log(request);
+   
+    console.log(await request.json());
   };
+
+  
+  
 
   return (
     <Card
@@ -60,7 +80,7 @@ function SessionCard(props: sessionCard) {
                 w="0.5rem"
               />
               <MenuList minW={{ base: "4rem", md: "8rem" }}>
-                <MenuItem color={"red"} onClick={deleteSession}>
+                <MenuItem color={"red"} onClick={deleteSessions}>
                   Delete
                 </MenuItem>
               </MenuList>

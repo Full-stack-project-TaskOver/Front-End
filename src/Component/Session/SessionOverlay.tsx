@@ -87,9 +87,12 @@ function RadioCard(props: any) {
 function SessionOverlay() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>('');
-  const [desc, setDesc] = useState<string>('');
-  const options = ["Company", "Freelancers", "Family", "Personal"];
+  const [description, setDescription] = useState<string>('');
+  const options = ["Company", "OpenSource", "Family", "Personal"];
 
+  
+  // console.log(setDescription);
+  console.log(description);
   // To handle the radio button value.
   const handleChange = (value: string) => {
     session.type = value;
@@ -107,10 +110,28 @@ function SessionOverlay() {
 
   const group = getRootProps();
 
-  const postSession = () => {
-    session.title = title
-    session.description = desc
-    console.log(session);
+  // const postSession = () => {
+  //   session.title = name
+  //   session.description = description
+  //   console.log(session);
+  // };
+
+  const addTask = async () => {
+    const request = await fetch('http://localhost:3003/session', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        type: value
+
+      })
+    });
+   
+    console.log(await request.json());
   };
 
   return (
@@ -205,9 +226,7 @@ function SessionOverlay() {
                 variant="outline"
                 placeholder="Enter Title Here"
                 required={true}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
+                onChange={(e)=> setTitle(e.target.value)}
               />
 
               <Text alignSelf={"start"}>Description</Text>
@@ -216,7 +235,7 @@ function SessionOverlay() {
                 placeholder="Enter Your Description Here"
                 size={"sm"}
                 onChange={(e) => {
-                  setDesc(e.target.value);
+                  setDescription(e.target.value);
                 }}
               />
             </VStack>
@@ -227,7 +246,7 @@ function SessionOverlay() {
               Close
             </Button> */}
 
-            <Button size={"lg"} colorScheme="blue" onClick={postSession}>
+            <Button size={"lg"} colorScheme="blue" onClick={addTask}>
               Create Session
             </Button>
           </ModalFooter>
