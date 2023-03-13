@@ -9,9 +9,36 @@ import {
 import SessionCard from "./SessionCard";
 import family from "../../assets/family.png";
 import SessionOverlay from "./SessionOverlay";
+import React, { useEffect } from "react";
 
-// Sessions Container Component
+
+
 function SessionsIndex() {
+
+  const [session, setSession] = React.useState<string[]>([]);
+
+const fetchSessions = async () => {
+  const request = await fetch("http://localhost:3003/session", {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+  const data = await request.json();
+  setSession(Object.values(data)[0] as string[])
+
+};
+useEffect(() => {
+  fetchSessions()
+}, []);
+
+
+
+
+
+
+// Sessions Container Component   http://localhost:3003/session
+
   return (
     <>
       <Heading
@@ -35,16 +62,18 @@ function SessionsIndex() {
           gap={5}
           w="full"
           justifyItems={"center"}>
-          <SessionCard
-            imgPath={family}
-            title={"Javascript Bootcamp"}
-            description="Bootcamp for 'حديثي التخرج' and abdullah"
-          />
-          <SessionCard
-            imgPath={family}
-            title={"Javascript Bootcamp 2"}
-            description="Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi autem maxime totam et labore. Voluptatibus, placeat soluta? Nulla ratione itaque voluptatum asperiores earum, ut rem quam est illo voluptas illum."
-          />
+
+               {session != undefined && session.map((e: any) => (   
+                 
+                        <SessionCard
+                        imgPath={family}
+                        title={e.title}
+                        description={e.description}
+                      />
+                     
+              ))}
+
+
           <SessionOverlay />
         </SimpleGrid>
         <Divider />

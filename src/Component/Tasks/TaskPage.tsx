@@ -32,7 +32,7 @@ function TaskPage() {
     };
 
 
-
+console.log(Employee)
     const addTask = async () => {
       const request = await fetch('http://localhost:3003/task', {
         method: "POST",
@@ -44,15 +44,12 @@ function TaskPage() {
           title,
           description,
           assignToId,
-          sessionId:"7d1bd148-d923-4ef2-8018-83d7c831026a",
+          sessionId:"eee5438c-1d57-4141-86a7-8aca800fb391",
 
         })
       });
      
       console.log(await request.json());
-      
-      // const data = await request.json();
-      // setEmployeess(Object.values(data)[0] as string[])
     
     };
 
@@ -60,13 +57,11 @@ function TaskPage() {
     useEffect(() => {
       fetchEmployees()
     }, []);
-
-    console.log(assignToId);
     
   return (
     <>
     <IconButton 
-                // onClick={onOpen}
+                onClick={onOpen}
                 size="xs"
                 w = "100%"
                 h = "40px"
@@ -77,7 +72,7 @@ function TaskPage() {
                 colorScheme="black"
                 aria-label="add-task"
                 icon={<AddIcon/>}
-                onClick = {addEmptyTask}
+                // onClick = {addEmptyTask}
         />
 
 
@@ -105,7 +100,7 @@ function TaskPage() {
              <FormControl mt={4}>
             <FormLabel>Assignee to</FormLabel>
             <Select placeholder='Assignee to' onChange={(e)=> setAssignToId(e.target.value)}>
-              {Employee.map((e: any) => (   
+              {Employee != undefined && Employee.map((e: any) => (   
               <option value={e.user.id} key={e.user.id}>{(e.user.name)}</option>
               ))}
               </Select>
