@@ -25,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 // Add Session Component
 
 interface sessionCard {
+  id:string
   imgPath: string;
   title: string;
   description: string;
@@ -34,10 +35,6 @@ interface sessionCard {
 function SessionCard(props: sessionCard) {
   const navigate = useNavigate();
 
-  // const deleteSession = () => {
-  //   console.log("Delete Sesion");
-  // };
-  
   const deleteSessions = async () => {
     
     const request = await fetch('http://localhost:3003/session', {
@@ -72,7 +69,7 @@ function SessionCard(props: sessionCard) {
       _hover={{
         backgroundColor: useColorModeValue("#7BD0FF", "#0396E9"),
       }}>
-      <CardBody pb={0.5}>
+      <CardBody pb={0.5} onClick={() => navigate(`/${props.id}`)}>
         <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
           <Flex w="full" justifyContent="space-between">
@@ -115,7 +112,7 @@ function SessionCard(props: sessionCard) {
             }}>
             {/* Trophy icon GiLaurelsTrophy */}
             {/* Leaderboard Icon */}
-            <Icon as={MdLeaderboard} onClick={()=> navigate("/leaderboard")} color="black" boxSize="1.3em" />
+            <Icon as={MdLeaderboard} onClick={()=> navigate(`/leaderboard/${props.id}`)} color="black" boxSize="1.3em" />
           </Button>
           <Button
             py={0.5}

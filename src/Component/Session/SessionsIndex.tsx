@@ -66,6 +66,7 @@ useEffect(() => {
                {session != undefined && session.map((e: any) => (   
                  
                         <SessionCard
+                        id={e.id}
                         imgPath={family}
                         title={e.title}
                         description={e.description}

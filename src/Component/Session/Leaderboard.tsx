@@ -1,5 +1,7 @@
 import { Box, Flex, Center, SimpleGrid, Text, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import {  useParams } from 'react-router-dom';
+
 
 interface res {
   point: number;
@@ -11,6 +13,7 @@ interface res {
 
 function Leaderboard() {
   const [leaderBoardArr, setleaderBoardArr] = useState<res[]>([]);
+  let { id } = useParams();
 
   const getUsersAndPoints = async () => {
     const req = await fetch('http://localhost:3003/usersAndSession/points', {
@@ -19,7 +22,7 @@ function Leaderboard() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        sessionId: '7fe60445-c224-43c1-9954-0daeb702a85b',
+        sessionId: id,
       }),
     });
     const data = await req.json();
