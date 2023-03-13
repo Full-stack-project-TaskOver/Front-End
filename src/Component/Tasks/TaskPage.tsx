@@ -60,7 +60,8 @@ console.log(Employee)
   return (
     <>
 
-    <Button 
+    <Button                  onClick={onOpen}
+
                 size="sm"
                 w = "50%"
                 h = "40px"
@@ -77,7 +78,7 @@ console.log(Employee)
                 variant="solid"
                 colorScheme="black"
                 aria-label="add-task"
-                onClick = {addEmptyTask}
+              
         >
 
             <Icon as={AddIcon} mr={2} /> Add Task
