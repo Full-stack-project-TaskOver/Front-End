@@ -119,7 +119,7 @@ console.log(Employee)
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={addTask} colorScheme='blue' mr={3}>
+            <Button onClick={addTask} colorScheme="blue" mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>

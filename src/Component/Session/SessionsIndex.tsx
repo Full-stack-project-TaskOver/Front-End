@@ -10,11 +10,17 @@ import SessionCard from "./SessionCard";
 import family from "../../assets/family.png";
 import SessionOverlay from "./SessionOverlay";
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
 function SessionsIndex() {
-
+  
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token')
+  if(!token){
+   return navigate("/sign-in");
+  }
   const [session, setSession] = React.useState<string[]>([]);
 
 const fetchSessions = async () => {
@@ -37,7 +43,7 @@ useEffect(() => {
 
 
 
-// Sessions Container Component   http://localhost:3003/session
+// Sessions Container Component  
 
   return (
     <>
