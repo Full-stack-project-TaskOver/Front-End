@@ -10,34 +10,55 @@ import SessionCard from "./SessionCard";
 import family from "../../assets/family.png";
 import SessionOverlay from "./SessionOverlay";
 import React, { useEffect } from "react";
-
-
+import { Link, useNavigate } from "react-router-dom";
 
 function SessionsIndex() {
-
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    navigate("/sign-in");
+  }
   const [session, setSession] = React.useState<string[]>([]);
 
-const fetchSessions = async () => {
-  const request = await fetch("http://localhost:3003/session", {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  });
-  const data = await request.json();
-  setSession(Object.values(data)[0] as string[])
+  const [adminSession, setAdminSession] = React.useState<string[]>([]);
+  const [userSession, setuserSession] = React.useState<string[]>([]);
 
-};
-useEffect(() => {
-  fetchSessions()
-}, []);
+  const fetchAdminSessions = async () => {
+    const request = await fetch("http://localhost:3003/session/AsAdmin", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if (data.message == "you dont have any sessions") {
+      return data.message;
+    }
 
+    setAdminSession(Object.values(data)[0] as string[]);
+  };
 
+  const fetchUserSessions = async () => {
+    const request = await fetch("http://localhost:3003/session/AsUser", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
 
+    if (data.message == "you dont have any sessions") {
+      return data.message;
+    }
+    setuserSession(Object.values(data)[0] as string[]);
+  };
 
+  useEffect(() => {
+    fetchAdminSessions();
+    fetchUserSessions();
+  }, []);
 
-
-// Sessions Container Component   http://localhost:3003/session
+  // Sessions Container Component
 
   return (
     <>
@@ -62,17 +83,16 @@ useEffect(() => {
           gap={5}
           w="full"
           justifyItems={"center"}>
-
-               {session != undefined && session.map((e: any) => (   
-                 
-                        <SessionCard
-                        imgPath={family}
-                        title={e.title}
-                        description={e.description}
-                      />
-                     
-              ))}
-
+          {userSession != undefined &&
+            userSession.map((e: any) => (
+              <SessionCard
+                key={e.id}
+                id={e.id}
+                imgPath={family}
+                title={e.title}
+                description={e.description}
+              />
+            ))}
 
           <SessionOverlay />
         </SimpleGrid>
@@ -87,6 +107,16 @@ useEffect(() => {
             gap={5}
             w="full"
             justifyItems={"center"}>
+            {adminSession != undefined &&
+              adminSession.map((e: any) => (
+                <SessionCard
+                  key={e.id}
+                  id={e.id}
+                  imgPath={family}
+                  title={e.title}
+                  description={e.description}
+                />
+              ))}
             <SessionOverlay />
           </SimpleGrid>
         </Flex>

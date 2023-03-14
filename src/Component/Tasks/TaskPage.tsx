@@ -26,6 +26,10 @@ function TaskPage() {
         },
       });
       const data = await request.json();
+      if(data.message === 'There is no Users in Sessions'){
+        return data.message
+      }
+      
       setEmployeess(Object.values(data)[0] as string[])
     
     };
@@ -65,14 +69,12 @@ console.log(Employee)
                 size="sm"
                 w = "50%"
                 h = "40px"
-                // color={useColorModeValue("white", "gray.400")}
-                bgColor={'#5addbe'}
+                color={useColorModeValue("white", "white")}
+                bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
                 border={'3px solid'}
                 borderColor={useColorModeValue("#5bc8ae", "#30917a")}
                 _hover={{
-                    bgColor: useColorModeValue("white", "gray.800"),
-                    color: useColorModeValue("black", "white")
-                
+                    bgColor: useColorModeValue("#2cb997", "#5addbe"),
                 }
                 }
                 variant="solid"
@@ -119,7 +121,7 @@ console.log(Employee)
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={addTask} colorScheme='blue' mr={3}>
+            <Button onClick={addTask} colorScheme="blue" mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>
