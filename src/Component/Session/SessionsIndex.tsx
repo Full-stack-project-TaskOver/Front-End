@@ -15,21 +15,43 @@ import React, { useEffect } from "react";
 
 function SessionsIndex() {
 
-  const [session, setSession] = React.useState<string[]>([]);
+  const [adminSession, setAdminSession] = React.useState<string[]>([]);
+  const [userSession, setuserSession] = React.useState<string[]>([]);
 
-const fetchSessions = async () => {
-  const request = await fetch("http://localhost:3003/session", {
+const fetchAdminSessions = async () => {
+  const request = await fetch("http://localhost:3003/session/AsAdmin", {
     headers: {
       'Content-Type': 'application/json',
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
   });
   const data = await request.json();
-  setSession(Object.values(data)[0] as string[])
+  if(data.message == 'you dont have any sessions'){
+    return data.message
+  }
 
+  setAdminSession(Object.values(data)[0] as string[])
 };
+
+const fetchUserSessions = async () => {
+  const request = await fetch("http://localhost:3003/session/AsUser", {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+  const data = await request.json();
+  
+  if(data.message == 'you dont have any sessions'){
+    
+    return data.message
+  }
+  setuserSession(Object.values(data)[0] as string[])
+};
+
 useEffect(() => {
-  fetchSessions()
+  fetchAdminSessions()
+  fetchUserSessions()
 }, []);
 
 
@@ -63,9 +85,10 @@ useEffect(() => {
           w="full"
           justifyItems={"center"}>
 
-               {session != undefined && session.map((e: any) => (   
+               {userSession != undefined && userSession.map((e: any) => (   
                  
                         <SessionCard
+                        key={e.id}
                         id={e.id}
                         imgPath={family}
                         title={e.title}
@@ -88,6 +111,18 @@ useEffect(() => {
             gap={5}
             w="full"
             justifyItems={"center"}>
+
+            {adminSession != undefined && adminSession.map((e: any) => (   
+                 
+                 <SessionCard
+                 key={e.id}
+                 id={e.id}
+                 imgPath={family}
+                 title={e.title}
+                 description={e.description}
+               />
+              
+       ))}
             <SessionOverlay />
           </SimpleGrid>
         </Flex>
