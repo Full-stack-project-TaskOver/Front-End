@@ -33,6 +33,7 @@ interface sessionCard {
   imgPath: string;
   title: string;
   description: string;
+  creatorId:string;
 }
 
 // Session Card Component
@@ -48,8 +49,8 @@ function SessionCard(props: sessionCard) {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(request);
-    console.log(await request.json());
+    // console.log(request);
+    // console.log(await request.json());
   };
 
   
@@ -69,7 +70,7 @@ function SessionCard(props: sessionCard) {
       _hover={{
         transform: 'scale(1.015)'
       }}>
-        <Menu >
+         <Menu >
               <MenuButton
                 position={'absolute'}
                 _hover={{
@@ -87,7 +88,7 @@ function SessionCard(props: sessionCard) {
                   Delete
                 </MenuItem>
               </MenuList>
-            </Menu>
+            </Menu>  
       <CardBody pb={0.5} onClick={() => navigate(`/${props.id}`)}>
         <Stack spacing="2" >
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
