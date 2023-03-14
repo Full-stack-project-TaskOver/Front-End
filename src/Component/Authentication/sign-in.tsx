@@ -14,31 +14,17 @@ import {
     useToast,
   } from '@chakra-ui/react';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
   
   export default function SimpleCard() {
     const [email, setEmail] = React.useState("")
     const [password, setPass] = React.useState("")
     const toast = useToast();
+    const navigate = useNavigate();
 
-    // function signIn() {
-    //     fetch('http://localhost:3003/user/sign-in',{
-    //         method: "POST",
-    //         headers:{
-    //             "Content-Type": "application/json"
-    //         },
-    //         body:JSON.stringify({
-    //             email,
-    //             password
-    //         })
-    //     }).then(res=>res.json())
-    //     .then(data=>{
-    //         console.log(data);
-    //         localStorage.setItem("token",data.token);
-            
-    //         console.log(localStorage.getItem("token"))
-    //     });
-    // }
+
     const submitLogin = async () => {
+      
       try {
         const request = await fetch("http://localhost:3003/user/sign-in", {
           method: "POST",
@@ -58,14 +44,14 @@ import React from 'react';
           return;
         }
         toast({
-          title: data.message,
+          title:" Logged in successfully!",
           status: "success",
           duration: 3000,
           position: "top",
         });
         localStorage.setItem("token", data.token);
         console.log( data.token);
-        // navigate("/");
+        navigate("Sessions");
       } catch (error) {
         toast({
           title: "Server Error !",
@@ -120,6 +106,11 @@ import React from 'react';
                   Sign in
                 </Button>
               </Stack>
+              <Stack pt={6}>
+              <Text align={'center'}>
+              Don’t you have an account? <Link href='sign-up' color={'blue.400'}>Sign up</Link>
+              </Text>
+            </Stack>
             </Stack>
           </Box>
         </Stack>

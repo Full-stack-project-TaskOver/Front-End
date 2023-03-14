@@ -19,10 +19,12 @@ function App() {
         <Route path="sign-up" element={signUp()}></Route>
         <Route path="sign-in" element={signIp()}></Route>
         <Route path="/" element={<SideNav children={<TaskIndex />} />}></Route>
+        <Route path="/:id" element={<SideNav children={<TaskIndex />} />}></Route>
+
         <Route
           path="Sessions"
           element={<SideNav children={<SessionsIndex />} />}></Route>
-        <Route path="/leaderboard" element={<SideNav children={<Leaderboard />} />}></Route>
+        <Route path="/leaderboard/:id" element={<SideNav children={<Leaderboard />} />}></Route>
       </Routes>
     </>
   );
