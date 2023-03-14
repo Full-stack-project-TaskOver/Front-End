@@ -111,6 +111,7 @@ function SessionCard(props: sessionCard) {
             // position={'absolute'}
             // top={'50%'} left={'50%'}
             // transform={'translate(-50%,-20%)'}
+            onClick={()=> navigate(`/leaderboard/${props.id}`)}
             color="#1a202c"
             fontSize={"0.8em"}
             backgroundColor={useColorModeValue("white", "gray.800")}
