@@ -16,6 +16,9 @@ function App() {
     <>
 
     <Container maxWidth="container.lg" px={4} py={10} userSelect={'none'}>
+    <Heading pb={16} as='h1' size='xl'>
+              Section name
+      </Heading>
       <Flex gap={4} >
         <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}

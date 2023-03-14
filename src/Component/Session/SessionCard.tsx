@@ -19,10 +19,15 @@ import {
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import React from "react";
+
 
 // Add Session Component
 
 interface sessionCard {
+  id:string
   imgPath: string;
   title: string;
   description: string;
@@ -30,32 +35,25 @@ interface sessionCard {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
-  // const deleteSession = () => {
-  //   console.log("Delete Sesion");
-  // };
-  
+  const navigate = useNavigate();
+
   const deleteSessions = async () => {
-    const request = await fetch('http://localhost:3003/session', {
+    
+    const request = await fetch(`http://localhost:3003/session/${props.id}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json", 
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
-      body: JSON.stringify({
-        id: "eee5438c-1d57-4141-86a7-8aca800fb391"
-        
-      })
     });
     console.log(request);
-   
     console.log(await request.json());
   };
 
   
-  
-
   return (
     <Card
+      position={'relative'}
       w="80%"
       h="12rem"
       minW={"14rem"}
@@ -67,13 +65,14 @@ function SessionCard(props: sessionCard) {
       _hover={{
         backgroundColor: useColorModeValue("#7BD0FF", "#0396E9"),
       }}>
-      <CardBody pb={0.5}>
-        <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
-          {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
-          <Flex w="full" justifyContent="space-between">
-            <Image src={props.imgPath} boxSize={"2.5em"} />
-            <Menu>
+        <Menu >
               <MenuButton
+                position={'absolute'}
+                _hover={{
+                  backgroundColor: 'transparent',
+                }}
+                top={'2'}
+                right={'2'}
                 as={IconButton}
                 bg="none"
                 icon={<FiMoreVertical />}
@@ -85,6 +84,12 @@ function SessionCard(props: sessionCard) {
                 </MenuItem>
               </MenuList>
             </Menu>
+      <CardBody pb={0.5} onClick={() => navigate(`/${props.id}`)}>
+        <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
+          {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
+          <Flex w="full" justifyContent="space-between">
+            <Image src={props.imgPath} boxSize={"2.5em"} />
+            
           </Flex>
           <Text as={"h3"} fontSize="1rem" fontWeight="600">
             {props.title}
@@ -110,7 +115,7 @@ function SessionCard(props: sessionCard) {
             }}>
             {/* Trophy icon GiLaurelsTrophy */}
             {/* Leaderboard Icon */}
-            <Icon as={MdLeaderboard} color="black" boxSize="1.3em" />
+            <Icon as={MdLeaderboard} onClick={()=> navigate(`/leaderboard/${props.id}`)} color="black" boxSize="1.3em" />
           </Button>
           <Button
             py={0.5}
