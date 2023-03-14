@@ -2,7 +2,6 @@ import { Box, Flex, Center, SimpleGrid, Text, Heading, useColorModeValue, Img, I
 import { useEffect, useState } from 'react';
 import {  useParams } from 'react-router-dom';
 
-
 import trophy from '../../assets/trophy.png'
 import medal1 from '../../assets/medal1.png'
 import medal2 from '../../assets/medal2.png'

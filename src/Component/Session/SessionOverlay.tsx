@@ -56,27 +56,26 @@ function RadioCard(props: any) {
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label">
+    <Box as="label" >
       <input {...input} />
 
       <Box
         {...checkbox}
         className="radio"
         cursor="pointer"
-        // borderWidth="1px"
         borderRadius="md"
-        boxShadow="md"
         fontSize={{ base: "0.9rem", md: "1.1rem" }}
-        bg="gray.100"
+        backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
         transition={"200ms"}
         textAlign="center"
+        outline='3px solid'
+        outlineColor={useColorModeValue("#f0f0f0", "gray.600")}
         _checked={{
-          bg: "#7BD0FF",
-          color: "gray.50",
+          color: useColorModeValue("black", "white"),
+          backgroundColor: useColorModeValue("#f8f8f8", "#222a3a"),
+          outlineColor: useColorModeValue("#d3d3d1", "gray.500")
         }}
-        _focus={{
-          boxShadow: "xl",
-        }}
+
         px={{ base: 4, md: 5 }}
         py={{ base: 3, md: 4 }}>
         {props.children}
@@ -140,23 +139,23 @@ function SessionOverlay() {
       <Card
         as={"button"}
         w="80%"
-        h="12rem"
+        h="13rem"
         minW={"14rem"}
         backgroundColor={useColorModeValue("white", "gray.900")}
         shadow="sm"
         borderRadius={15}
-        border="2px dashed"
-        borderColor={"gray.600"}
+        border={'3px dashed '}
+        borderColor={useColorModeValue("#eae7e4", "#242a38")}
         cursor="pointer"
         transition={"200ms"}
         justifyContent="center"
         alignItems={"center"}
         onClick={onOpen}
         _hover={{
-          backgroundColor: useColorModeValue("gray.100", "gray.800"),
-          borderColor: useColorModeValue("gray.800", "gray.100"),
+          backgroundColor: useColorModeValue("white", "gray.800"),
+          borderColor: useColorModeValue("gray.400", "gray.500"),
         }}>
-        <Text color={useColorModeValue("gray.600", "#1a202c")}>
+        <Text color={useColorModeValue("gray.600", "gray.500")}>
           Add Session
         </Text>
 
@@ -183,16 +182,15 @@ function SessionOverlay() {
         <ModalContent>
           <Text px={6} pt={3} color="gray.400">
             Sessions /{" "}
-            <Text as="span" color="gray.700">
-              {" "}
-              Create Session{" "}
+            <Text as="span" color={useColorModeValue("gray.800", "gray.100")}>
+              {" "} Create Session {" "}
             </Text>
           </Text>
 
           <ModalHeader px={6} pt={9} color={"gray.700"}>
-            <Text>
+            <Text color={useColorModeValue("gray.800", "gray.100")}>
               This Session {session.type == "Personal" ? "is" : "for"} a ..{" "}
-              <Text as={"span"} color="gray.600">
+              <Text as={"span"} color={useColorModeValue("black", "gray.100")}>
                 {session.type}
               </Text>
             </Text>
@@ -228,6 +226,9 @@ function SessionOverlay() {
                 placeholder="Enter Title Here"
                 required={true}
                 onChange={(e)=> setTitle(e.target.value)}
+                border="3px solid"
+                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
               />
 
               <Text alignSelf={"start"}>Description</Text>
@@ -238,6 +239,10 @@ function SessionOverlay() {
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
+                borderRadius={'0.375rem 0.375rem 0 0.375rem'}
+                border="3px solid"
+                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
               />
             </VStack>
           </ModalBody>
