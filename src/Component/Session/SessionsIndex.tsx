@@ -45,7 +45,7 @@ useEffect(() => {
         as={"h1"}
         fontSize="2rem"
         py="1rem"
-        color={useColorModeValue("gray.700", "gray.100")}>
+        color={useColorModeValue("gray.700", "#1a202c")}>
         Sessions
       </Heading>
       <Flex flexDirection={"column"} w="full" pt="1rem" pb="1.5rem" gap={"2em"}>
@@ -53,7 +53,7 @@ useEffect(() => {
         <Heading
           as="h2"
           fontSize="1.1rem"
-          color={useColorModeValue("gray.700", "gray.100")}
+          color={useColorModeValue("gray.700", "#1a202c")}
           alignSelf="start">
           As Member
         </Heading>

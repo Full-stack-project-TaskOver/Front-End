@@ -156,7 +156,7 @@ function SessionOverlay() {
           backgroundColor: useColorModeValue("gray.100", "gray.800"),
           borderColor: useColorModeValue("gray.800", "gray.100"),
         }}>
-        <Text color={useColorModeValue("gray.600", "gray.400")}>
+        <Text color={useColorModeValue("gray.600", "#1a202c")}>
           Add Session
         </Text>
 

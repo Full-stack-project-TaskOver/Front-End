@@ -15,11 +15,12 @@ function App() {
   return (
     <>
 
-    <Container maxWidth="container.lg" px={4} py={10} userSelect={'none'}>
-    <Heading pb={16} as='h1' size='xl'>
+    <Container maxWidth="container.lg" py={10} userSelect={'none'}>
+    <Heading pb={10} as='h1' size='xl'>
               Section name
       </Heading>
-      <Flex gap={4} >
+      <Flex gap={4} wrap={'wrap'} justifyContent="space-between">
+        <Flex gap={4}>
         <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
@@ -36,7 +37,7 @@ function App() {
         >
             For Me
         </Button>
-        <Spacer />
+        </Flex>
         <Flex rounded={8} p='4' height='10' alignItems={'center'} fontWeight={'medium'}
               bgColor={useColorModeValue("white", "gray.900")}
               border={'3px solid'}

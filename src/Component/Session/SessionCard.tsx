@@ -107,7 +107,7 @@ function SessionCard(props: sessionCard) {
             py={0.5}
             h="2.5em"
             variant="ghost"
-            color="black"
+            color="#1a202c"
             fontSize={"0.8em"}
             backgroundColor={useColorModeValue("#FCF2DB", "#FCF2DB")}
             _hover={{
