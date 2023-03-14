@@ -31,6 +31,7 @@ interface sessionCard {
   imgPath: string;
   title: string;
   description: string;
+  creatorId:string;
 }
 
 // Session Card Component
@@ -46,15 +47,15 @@ function SessionCard(props: sessionCard) {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(request);
-    console.log(await request.json());
+    // console.log(request);
+    // console.log(await request.json());
   };
 
   
   return (
     <Card
       position={'relative'}
-      w="80%"
+      w="80%" 
       h="12rem"
       minW={"14rem"}
       backgroundColor={useColorModeValue("gray.100", "gray.700")}
@@ -65,7 +66,7 @@ function SessionCard(props: sessionCard) {
       _hover={{
         backgroundColor: useColorModeValue("#7BD0FF", "#0396E9"),
       }}>
-        <Menu >
+         <Menu >
               <MenuButton
                 position={'absolute'}
                 _hover={{
@@ -83,7 +84,7 @@ function SessionCard(props: sessionCard) {
                   Delete
                 </MenuItem>
               </MenuList>
-            </Menu>
+            </Menu>  
       <CardBody pb={0.5} onClick={() => navigate(`/${props.id}`)}>
         <Stack spacing="2" color={useColorModeValue("gray.900", "gray.100")}>
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}

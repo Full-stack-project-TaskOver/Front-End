@@ -6,64 +6,43 @@ import Column from './Column'
 import { ColumnType } from '../../utils/enums'
 import { useParams } from 'react-router-dom'
 
-function TaskPage() {
+function AddUser() {
 
-    const {addEmptyTask} = useColumnTasks(ColumnType.TO_DO)
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    let { id } = useParams();
-  
-    const [users, setUsers] = useState<string[]>([]);
-    const [title, setTitle] = React.useState("")
-    const [assignToId, setAssignToId] = React.useState("")
-    const [description, setDescription] = React.useState("")
+    let  {id}  = useParams();
+    const sessionId = id
+    const [userId, setUserId] = React.useState("")
     
-    const fetchUsers = async () => {
+    
+    const addUser = async () => {
       const request = await fetch("http://localhost:3003/usersAndSession", {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      const data = await request.json();
-      if(data.message === 'There is no Users in Sessions'){
-        return data.message
-      }
-      
-      setUsers(Object.values(data)[0] as string[])
-    
-    };
-
-
-// console.log(users)
-    const addTask = async () => {
-      const request = await fetch('http://localhost:3003/task', {
-        method: "POST",
+        method:'POST',
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-        body: JSON.stringify({
-          title,
-          description,
-          assignToId,
-          sessionId:id,
-
-        }),
+        body:JSON.stringify({
+            userId,
+            sessionId,
+       })
       });
-     if (request.status === 200) {
-      onClose()
-     }
-      // console.log(await request.json());
-    
+      if (request.status === 200) {
+        onClose()
+       }
+      console.log(await request.json());
+
     };
 
+    console.log(userId);
+    console.log(sessionId);
+    
 
-    useEffect(() => {
-      fetchUsers()
-    }, []);
+    // useEffect(() => {
+    //   fetchUsers()
+    // }, []);
     
   return (
     <>
@@ -87,7 +66,7 @@ function TaskPage() {
               
         >
 
-            <Icon as={AddIcon} mr={2} /> Add Task
+            <Icon as={AddIcon} mr={2} /> Add User
 
         </Button>
 
@@ -100,32 +79,17 @@ function TaskPage() {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add new Task</ModalHeader>
+          <ModalHeader>Add user to session</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
-              <FormLabel>Title</FormLabel>
-              <Input ref={initialRef} placeholder='Title' onChange={(e)=> setTitle(e.target.value)}/>
+              <FormLabel>User ID</FormLabel>
+              <Input ref={initialRef} placeholder='Enter user id' onChange={(e)=> setUserId(e.target.value)}/>
             </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea placeholder='Description' onChange={(e)=> setDescription(e.target.value)}/>
-            </FormControl>
- 
-             <FormControl mt={4}>
-            <FormLabel>Assignee to</FormLabel>
-            <Select placeholder='Assignee to' onChange={(e)=> setAssignToId(e.target.value)}>
-              {users != undefined && users.map((e: any) => (   
-              <option value={e.user.id} key={e.user.id}>{(e.user.name)}</option>
-              ))}
-              </Select>
-              </FormControl>
-
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={addTask} colorScheme="blue" mr={3}>
+            <Button onClick={addUser} colorScheme="blue" mr={3}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>
@@ -137,4 +101,4 @@ function TaskPage() {
   )
 }
 
-export default TaskPage
+export default AddUser

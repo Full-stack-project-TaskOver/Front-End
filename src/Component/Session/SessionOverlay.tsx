@@ -90,7 +90,6 @@ function SessionOverlay() {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const options = ["Company", "OpenSource", "Family", "Personal"];
-
   
   // console.log(setDescription);
   console.log(description);

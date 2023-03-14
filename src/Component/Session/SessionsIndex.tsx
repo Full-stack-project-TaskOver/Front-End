@@ -19,9 +19,8 @@ function SessionsIndex() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token')
   if(!token){
-   return navigate("/sign-in");
-  }
-  const [session, setSession] = React.useState<string[]>([]);
+    navigate("/sign-in");
+  } 
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
@@ -37,7 +36,8 @@ const fetchAdminSessions = async () => {
   if(data.message == 'you dont have any sessions'){
     return data.message
   }
-
+  console.log(Object.values(data)[0]);
+  
   setAdminSession(Object.values(data)[0] as string[])
 };
 
@@ -54,6 +54,7 @@ const fetchUserSessions = async () => {
     
     return data.message
   }
+  console.log(Object.values(data)[0]);
   setuserSession(Object.values(data)[0] as string[])
 };
 
@@ -101,6 +102,7 @@ useEffect(() => {
                         imgPath={family}
                         title={e.title}
                         description={e.description}
+                        creatorId={e.creatorId}
                       />
                      
               ))}
@@ -128,6 +130,7 @@ useEffect(() => {
                  imgPath={family}
                  title={e.title}
                  description={e.description}
+                 creatorId={e.creatorId}
                />
               
        ))}
