@@ -18,15 +18,28 @@
 }
 /* leaderboard css */
 
-.center-text{
+.center-text {
   justify-content: center;
   display: flex;
-  font-size:  1.2rem;
+  font-size: 1.2rem;
 }
 
-.header{
+.header {
   font-weight: 700;
   font-size: 1.5rem;
   margin-bottom: 20px;
 }
 /* leaderboard css */
+
+/* Level Style */
+.level {
+  /* width: 150px;
+  height: 150px;
+  background: rgb(229, 86, 86);
+  border-radius: 30px;
+  stroke-width: 10px; */
+
+  stroke-width: 10px;
+  stroke-linecap: round;
+  fill: transparent;
+}

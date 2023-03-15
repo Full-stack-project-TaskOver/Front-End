@@ -70,11 +70,10 @@ function TaskPage() {
     <Button                  onClick={onOpen}
 
                 size="sm"
-                w = "50%"
-                h = "40px"
+                rounded={8} p='4' 
                 color={useColorModeValue("white", "white")}
                 bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
-                border={'3px solid'}
+                border={'2px solid'}
                 borderColor={useColorModeValue("#5bc8ae", "#30917a")}
                 _hover={{
                     bgColor: useColorModeValue("#2cb997", "#5addbe"),

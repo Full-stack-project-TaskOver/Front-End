@@ -50,18 +50,17 @@ function AddUser() {
     <Button                  onClick={onOpen}
 
                 size="sm"
-                w = "50%"
-                h = "40px"
                 color={useColorModeValue("white", "white")}
-                bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
-                border={'3px solid'}
-                borderColor={useColorModeValue("#5bc8ae", "#30917a")}
+                bgColor={useColorModeValue('#2bcb7d', "#19A963")}
+                border={'2px solid'}
+                borderColor={useColorModeValue("#19A963", "#19A963")}
                 _hover={{
                     bgColor: useColorModeValue("#2cb997", "#5addbe"),
                 }
                 }
+                rounded={8} p='4'                 
                 variant="solid"
-                colorScheme="black"
+                // colorScheme="black"
                 aria-label="add-task"
               
         >
@@ -69,6 +68,8 @@ function AddUser() {
             <Icon as={AddIcon} mr={2} /> Add User
 
         </Button>
+
+
 
 
       <Modal

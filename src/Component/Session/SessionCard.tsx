@@ -102,18 +102,24 @@ function SessionCard(props: sessionCard) {
         {props.creatorId != loggedUser?.id ? '' : <Menu >
               <MenuButton
                 position={'absolute'}
-                _hover={{
-                  backgroundColor: useColorModeValue("#f8f8f8", "gray.800"),
-                }}
                 top={'2'}
                 right={'2'}
+                rounded={8}                 
+                bgColor={useColorModeValue("white", "gray.900")}
+                color={useColorModeValue("gray.600", "gray.400")}
+                _hover={{bgColor: useColorModeValue("#f4f4f4", "gray.600")}}
+                _active={{bg:useColorModeValue("#f2f2f2", "gray.600")}}
+
                 as={IconButton}
                 bg="none"
                 icon={<FiMoreVertical />}
                 w="0.5rem"
               />
               <MenuList minW={{ base: "4rem", md: "8rem" }}>
-                <MenuItem color={"red"} onClick={deleteSessions}>
+                <MenuItem color={"red"} onClick={deleteSessions}
+                fontWeight='medium'
+                bgColor={useColorModeValue("white", "gray.900")}
+                _hover={{bgColor: useColorModeValue("#f2f2f2", "gray.600")}}>
                   Delete
                 </MenuItem>
               </MenuList>
