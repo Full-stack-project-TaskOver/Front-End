@@ -9,7 +9,7 @@ import signIp from "./Component/Authentication/sign-in";
 import "./App.css";
 import Leaderboard from "./Component/Session/Leaderboard";
 import LandingIndex from "./Component/LandingPage/LandingIndex";
-import Level from "./Component/LandingPage/Components/Level";
+import Level from "./Component/LandingPage/Components/CactusLevel";
 
 function App() {
   return (

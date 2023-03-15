@@ -13,7 +13,7 @@ import {
   IconProps,
   useColorModeValue,
 } from "@chakra-ui/react";
-import Level from "./Components/Level";
+import Level from "./Components/CactusLevel";
 
 interface points {
   userPoints: number;

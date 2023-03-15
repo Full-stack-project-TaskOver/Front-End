@@ -3,13 +3,17 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import App from "../../Tasks/TaskIndex";
 
-interface levelStyle {
+interface level {
   userPoints: number;
   size: string;
   color: string;
+  levelHandler: number;
 }
 
-function Level({ userPoints, size, color }: levelStyle) {
+function CactusLevel(props: any) {
+  const userPoints = props.userPoints;
+  let size = props.size;
+  let color = props.color;
   const levels = [
     { level: 1, goalPoints: 200 },
     { level: 2, goalPoints: 500 },
@@ -63,6 +67,11 @@ function Level({ userPoints, size, color }: levelStyle) {
 
   const defaultLevelSize = "2rem";
   size = size.trim() == "" ? defaultLevelSize : size;
+
+  // Sending the level to the parent
+  useEffect(() => {
+    props.sendLevel(userLevel);
+  });
 
   return (
     <>
@@ -125,7 +134,7 @@ function Level({ userPoints, size, color }: levelStyle) {
                 width: `100%`,
               }}
               transition={{
-                duration: 1,
+                duration: 3,
                 // type: "Spring",
                 times: [0, 0.2, 0.5, 0.8, 0.1],
               }}></motion.div>
@@ -139,4 +148,4 @@ function Level({ userPoints, size, color }: levelStyle) {
   );
 }
 
-export default Level;
+export default CactusLevel;

@@ -50,7 +50,7 @@ import { FiMoreVertical } from "react-icons/fi";
 
 import { useParams } from "react-router-dom";
 import React from "react";
-import Level from "../LandingPage/Components/Level";
+import Level from "../LandingPage/Components/CactusLevel";
 // import { Standard } from "@typebot.io/react";
 // <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
 
@@ -187,7 +187,7 @@ function App() {
                 🔥 Streak
               </Flex>
             </Flex>
-            <Level userPoints={15} color={""} size={""} sendLevel={sendLevel} />
+            <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
           </Box>
         )}
 

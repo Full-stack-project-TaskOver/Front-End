@@ -209,15 +209,7 @@ function Task({
         fontWeight="semibold">
         <Text pb={8}>{task.title}</Text>
         <Spacer />
-
-        {/* <Progress
-          colorScheme="green"
-          height="7px"
-          value={30}
-          rounded={18}
-          mb={2}
-        /> */}
-        {/* <Level userPoints={700} color="" size={"1rem"} /> */}
+        <Level userPoints={15} color={""} size={"1rem"} />
       </Box>
     </>
   );

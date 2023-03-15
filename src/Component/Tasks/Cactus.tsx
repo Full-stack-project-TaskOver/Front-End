@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import ReactDOM from "react-dom";
-import ReactSlider from "react-slider";
 import { motion, AnimatePresence } from "framer-motion";
 
 const generateStageBasedPathVariants = (i: number) =>
@@ -521,7 +519,7 @@ const Cactus = (props: any) => {
     const sequence = (start: any, count: any, callback: any, interval: any) => {
       if (start === count) return;
       setTimeout(() => {
-        callback(start);
+        // callback(start);
         sequence(start + 1, count, callback, interval);
       }, interval);
     };
@@ -664,4 +662,3 @@ const Cactus = (props: any) => {
 };
 
 export default Cactus;
-// ReactDOM.render(<App />, document.getElementById("cactus"));
