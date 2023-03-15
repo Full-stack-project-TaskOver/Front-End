@@ -81,7 +81,7 @@ function App() {
             🔥 Streak
           </Flex>
         </Flex>
-        <Level userPoints={0} />
+        <Level userPoints={250} color={""} size={""}/>
 
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 16, md: 4 }}>
           <TaskPage />

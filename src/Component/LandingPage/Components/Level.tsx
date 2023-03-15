@@ -8,10 +8,11 @@ interface level {
 
 interface levelStyle {
   userPoints: number;
+  size: string;
+  color: string;
 }
 
-function Level({ userPoints }: levelStyle) {
-  //   const { scrollXProgress } = useScroll();
+function Level({ userPoints, color, size }: levelStyle) {
   const levels = [
     { level: 1, goalPoints: 200 },
     { level: 2, goalPoints: 500 },
@@ -59,22 +60,21 @@ function Level({ userPoints }: levelStyle) {
   };
 
   const cureentUserStage = getUserStage(userPoints);
-
   // User goal points
   const userGoal = cureentUserStage?.goalPoints
     ? cureentUserStage?.goalPoints
     : -1;
-
   // User Current Level
-  console.log(cureentUserStage?.level);
-
   const userLevel = cureentUserStage?.level ? cureentUserStage?.level : -1;
   const userProgress = getUserProgress();
-
-  console.log(userProgress);
-
   // Level in percentage form
   const levelPercantage = ((userProgress ? userProgress : -1) / userGoal) * 100;
+  // Level bar color set.
+  const defaultLevelColor = "linear-gradient(to right, #f12711, #f5af19)";
+  color = color.trim() == "" ? defaultLevelColor : color;
+
+  const defaultLevelSize = "2rem";
+  size = size.trim() == "" ? defaultLevelSize : size;
 
   console.log("<<<< NEW >>>>");
   console.log("User lvl: " + userLevel);
@@ -96,7 +96,7 @@ function Level({ userPoints }: levelStyle) {
           <Text>Level {userLevel + 1}</Text>
         </Flex>
         <Flex
-          height="1rem"
+          height={size}
           border="2px solid #eee"
           borderRadius={"1rem"}
           position={"relative"}>
@@ -115,8 +115,6 @@ function Level({ userPoints }: levelStyle) {
               margin: -2,
               position: "relative",
               display: "flex",
-              // borderTop: "2px solid linear-gradient(to bottom, #f12711, #f5af19)",
-              // borderBottom: "2px solid linear-gradient(to bottom, #f12711, #f5af19)",
               width: "100%",
               borderRadius: "1rem",
               padding: "0.3rem",
@@ -138,7 +136,7 @@ function Level({ userPoints }: levelStyle) {
                 width: "100%",
                 height: "100%",
                 borderRadius: "1rem",
-                background: "linear-gradient(to right, #f12711, #f5af19)",
+                background: color,
               }}
               initial={{ width: "2%" }}
               animate={{

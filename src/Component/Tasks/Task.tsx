@@ -217,7 +217,7 @@ function Task({
           rounded={18}
           mb={2}
         /> */}
-        <Level userPoints={700} />
+        <Level userPoints={700} color="" size={"1rem"} />
       </Box>
     </>
   );
