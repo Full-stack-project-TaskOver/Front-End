@@ -25,6 +25,7 @@ import {
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { IoIosAdd } from "react-icons/io";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const tabItems = [
   { name: "Company" },
@@ -91,9 +92,10 @@ function SessionOverlay() {
   const [description, setDescription] = useState<string>('');
   const options = ["Company", "OpenSource", "Family", "Personal"];
 
-  
+  const navigate = useNavigate();
+
   // console.log(setDescription);
-  console.log(description);
+  
   // To handle the radio button value.
   const handleChange = (value: string) => {
     session.type = value;
@@ -130,9 +132,20 @@ function SessionOverlay() {
         type: value
 
       })
+      
     });
-   
+
+
+    if(request.status == 200){
+      
+      
+      onClose()
+      // navigate("/Session");
+    
+
+    }
     console.log(await request.json());
+    
   };
 
   return (
@@ -247,7 +260,7 @@ function SessionOverlay() {
               Close
             </Button> */}
 
-            <Button size={"lg"} colorScheme="blue" onClick={addTask}>
+            <Button size={"lg"} colorScheme="blue" onClick={()=>{addTask() }}>
               Create Session
             </Button>
           </ModalFooter>

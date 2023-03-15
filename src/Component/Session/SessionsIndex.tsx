@@ -5,6 +5,7 @@ import {
   Heading,
   SimpleGrid,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import SessionCard from "./SessionCard";
 import family from "../../assets/family.png";
@@ -16,6 +17,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 function SessionsIndex() {
   
+  const toast = useToast();
+
   const navigate = useNavigate();
   const token = localStorage.getItem('token')
   if(!token){
@@ -27,27 +30,41 @@ function SessionsIndex() {
   const [userSession, setuserSession] = React.useState<string[]>([]);
 
 const fetchAdminSessions = async () => {
-  const request = await fetch("http://localhost:3003/session/AsAdmin", {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  });
-  const data = await request.json();
-  if(data.message == 'you dont have any sessions'){
-    return data.message
-  }
+ 
+    const request = await fetch("http://localhost:3003/session/AsAdmin", {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
 
-  setAdminSession(Object.values(data)[0] as string[])
+    const data = await request.json();
+    if(data.message == 'you dont have any sessions'){
+      return data.message
+    }
+  
+    setAdminSession(Object.values(data)[0] as string[]) 
+    if(adminSession ){
+      setTimeout(()=>{
+        fetchAdminSessions()
+      },1000)
+     
+    }
+
 };
 
 const fetchUserSessions = async () => {
+  
+
   const request = await fetch("http://localhost:3003/session/AsUser", {
     headers: {
       'Content-Type': 'application/json',
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
+    
   });
+ 
+
   const data = await request.json();
   
   if(data.message == 'you dont have any sessions'){
@@ -55,6 +72,7 @@ const fetchUserSessions = async () => {
     return data.message
   }
   setuserSession(Object.values(data)[0] as string[])
+  
 };
 
 useEffect(() => {
@@ -66,11 +84,11 @@ useEffect(() => {
 
 
 
-
 // Sessions Container Component  
 
   return (
     <>
+  
       <Heading
         as={"h1"}
         fontSize="2rem"
