@@ -73,13 +73,6 @@ function Level(props: any) {
     props.sendLevel(userLevel);
   });
 
-  console.log("<<<< LEVEL STATES >>>>");
-  console.log("User lvl: " + userLevel);
-  console.log("User Progress: " + userProgress);
-  console.log("User goal: " + userGoal);
-  console.log("<<<< LEVEL STATES >>>>");
-
-  //   const goal = levels.map((currentLevel)=> levels.level)
   return (
     <>
       <Flex

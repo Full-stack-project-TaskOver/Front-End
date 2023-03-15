@@ -74,7 +74,6 @@ function App() {
   const [session, setSession] = React.useState<Session>();
   const [loggedUser, setloggedUser] = React.useState<User>();
   const [level, setLevel] = React.useState<number>(0);
-  console.log("level index: ", level);
 
   const sendLevel = (level: number) => {
     setLevel(level);
@@ -91,7 +90,6 @@ function App() {
     if (data.message === "Session dose not exists") {
       return data.message;
     }
-    // console.log(data.session);
 
     setSession(data.session);
   };
@@ -189,12 +187,7 @@ function App() {
                 🔥 Streak
               </Flex>
             </Flex>
-            <Level
-              userPoints={15}
-              color={""}
-              size={""}
-              sendLevel={sendLevel}
-            />
+            <Level userPoints={15} color={""} size={""} sendLevel={sendLevel} />
           </Box>
         )}
 

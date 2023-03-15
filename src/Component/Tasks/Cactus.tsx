@@ -515,9 +515,6 @@ const Cactus = (props: any) => {
   const [stage, setStage] = useState(0);
   const [userLevel, setUserLevel] = useState(0);
   const [staggerDirection, setStaggerDirection] = useState(1);
-  console.log("stage: ", stage);
-  console.log("staggerDirection: ", staggerDirection);
-  console.log("user level in cactus <out>: ", userLevel);
 
   useEffect(() => {
     setUserLevel(props.userLevel);
@@ -528,10 +525,8 @@ const Cactus = (props: any) => {
         sequence(start + 1, count, callback, interval);
       }, interval);
     };
-    console.log("user level in cactus <inside>: ", userLevel);
     setStaggerDirection(userLevel < stage ? -1 : 1);
     setStage(userLevel);
-    console.log("stage <inside>: ", stage);
     sequence(0, userLevel, setStage(userLevel), 500);
   });
 
