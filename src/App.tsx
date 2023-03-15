@@ -8,6 +8,8 @@ import signUp from "./Component/Authentication/sign-up";
 import signIp from "./Component/Authentication/sign-in";
 import "./App.css";
 import Leaderboard from "./Component/Session/Leaderboard";
+import LandingIndex from "./Component/LandingPage/LandingIndex";
+import Level from "./Component/LandingPage/Components/Level";
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route>
+        {/* <Route path="/level" element={<SideNav children={<Level />} />}></Route> */}
       </Routes>
     </>
   );

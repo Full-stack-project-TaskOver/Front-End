@@ -3,6 +3,7 @@ import {
   Divider,
   Flex,
   Heading,
+  Progress,
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -11,6 +12,7 @@ import family from "../../assets/family.png";
 import SessionOverlay from "./SessionOverlay";
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Level from "../LandingPage/Components/Level";
 
 function SessionsIndex() {
   const navigate = useNavigate();
@@ -93,7 +95,6 @@ function SessionsIndex() {
                 description={e.description}
               />
             ))}
-
           <SessionOverlay />
         </SimpleGrid>
         <Divider />
