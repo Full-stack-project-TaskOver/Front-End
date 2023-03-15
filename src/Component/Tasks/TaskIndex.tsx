@@ -5,27 +5,104 @@ import Column from './Column'
 import { ColumnType } from '../../utils/enums'
 import { AddIcon } from '@chakra-ui/icons'
 import useColumnTasks from '../../hooks/useColumnTask'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TaskPage from './TaskPage'
+import AddUser from './AddUser'
+
+import { useParams } from 'react-router-dom'
+import React from 'react'
 // import { Standard } from "@typebot.io/react";
 // <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
 
-function App() {
+interface Session {
+  id:string,
+  title:string,
+  description:string,
+  creatorId:string,
+  type:string,
+}
 
+interface User {
+  id:string,
+  name:string,
+  email:string,
+  phone:number
+}
+
+function App() {
+  let { id } = useParams();
+  const [session, setSession] = React.useState<Session>();
+  const [loggedUser, setloggedUser] = React.useState<User>();
+
+  const fetchSession = async () => {
+    const request = await fetch(`http://localhost:3003/session/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if(data.message === 'Session dose not exists'){
+      return data.message
+    }
+    // console.log(data.session);
+    
+    setSession(data.session)
+  
+  };
+
+  const fetchLoggedUser = async () => {
+    const request = await fetch(`http://localhost:3003/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if(data.message === 'user not found'){
+      return 'You are not authorized , please log in'
+    }
+    setloggedUser(data.user);
+    
+    // setSession(data.session)
+  
+  };
+
+  useEffect(() => {
+    fetchSession()
+    fetchLoggedUser()
+  }, []);
+
+
+
+  
   return (
     <>
 
-    <Container maxWidth="container.lg" px={4} py={10} userSelect={'none'}>
-    <Heading pb={16} as='h1' size='xl'>
-              Section name
+    <Container maxWidth="container.lg" py={10} userSelect={'none'}>
+    <Heading pb={10} as='h1' size='xl'>
+              {session?.title}
+              {session?.creatorId == loggedUser?.id ? (
+            <Box display={'inline'}>
+              <Text display={'inline'}>/</Text>
+              <Text display={'inline'} color={'gray.400'} fontSize={'1rem'}>
+                {session?.id}
+              </Text>
+            </Box>
+          ) : (
+            ''
+          )}
       </Heading>
-      <Flex gap={4} >
+      
+      {session?.creatorId == loggedUser?.id ? '' : <Box>
+       <Flex gap={4} wrap={'wrap'} justifyContent="space-between">
+        <Flex gap={4}>
         <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
                 border={'3px solid'}
                 borderColor={useColorModeValue("#f0f0f0", "#242a38")}
-        >
+                >
             All Tasks
         </Button>
         <Button rounded={8} p='4'                 
@@ -33,23 +110,27 @@ function App() {
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
                 border={'3px solid'}
                 borderColor={useColorModeValue("#f0f0f0", "#242a38")}
-        >
+                >
             For Me
         </Button>
-        <Spacer />
+        </Flex>
         <Flex rounded={8} p='4' height='10' alignItems={'center'} fontWeight={'medium'}
               bgColor={useColorModeValue("white", "gray.900")}
               border={'3px solid'}
               borderColor={useColorModeValue("#f0f0f0", "#242a38")}
-        >
+              >
         🔥 Streak
         </Flex>
       </Flex>
-      <Progress colorScheme='green' height='18px' value={20} my={8} rounded={18}/>
-
-      <SimpleGrid columns={{base:1, md: 3}} spacing={{base: 16, md: 4}}>
+ <Progress colorScheme='green' height='18px' value={20} my={8} rounded={18}/> 
+          </Box>}
+      
+      
+      {session?.creatorId == loggedUser?.id ? <SimpleGrid columns={{base:1, md: 3}} spacing={{base: 16, md: 4}}>
         <TaskPage/>
-      </SimpleGrid>
+        <AddUser/>
+      </SimpleGrid> : ''}
+      
 
 
       <DndProvider backend={HTML5Backend}>

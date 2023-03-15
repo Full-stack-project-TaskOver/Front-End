@@ -21,7 +21,10 @@ import {
   VStack,
   Textarea,
   SimpleGrid,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { IoIosAdd } from "react-icons/io";
@@ -48,36 +51,42 @@ let session: sessionType = {
   description: "",
 };
 
+interface Session {
+  title:string
+  method:string
+}
+
 // Radio Button
 function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  
 
   const input = getInputProps();
 
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label">
+    <Box as="label" >
       <input {...input} />
 
       <Box
         {...checkbox}
         className="radio"
         cursor="pointer"
-        // borderWidth="1px"
         borderRadius="md"
-        boxShadow="md"
         fontSize={{ base: "0.9rem", md: "1.1rem" }}
-        bg="gray.100"
+        backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
         transition={"200ms"}
         textAlign="center"
+        outline='3px solid'
+        outlineColor={useColorModeValue("#f0f0f0", "gray.600")}
         _checked={{
-          bg: "#7BD0FF",
-          color: "gray.50",
+          color: useColorModeValue("black", "white"),
+          backgroundColor: useColorModeValue("#f8f8f8", "#222a3a"),
+          outlineColor: useColorModeValue("#d3d3d1", "gray.500")
         }}
-        _focus={{
-          boxShadow: "xl",
-        }}
+
         px={{ base: 4, md: 5 }}
         py={{ base: 3, md: 4 }}>
         {props.children}
@@ -86,11 +95,57 @@ function RadioCard(props: any) {
   );
 }
 
-function SessionOverlay() {
+function SessionOverlay(props:Session) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const options = ["Company", "OpenSource", "Family", "Personal"];
+  const [sessionId, setSessionId] = React.useState<string>('');
+  const [userId, setUserId] = React.useState<string>();
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+
+
+const fetchLoggedUser = async () => {
+  const request = await fetch(`http://localhost:3003/user`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+  const data = await request.json();
+  if(data.message === 'user not found'){
+    return 'You are not authorized , please log in'
+  }
+    setUserId(data.user.id);
+};
+
+
+const joinSession = async () => {
+  const request = await fetch("http://localhost:3003/usersAndSession", {
+    method:'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+    body:JSON.stringify({
+        userId,
+        sessionId,
+   })
+  });
+  if (request.status === 200) {
+    onClose()
+   }
+  console.log(await request.json());
+
+};
+
+useEffect(() => {
+  fetchLoggedUser()
+}, []);
+
+
 
   const navigate = useNavigate();
 
@@ -119,7 +174,7 @@ function SessionOverlay() {
   //   console.log(session);
   // };
 
-  const addTask = async () => {
+  const addSession = async () => {
     const request = await fetch('http://localhost:3003/session', {
       method: "POST",
       headers: {
@@ -153,24 +208,24 @@ function SessionOverlay() {
       <Card
         as={"button"}
         w="80%"
-        h="12rem"
+        h="13rem"
         minW={"14rem"}
         backgroundColor={useColorModeValue("white", "gray.900")}
         shadow="sm"
         borderRadius={15}
-        border="2px dashed"
-        borderColor={"gray.600"}
+        border={'3px dashed '}
+        borderColor={useColorModeValue("#eae7e4", "#242a38")}
         cursor="pointer"
         transition={"200ms"}
         justifyContent="center"
         alignItems={"center"}
         onClick={onOpen}
         _hover={{
-          backgroundColor: useColorModeValue("gray.100", "gray.800"),
-          borderColor: useColorModeValue("gray.800", "gray.100"),
+          backgroundColor: useColorModeValue("white", "gray.800"),
+          borderColor: useColorModeValue("gray.400", "gray.500"),
         }}>
-        <Text color={useColorModeValue("gray.600", "gray.400")}>
-          Add Session
+        <Text color={useColorModeValue("gray.600", "gray.500")}>
+          {props.title}
         </Text>
 
         <Icon
@@ -184,8 +239,34 @@ function SessionOverlay() {
           }}
         />
       </Card>
+      {props.method === 'join' ? <Modal
+      initialFocusRef={initialRef}
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Enter sessionID to join session</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormControl>
+            <FormLabel>Session ID</FormLabel>
+            <Input ref={initialRef} placeholder='Enter session id' onChange={(e)=> setSessionId(e.target.value)}/>
+          </FormControl>
+        </ModalBody>
 
-      <Modal
+        <ModalFooter>
+          <Button onClick={joinSession} colorScheme="blue" mr={3}>
+            Join
+          </Button>
+          <Button onClick={onClose}>Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal> :''
+      }
+      
+      {props.method === 'add' ? <Modal
         isCentered
         onClose={onClose}
         isOpen={isOpen}
@@ -196,16 +277,15 @@ function SessionOverlay() {
         <ModalContent>
           <Text px={6} pt={3} color="gray.400">
             Sessions /{" "}
-            <Text as="span" color="gray.700">
-              {" "}
-              Create Session{" "}
+            <Text as="span" color={useColorModeValue("gray.800", "gray.100")}>
+              {" "} Create Session {" "}
             </Text>
           </Text>
 
           <ModalHeader px={6} pt={9} color={"gray.700"}>
-            <Text>
+            <Text color={useColorModeValue("gray.800", "gray.100")}>
               This Session {session.type == "Personal" ? "is" : "for"} a ..{" "}
-              <Text as={"span"} color="gray.600">
+              <Text as={"span"} color={useColorModeValue("black", "gray.100")}>
                 {session.type}
               </Text>
             </Text>
@@ -241,6 +321,9 @@ function SessionOverlay() {
                 placeholder="Enter Title Here"
                 required={true}
                 onChange={(e)=> setTitle(e.target.value)}
+                border="3px solid"
+                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
               />
 
               <Text alignSelf={"start"}>Description</Text>
@@ -251,6 +334,10 @@ function SessionOverlay() {
                 onChange={(e) => {
                   setDescription(e.target.value);
                 }}
+                borderRadius={'0.375rem 0.375rem 0 0.375rem'}
+                border="3px solid"
+                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
               />
             </VStack>
           </ModalBody>
@@ -260,12 +347,13 @@ function SessionOverlay() {
               Close
             </Button> */}
 
-            <Button size={"lg"} colorScheme="blue" onClick={()=>{addTask() }}>
+            <Button size={"lg"} colorScheme="blue" onClick={addSession}>
               Create Session
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> :''}
+      
     </>
   );
 }

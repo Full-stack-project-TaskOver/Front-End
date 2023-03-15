@@ -22,14 +22,14 @@ function SessionsIndex() {
   const navigate = useNavigate();
   const token = localStorage.getItem('token')
   if(!token){
-   return navigate("/sign-in");
-  }
-  const [session, setSession] = React.useState<string[]>([]);
+    navigate("/sign-in");
+  } 
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
 
 const fetchAdminSessions = async () => {
+
  
     const request = await fetch("http://localhost:3003/session/AsAdmin", {
       headers: {
@@ -51,6 +51,7 @@ const fetchAdminSessions = async () => {
      
     }
 
+
 };
 
 const fetchUserSessions = async () => {
@@ -71,6 +72,7 @@ const fetchUserSessions = async () => {
     
     return data.message
   }
+  console.log(Object.values(data)[0]);
   setuserSession(Object.values(data)[0] as string[])
   
 };
@@ -93,7 +95,7 @@ useEffect(() => {
         as={"h1"}
         fontSize="2rem"
         py="1rem"
-        color={useColorModeValue("gray.700", "gray.100")}>
+        color={useColorModeValue("gray.700", "#1a202c")}>
         Sessions
       </Heading>
       <Flex flexDirection={"column"} w="full" pt="1rem" pb="1.5rem" gap={"2em"}>
@@ -101,7 +103,7 @@ useEffect(() => {
         <Heading
           as="h2"
           fontSize="1.1rem"
-          color={useColorModeValue("gray.700", "gray.100")}
+          color={useColorModeValue("gray.700", "#1a202c")}
           alignSelf="start">
           As Member
         </Heading>
@@ -119,12 +121,13 @@ useEffect(() => {
                         imgPath={family}
                         title={e.title}
                         description={e.description}
+                        creatorId={e.creatorId}
                       />
                      
               ))}
 
 
-          <SessionOverlay />
+          <SessionOverlay title="Join Session" method="join" />
         </SimpleGrid>
         <Divider />
         {/* As Admin Section */}
@@ -146,10 +149,11 @@ useEffect(() => {
                  imgPath={family}
                  title={e.title}
                  description={e.description}
+                 creatorId={e.creatorId}
                />
               
        ))}
-            <SessionOverlay />
+            <SessionOverlay title="Add Session" method="add"/>
           </SimpleGrid>
         </Flex>
       </Flex>
