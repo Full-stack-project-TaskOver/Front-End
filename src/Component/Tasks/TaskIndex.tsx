@@ -1,4 +1,4 @@
-import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel } from '@chakra-ui/react'
+import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import Column from './Column'
@@ -8,6 +8,8 @@ import useColumnTasks from '../../hooks/useColumnTask'
 import { useEffect, useRef, useState } from 'react'
 import TaskPage from './TaskPage'
 import AddUser from './AddUser'
+
+import { FiMoreVertical } from "react-icons/fi";
 
 import { useParams } from 'react-router-dom'
 import React from 'react'
@@ -75,24 +77,53 @@ function App() {
 
 
 
-  
+  // userSelect={'none'}
   return (
     <>
 
-    <Container maxWidth="container.lg" py={10} userSelect={'none'}>
-    <Heading pb={10} as='h1' size='xl'>
-              {session?.title}
-              {session?.creatorId == loggedUser?.id ? (
-            <Box display={'inline'}>
-              <Text display={'inline'}>/</Text>
-              <Text display={'inline'} color={'gray.400'} fontSize={'1rem'}>
-                {session?.id}
-              </Text>
-            </Box>
-          ) : (
-            ''
-          )}
-      </Heading>
+    <Container maxWidth="container.lg" py={10}>
+            <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
+
+              <Flex flexDirection={'column'} pb={10}>
+                <Heading as='h1' size={{base:"lg", sm:"xl"}}>
+                        {session?.title}
+                </Heading>
+                {session?.creatorId == loggedUser?.id ? (
+                  <Text display={'inline'} color={'gray.400'} fontSize={{base:"xs", sm:"sm"}}>
+                  {session?.id}
+                </Text>
+                ) : ('')
+                    }
+              </Flex>
+              <Flex justifyContent={'end'} gap={2} >
+                {session?.creatorId == loggedUser?.id ? 
+                <>
+                  <TaskPage/>
+                  <AddUser/>
+                </> : ''}
+                <Menu >
+              <MenuButton
+                rounded={8}                 
+                bgColor={useColorModeValue("white", "gray.900")}
+                color={useColorModeValue("gray.600", "gray.400")}
+                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
+                border={'3px solid'}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
+                as={IconButton}
+                bg="none"
+                icon={<FiMoreVertical />}
+                w="0.5rem"
+              />
+              <MenuList minW={{ base: "4rem", md: "8rem" }}>
+                <MenuItem color={"red"} >
+                  Delete
+                </MenuItem>
+              </MenuList>
+                </Menu>
+                </Flex>
+                
+
+              </Flex>
       
       {session?.creatorId == loggedUser?.id ? '' : <Box>
        <Flex gap={4} wrap={'wrap'} justifyContent="space-between">
@@ -126,10 +157,7 @@ function App() {
           </Box>}
       
       
-      {session?.creatorId == loggedUser?.id ? <SimpleGrid columns={{base:1, md: 3}} spacing={{base: 16, md: 4}}>
-        <TaskPage/>
-        <AddUser/>
-      </SimpleGrid> : ''}
+
       
 
 
