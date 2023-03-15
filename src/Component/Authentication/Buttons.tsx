@@ -1,6 +1,6 @@
 import { Avatar,Text,  useColorModeValue,
   Box, Button, Flex, HStack, Menu, MenuButton, MenuDivider, MenuItem, MenuList, VStack } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 import { FiChevronDown } from "react-icons/fi";
 import { ReactNode, useEffect, useState } from "react";
@@ -29,8 +29,11 @@ function Buttons() {
     getUserById()
   }, []);
   
+  const navigate = useNavigate();
+
   const signOut = () =>{
     localStorage.removeItem("token")
+    navigate('/')
   }
     return(
       <Flex alignItems={"center"}>

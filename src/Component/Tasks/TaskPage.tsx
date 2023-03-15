@@ -4,6 +4,7 @@ import { AddIcon } from '@chakra-ui/icons'
 import useColumnTasks from '../../hooks/useColumnTask'
 import Column from './Column'
 import { ColumnType } from '../../utils/enums'
+import { useParams } from 'react-router-dom'
 
 function TaskPage() {
 
@@ -12,13 +13,14 @@ function TaskPage() {
     const finalRef = React.useRef(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    let { id } = useParams();
   
-    const [Employee, setEmployeess] = useState<string[]>([]);
+    const [users, setUsers] = useState<string[]>([]);
     const [title, setTitle] = React.useState("")
     const [assignToId, setAssignToId] = React.useState("")
     const [description, setDescription] = React.useState("")
     
-    const fetchEmployees = async () => {
+    const fetchUsers = async () => {
       const request = await fetch("http://localhost:3003/usersAndSession", {
         headers: {
           'Content-Type': 'application/json',
@@ -30,12 +32,12 @@ function TaskPage() {
         return data.message
       }
       
-      setEmployeess(Object.values(data)[0] as string[])
+      setUsers(Object.values(data)[0] as string[])
     
     };
 
 
-console.log(Employee)
+// console.log(users)
     const addTask = async () => {
       const request = await fetch('http://localhost:3003/task', {
         method: "POST",
@@ -47,18 +49,20 @@ console.log(Employee)
           title,
           description,
           assignToId,
-          sessionId:"eee5438c-1d57-4141-86a7-8aca800fb391",
+          sessionId:id,
 
-        })
+        }),
       });
-     
-      console.log(await request.json());
+     if (request.status === 200) {
+      onClose()
+     }
+      // console.log(await request.json());
     
     };
 
 
     useEffect(() => {
-      fetchEmployees()
+      fetchUsers()
     }, []);
     
   return (
@@ -67,11 +71,10 @@ console.log(Employee)
     <Button                  onClick={onOpen}
 
                 size="sm"
-                w = "50%"
-                h = "40px"
+                rounded={8} p='4' 
                 color={useColorModeValue("white", "white")}
                 bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
-                border={'3px solid'}
+                border={'2px solid'}
                 borderColor={useColorModeValue("#5bc8ae", "#30917a")}
                 _hover={{
                     bgColor: useColorModeValue("#2cb997", "#5addbe"),
@@ -96,7 +99,7 @@ console.log(Employee)
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Create your account</ModalHeader>
+          <ModalHeader>Add new Task</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl>
@@ -112,7 +115,7 @@ console.log(Employee)
              <FormControl mt={4}>
             <FormLabel>Assignee to</FormLabel>
             <Select placeholder='Assignee to' onChange={(e)=> setAssignToId(e.target.value)}>
-              {Employee != undefined && Employee.map((e: any) => (   
+              {users != undefined && users.map((e: any) => (   
               <option value={e.user.id} key={e.user.id}>{(e.user.name)}</option>
               ))}
               </Select>

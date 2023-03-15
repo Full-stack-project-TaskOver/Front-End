@@ -29,6 +29,10 @@ import {
   AccordionItem,
   AccordionIcon,
   AccordionPanel,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -36,52 +40,151 @@ import Column from "./Column";
 import { ColumnType } from "../../utils/enums";
 import { AddIcon } from "@chakra-ui/icons";
 import useColumnTasks from "../../hooks/useColumnTask";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TaskPage from "./TaskPage";
+import AddUser from "./AddUser";
+import "./Cactus.css";
+import Cactus from "./Cactus";
+
+import { FiMoreVertical } from "react-icons/fi";
+
+import { useParams } from "react-router-dom";
+import React from "react";
 import Level from "../LandingPage/Components/Level";
 // import { Standard } from "@typebot.io/react";
 // <Standard style={{ width: "100%", height: "600px" }} typebot={'taskover-vtisosw'} />
 
+interface Session {
+  id: string;
+  title: string;
+  description: string;
+  creatorId: string;
+  type: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone: number;
+}
+
 function App() {
+  let { id } = useParams();
+  const [session, setSession] = React.useState<Session>();
+  const [loggedUser, setloggedUser] = React.useState<User>();
+
+  const fetchSession = async () => {
+    const request = await fetch(`http://localhost:3003/session/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if (data.message === "Session dose not exists") {
+      return data.message;
+    }
+    // console.log(data.session);
+
+    setSession(data.session);
+  };
+
+  const fetchLoggedUser = async () => {
+    const request = await fetch(`http://localhost:3003/user`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if (data.message === "user not found") {
+      return "You are not authorized , please log in";
+    }
+    setloggedUser(data.user);
+
+    // setSession(data.session)
+  };
+
+  useEffect(() => {
+    fetchSession();
+    fetchLoggedUser();
+  }, []);
+
+  // userSelect={'none'}
   return (
     <>
-      <Container maxWidth="container.lg" px={4} py={10} userSelect={"none"}>
-        <Heading pb={16} as="h1" size="xl">
-          Section name
-        </Heading>
-        <Flex gap={4}>
-          <Button
-            rounded={8}
-            p="4"
-            bgColor={useColorModeValue("white", "gray.900")}
-            _hover={{ bgColor: useColorModeValue("#f8f8f8", "gray.600") }}
-            border={"3px solid"}
-            borderColor={useColorModeValue("#f0f0f0", "#242a38")}>
-            All Tasks
-          </Button>
-          <Button
-            rounded={8}
-            p="4"
-            bgColor={useColorModeValue("white", "gray.900")}
-            _hover={{ bgColor: useColorModeValue("#f8f8f8", "gray.600") }}
-            border={"3px solid"}
-            borderColor={useColorModeValue("#f0f0f0", "#242a38")}>
-            For Me
-          </Button>
-          <Spacer />
-          <Flex
-            rounded={8}
-            p="4"
-            height="10"
-            alignItems={"center"}
-            fontWeight={"medium"}
-            bgColor={useColorModeValue("white", "gray.900")}
-            border={"3px solid"}
-            borderColor={useColorModeValue("#f0f0f0", "#242a38")}>
-            🔥 Streak
+      <Container maxWidth="container.xl" py={10}>
+        <Flex justifyContent={"space-between"} flexWrap={"wrap"}>
+          <Flex flexDirection={"column"} pb={10}>
+            <Heading as="h1" size={{ base: "lg", sm: "xl" }}>
+              {session?.title}
+            </Heading>
+            {session?.creatorId == loggedUser?.id ? (
+              <Text
+                display={"inline"}
+                color={"gray.400"}
+                fontSize={{ base: "xs", sm: "sm" }}>
+                {session?.id}
+              </Text>
+            ) : (
+              ""
+            )}
+          </Flex>
+          <Flex justifyContent={"end"} gap={2}>
+            {session?.creatorId == loggedUser?.id ? (
+              <>
+                <TaskPage />
+                <AddUser />
+              </>
+            ) : (
+              ""
+            )}
           </Flex>
         </Flex>
-        <Level userPoints={250} color={""} size={""}/>
+
+        <Flex justifyContent={"center"}>
+          <Cactus />
+        </Flex>
+
+        {session?.creatorId == loggedUser?.id ? (
+          ""
+        ) : (
+          <Box>
+            <Flex gap={4} wrap={"wrap"} justifyContent="space-between">
+              <Flex gap={4}>
+                {/* <Button rounded={8} p='4'                 
+                bgColor={useColorModeValue("white", "gray.900")}
+                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
+                border={'2px solid'}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
+                >
+            All Tasks
+        </Button>
+        <Button rounded={8} p='4'                 
+                bgColor={useColorModeValue("white", "gray.900")}
+                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
+                border={'2px solid'}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
+                >
+            For Me
+        </Button> */}
+              </Flex>
+              <Flex
+                rounded={8}
+                p="4"
+                height="10"
+                alignItems={"center"}
+                fontWeight={"medium"}
+                bgColor={useColorModeValue("white", "gray.900")}
+                border={"2px solid"}
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}>
+                🔥 Streak
+              </Flex>
+            </Flex>
+            <Level userPoints={250} color={""} size={""} />
+          </Box>
+        )}
 
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 16, md: 4 }}>
           <TaskPage />

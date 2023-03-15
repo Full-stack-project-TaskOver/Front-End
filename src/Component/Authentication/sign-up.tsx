@@ -15,31 +15,63 @@ import {
   Text,
   useColorModeValue,
   Link,
+  useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPass] = React.useState("")
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  function signup(){
-    fetch('http://localhost:3003/user/sign-up',{
-      method: "POST",
-      headers:{
-          "Content-Type": "application/json"
-      },
-      body:JSON.stringify({
-           name,
-          email,
-          password
-      })
-  }).then(res=>res.json())
-  .then(data=>{
-      console.log(data);
-  });
+
+  const signup = async () =>{
+    try{
+   const request = await fetch('http://localhost:3003/user/sign-up',{
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify({
+             name,
+            email,
+            password
+        })
+        // const data = await request.json();
+
+    })
+    const data = await request.json();
+
+    if (request.status !== 200) {
+      toast({
+        title: data.message,
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
+    }
+    toast({
+      title:"Account successfully created",
+      status: "success",
+      duration: 3000,
+      position: "top",
+    });
+
+    navigate("/sign-in");
+    }catch(error){
+      toast({
+        title: "Server Error !",
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+    }
   }
   return (
     <Flex
@@ -47,7 +79,7 @@ export default function SignupCard() {
       align={'center'}
       justify={'center'}
       bg={useColorModeValue('gray.50', 'gray.800')}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} w={440}>
         <Box
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
@@ -59,21 +91,16 @@ export default function SignupCard() {
           </Heading>
 
         </Stack>
-          <Stack spacing={4} mt={10}>
-            <HStack>
+          <Stack spacing={4} mt={10} >
+           
               <Box>
-                <FormControl id="firstName" isRequired>
+                <FormControl id="name" isRequired>
                   <FormLabel>Name</FormLabel>
                   <Input type="text" onChange={(e)=> setName(e.target.value)} />
                 </FormControl>
               </Box>
-              <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
-              </Box>
-            </HStack>
+ 
+            
             <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
               <Input type="email" onChange={(e)=> setEmail(e.target.value)} />
