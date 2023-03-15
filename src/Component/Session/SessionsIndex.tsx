@@ -108,7 +108,7 @@ useEffect(() => {
               ))}
 
 
-          <SessionOverlay />
+          <SessionOverlay title="Join Session" method="join" />
         </SimpleGrid>
         <Divider />
         {/* As Admin Section */}
@@ -134,7 +134,7 @@ useEffect(() => {
                />
               
        ))}
-            <SessionOverlay />
+            <SessionOverlay title="Add Session" method="add"/>
           </SimpleGrid>
         </Flex>
       </Flex>

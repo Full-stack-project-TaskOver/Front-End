@@ -21,7 +21,10 @@ import {
   VStack,
   Textarea,
   SimpleGrid,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
+import React from "react";
 import { useEffect, useState } from "react";
 import { render } from "react-dom";
 import { IoIosAdd } from "react-icons/io";
@@ -47,9 +50,16 @@ let session: sessionType = {
   description: "",
 };
 
+interface Session {
+  title:string
+  method:string
+}
+
 // Radio Button
 function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  
 
   const input = getInputProps();
 
@@ -84,12 +94,58 @@ function RadioCard(props: any) {
   );
 }
 
-function SessionOverlay() {
+function SessionOverlay(props:Session) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const options = ["Company", "OpenSource", "Family", "Personal"];
-  
+  const [sessionId, setSessionId] = React.useState<string>('');
+  const [userId, setUserId] = React.useState<string>();
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+
+
+const fetchLoggedUser = async () => {
+  const request = await fetch(`http://localhost:3003/user`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+  const data = await request.json();
+  if(data.message === 'user not found'){
+    return 'You are not authorized , please log in'
+  }
+    setUserId(data.user.id);
+};
+
+
+const joinSession = async () => {
+  const request = await fetch("http://localhost:3003/usersAndSession", {
+    method:'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+    body:JSON.stringify({
+        userId,
+        sessionId,
+   })
+  });
+  if (request.status === 200) {
+    onClose()
+   }
+  console.log(await request.json());
+
+};
+
+useEffect(() => {
+  fetchLoggedUser()
+}, []);
+
+
+
   // console.log(setDescription);
   console.log(description);
   // To handle the radio button value.
@@ -115,7 +171,7 @@ function SessionOverlay() {
   //   console.log(session);
   // };
 
-  const addTask = async () => {
+  const addSession = async () => {
     const request = await fetch('http://localhost:3003/session', {
       method: "POST",
       headers: {
@@ -155,7 +211,7 @@ function SessionOverlay() {
           borderColor: useColorModeValue("gray.400", "gray.500"),
         }}>
         <Text color={useColorModeValue("gray.600", "gray.500")}>
-          Add Session
+          {props.title}
         </Text>
 
         <Icon
@@ -169,8 +225,34 @@ function SessionOverlay() {
           }}
         />
       </Card>
+      {props.method === 'join' ? <Modal
+      initialFocusRef={initialRef}
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Enter sessionID to join session</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormControl>
+            <FormLabel>Session ID</FormLabel>
+            <Input ref={initialRef} placeholder='Enter session id' onChange={(e)=> setSessionId(e.target.value)}/>
+          </FormControl>
+        </ModalBody>
 
-      <Modal
+        <ModalFooter>
+          <Button onClick={joinSession} colorScheme="blue" mr={3}>
+            Join
+          </Button>
+          <Button onClick={onClose}>Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal> :''
+      }
+      
+      {props.method === 'add' ? <Modal
         isCentered
         onClose={onClose}
         isOpen={isOpen}
@@ -251,12 +333,13 @@ function SessionOverlay() {
               Close
             </Button> */}
 
-            <Button size={"lg"} colorScheme="blue" onClick={addTask}>
+            <Button size={"lg"} colorScheme="blue" onClick={addSession}>
               Create Session
             </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal>
+      </Modal> :''}
+      
     </>
   );
 }

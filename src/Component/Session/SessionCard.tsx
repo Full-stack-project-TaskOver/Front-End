@@ -36,9 +36,17 @@ interface sessionCard {
   creatorId:string;
 }
 
+interface User {
+  id:string,
+  name:string,
+  email:string,
+  phone:number
+}
+
 // Session Card Component
 function SessionCard(props: sessionCard) {
   const navigate = useNavigate();
+  const [loggedUser, setloggedUser] = React.useState<User>();
 
   const deleteSessions = async () => {
     
@@ -52,6 +60,27 @@ function SessionCard(props: sessionCard) {
     // console.log(request);
     // console.log(await request.json());
   };
+
+  const fetchLoggedUser = async () => {
+    const request = await fetch(`http://localhost:3003/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if(data.message === 'user not found'){
+      return 'You are not authorized , please log in'
+    }
+    setloggedUser(data.user);
+    
+    // setSession(data.session)
+  
+  };
+
+  useEffect(() => {
+    fetchLoggedUser()
+  }, []);
 
   
   return (
@@ -70,7 +99,7 @@ function SessionCard(props: sessionCard) {
       _hover={{
         transform: 'scale(1.015)'
       }}>
-         <Menu >
+        {props.creatorId != loggedUser?.id ? '' : <Menu >
               <MenuButton
                 position={'absolute'}
                 _hover={{
@@ -88,7 +117,7 @@ function SessionCard(props: sessionCard) {
                   Delete
                 </MenuItem>
               </MenuList>
-            </Menu>  
+            </Menu>}
       <CardBody pb={0.5} onClick={() => navigate(`/${props.id}`)}>
         <Stack spacing="2" >
           {/* <Icon as={MdFamilyRestroom} boxSize={"2em"} color="gray.900" /> */}
@@ -122,9 +151,6 @@ function SessionCard(props: sessionCard) {
             }}
             >
             <Img py={'.3rem'}  height='100%' width='100%' src={trophy} />
-            {/* Trophy icon GiLaurelsTrophy */}
-            {/* Leaderboard Icon */}
-            {/* <Icon as={MdLeaderboard} onClick={()=> navigate(`/leaderboard/${props.id}`)} color="black" boxSize="1.3em" /> */}
           </Button>
       </CardFooter>
     </Card>

@@ -82,7 +82,18 @@ function App() {
     <Container maxWidth="container.lg" py={10} userSelect={'none'}>
     <Heading pb={10} as='h1' size='xl'>
               {session?.title}
+              {session?.creatorId == loggedUser?.id ? (
+            <Box display={'inline'}>
+              <Text display={'inline'}>/</Text>
+              <Text display={'inline'} color={'gray.400'} fontSize={'1rem'}>
+                {session?.id}
+              </Text>
+            </Box>
+          ) : (
+            ''
+          )}
       </Heading>
+      
       {session?.creatorId == loggedUser?.id ? '' : <Box>
        <Flex gap={4} wrap={'wrap'} justifyContent="space-between">
         <Flex gap={4}>
