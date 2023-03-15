@@ -20,9 +20,9 @@ function SessionsIndex() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  if (!token) {
-    navigate("/sign-in");
-  }
+  // if (!token) {
+  //   navigate("/sign-in");
+  // }
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
