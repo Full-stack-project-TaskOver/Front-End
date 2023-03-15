@@ -101,25 +101,6 @@ function App() {
                   <TaskPage/>
                   <AddUser/>
                 </> : ''}
-                <Menu >
-              <MenuButton
-                rounded={8}                 
-                bgColor={useColorModeValue("white", "gray.900")}
-                color={useColorModeValue("gray.600", "gray.400")}
-                _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
-                border={'3px solid'}
-                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
-                as={IconButton}
-                bg="none"
-                icon={<FiMoreVertical />}
-                w="0.5rem"
-              />
-              <MenuList minW={{ base: "4rem", md: "8rem" }}>
-                <MenuItem color={"red"} >
-                  Delete
-                </MenuItem>
-              </MenuList>
-                </Menu>
                 </Flex>
                 
 
