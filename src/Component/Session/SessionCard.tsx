@@ -49,8 +49,30 @@ function SessionCard(props: sessionCard) {
   const [loggedUser, setloggedUser] = React.useState<User>();
 
   const deleteSessions = async () => {
-    
+
+    const deleteUsers = await fetch(`http://localhost:3003/usersAndSession/${props.id}`,{
+    method : 'DELETE',
+    headers: {
+      "Content-Type": "application/json", 
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+    })
+    console.log(deleteUsers);
+    console.log(await deleteUsers.json())
     const request = await fetch(`http://localhost:3003/session/${props.id}`, {
+      method: 'DELETE',
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    console.log(request);
+    console.log(await request.json());
+  };
+
+  const leaveSession = async () => {
+    
+    const request = await fetch(`http://localhost:3003/session/leave/${props.id}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json", 
@@ -82,6 +104,9 @@ function SessionCard(props: sessionCard) {
     fetchLoggedUser()
   }, []);
 
+
+   
+
   
   return (
     <Card
@@ -99,7 +124,25 @@ function SessionCard(props: sessionCard) {
       _hover={{
         transform: 'scale(1.015)'
       }}>
-        {props.creatorId != loggedUser?.id ? '' : <Menu >
+        {props.creatorId != loggedUser?.id ? <Menu >
+              <MenuButton
+                position={'absolute'}
+                _hover={{
+                  backgroundColor: useColorModeValue("#f8f8f8", "gray.800"),
+                }}
+                top={'2'}
+                right={'2'}
+                as={IconButton}
+                bg="none"
+                icon={<FiMoreVertical />}
+                w="0.5rem"
+              />
+              <MenuList minW={{ base: "4rem", md: "8rem" }}>
+                <MenuItem color={"red"} onClick={leaveSession}>
+                  Leave
+                </MenuItem>
+              </MenuList>
+            </Menu> : <Menu >
               <MenuButton
                 position={'absolute'}
                 top={'2'}
