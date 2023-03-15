@@ -50,15 +50,6 @@ function SessionCard(props: sessionCard) {
 
   const deleteSessions = async () => {
 
-    const deleteUsers = await fetch(`http://localhost:3003/usersAndSession/${props.id}`,{
-    method : 'DELETE',
-    headers: {
-      "Content-Type": "application/json", 
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-    })
-    console.log(deleteUsers);
-    console.log(await deleteUsers.json())
     const request = await fetch(`http://localhost:3003/session/${props.id}`, {
       method: 'DELETE',
       headers: {
@@ -79,8 +70,7 @@ function SessionCard(props: sessionCard) {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    // console.log(request);
-    // console.log(await request.json());
+
   };
 
   const fetchLoggedUser = async () => {
@@ -95,9 +85,7 @@ function SessionCard(props: sessionCard) {
       return 'You are not authorized , please log in'
     }
     setloggedUser(data.user);
-    
-    // setSession(data.session)
-  
+      
   };
 
   useEffect(() => {
