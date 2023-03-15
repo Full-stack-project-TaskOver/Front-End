@@ -29,8 +29,6 @@ function SessionsIndex() {
   const [userSession, setuserSession] = React.useState<string[]>([]);
 
 const fetchAdminSessions = async () => {
-
- 
     const request = await fetch("http://localhost:3003/session/AsAdmin", {
       headers: {
         'Content-Type': 'application/json',
@@ -47,12 +45,14 @@ const fetchAdminSessions = async () => {
     if(adminSession ){
       setTimeout(()=>{
         fetchAdminSessions()
+        fetchUserSessions()
       },1000)
      
     }
 
 
 };
+
 
 const fetchUserSessions = async () => {
   

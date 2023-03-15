@@ -1,16 +1,20 @@
-import {useCallback} from "react"
+import {useCallback, useEffect} from "react"
 import {v4 as uuidv4} from 'uuid';
 import { ColumnType } from '../utils/enums';
 import { TaskModel } from '../utils/models'; 
 import { pickChakraRandom, swap } from "../utils/helpers";
 import useTaskCollection from "./useTaskCollection";
+import { useParams } from "react-router-dom";
+import React from "react";
 
 const MAX_TASK_PER_COLUMN = 100;
 
 function useColumnTasks(column: ColumnType){
     const [tasks, setTasks] = useTaskCollection()
 
+    
     const addEmptyTask = useCallback(()=>{
+
         console.log(`Adding new empty task to ${column} column`);
         
         setTasks((allTasks)=>{

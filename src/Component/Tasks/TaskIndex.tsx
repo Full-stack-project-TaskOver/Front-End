@@ -34,6 +34,7 @@ function App() {
   const [session, setSession] = React.useState<Session>();
   const [loggedUser, setloggedUser] = React.useState<User>();
 
+
   const fetchSession = async () => {
     const request = await fetch(`http://localhost:3003/session/${id}`, {
       headers: {
@@ -84,9 +85,8 @@ function App() {
               {session?.title}
               {session?.creatorId == loggedUser?.id ? (
             <Box display={'inline'}>
-              <Text display={'inline'}>/</Text>
               <Text display={'inline'} color={'gray.400'} fontSize={'1rem'}>
-                {session?.id}
+              {session?.id}
               </Text>
             </Box>
           ) : (

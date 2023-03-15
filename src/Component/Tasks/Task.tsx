@@ -4,8 +4,10 @@ import { TaskModel } from "../../utils/models";
 import { AutoResizeTextArea } from "./AutoResizeTextArea";
 import { useTaskDragAndDrop } from "../../hooks/useTaskDragAndDrop";
 import _ from 'lodash';
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { TfiMoreAlt } from 'react-icons/tfi';
+import { useParams } from "react-router-dom";
+import React from "react";
 
 
 type TaskProps = {
@@ -34,10 +36,48 @@ function Task({
     const handleDeleteClick = () => handleDelete(task.id)
 
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [tasks, setTasks] = React.useState<string>();
 
     const [checkedItems, setCheckedItems] = useState([false, false])
     const allChecked = checkedItems.every(Boolean)
     const isIndeterminate = checkedItems.some(Boolean) && !allChecked
+
+
+    let { id } = useParams();
+
+
+    const getTask = async () => {
+
+        const request = await fetch(`http://localhost:3003/task/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+    
+        const data = await request.json();
+        if(data.message == 'you dont have any sessions'){
+          return data.message
+        }
+      
+        setTasks(Object.values(data)[0] as string) 
+        // if(adminSession ){
+        //   setTimeout(()=>{
+        //     fetchAdminSessions()
+        //   },1000)
+         
+        // }
+        console.log(data[0]);
+    
+       
+        
+      };
+      console.log(task);
+    
+    
+      useEffect(() => {
+        getTask()
+      }, []);
     
     return (
         <>
@@ -143,7 +183,7 @@ function Task({
                 </ModalFooter>
             </ModalContent>
             </Modal>
-  
+            {/* {tasks != undefined && tasks.map ((e: any) => ( */}
         <Box
         display={'flex'}
         flexDirection='column'
@@ -172,12 +212,17 @@ function Task({
         fontWeight="semibold"
 
         >
-            <Text pb={8}>{task.title}</Text>    
-            <Spacer/>
+                 {/* {tasks != undefined && tasks.map((e: any) => (   
+            <Text pb={8}>{e.title}</Text>    
+            ))} */}
+            {/* <Text pb={8}>{e.title}</Text>  */}
+            {/* <Text pb={8}>{task.title}</Text>    
+            <Spacer/> */}
 
             <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2}/>
 
         </Box>
+          {/* ))} */}
         </>
     )
 }

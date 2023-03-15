@@ -20,8 +20,8 @@ function TaskPage() {
     const [assignToId, setAssignToId] = React.useState("")
     const [description, setDescription] = React.useState("")
     
-    const fetchUsers = async () => {
-      const request = await fetch("http://localhost:3003/usersAndSession", {
+    const getUsers = async () => {
+      const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -33,7 +33,6 @@ function TaskPage() {
       }
       
       setUsers(Object.values(data)[0] as string[])
-    
     };
 
 
@@ -62,7 +61,7 @@ function TaskPage() {
 
 
     useEffect(() => {
-      fetchUsers()
+      getUsers()
     }, []);
     
   return (
