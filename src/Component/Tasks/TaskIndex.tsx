@@ -73,6 +73,12 @@ function App() {
   let { id } = useParams();
   const [session, setSession] = React.useState<Session>();
   const [loggedUser, setloggedUser] = React.useState<User>();
+  const [level, setLevel] = React.useState<number>(0);
+  console.log("level index: ", level);
+
+  const sendLevel = (level: number) => {
+    setLevel(level);
+  };
 
   const fetchSession = async () => {
     const request = await fetch(`http://localhost:3003/session/${id}`, {
@@ -109,6 +115,7 @@ function App() {
   useEffect(() => {
     fetchSession();
     fetchLoggedUser();
+    sendLevel(level);
   }, []);
 
   // userSelect={'none'}
@@ -144,7 +151,7 @@ function App() {
         </Flex>
 
         <Flex justifyContent={"center"}>
-          <Cactus />
+          <Cactus userLevel={level} />
         </Flex>
 
         {session?.creatorId == loggedUser?.id ? (
@@ -182,7 +189,12 @@ function App() {
                 🔥 Streak
               </Flex>
             </Flex>
-            <Level userPoints={250} color={""} size={""} />
+            <Level
+              userPoints={15}
+              color={""}
+              size={""}
+              sendLevel={sendLevel}
+            />
           </Box>
         )}
 

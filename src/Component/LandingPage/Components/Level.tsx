@@ -1,18 +1,19 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import App from "../../Tasks/TaskIndex";
 
 interface level {
-  level: number;
-  goalPoints: number;
-}
-
-interface levelStyle {
   userPoints: number;
   size: string;
   color: string;
+  levelHandler: number;
 }
 
-function Level({ userPoints, color, size }: levelStyle) {
+function Level(props: any) {
+  const userPoints = props.userPoints;
+  let size = props.size;
+  let color = props.color;
   const levels = [
     { level: 1, goalPoints: 200 },
     { level: 2, goalPoints: 500 },
@@ -40,19 +41,10 @@ function Level({ userPoints, color, size }: levelStyle) {
   const getUserProgress = () => {
     for (let index = 0; index < levels.length; index++) {
       const currentStage = levels[index];
-      console.log(currentStage);
-
-      console.log(
-        "userlevel: " + userLevel,
-        "userlevel - 1: " + (userLevel - 1),
-        "stage: " + currentStage.level
-      );
 
       if (userLevel == 0 || userLevel == 1) {
         return userPoints;
       } else if (userLevel - 1 == currentStage.level) {
-        console.log(userPoints, currentStage.goalPoints);
-        console.log(userPoints - currentStage.goalPoints);
         return userPoints - currentStage.goalPoints;
       }
     }
@@ -76,11 +68,16 @@ function Level({ userPoints, color, size }: levelStyle) {
   const defaultLevelSize = "2rem";
   size = size.trim() == "" ? defaultLevelSize : size;
 
-  console.log("<<<< NEW >>>>");
+  // Sending the level to the parent
+  useEffect(() => {
+    props.sendLevel(userLevel);
+  });
+
+  console.log("<<<< LEVEL STATES >>>>");
   console.log("User lvl: " + userLevel);
-  console.log("User points: " + userPoints);
   console.log("User Progress: " + userProgress);
   console.log("User goal: " + userGoal);
+  console.log("<<<< LEVEL STATES >>>>");
 
   //   const goal = levels.map((currentLevel)=> levels.level)
   return (
@@ -151,7 +148,7 @@ function Level({ userPoints, color, size }: levelStyle) {
           </motion.div>
         </Flex>
         <Flex className="level-text-containter" justifyContent={"end"}>
-          <Text color={"gray.500"}>{userGoal} XP</Text>
+          <Text color={"gray.500"}>{userGoal - userPoints} XP Left</Text>
         </Flex>
       </Flex>
     </>
