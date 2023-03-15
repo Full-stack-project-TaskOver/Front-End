@@ -8,6 +8,8 @@ import useColumnTasks from '../../hooks/useColumnTask'
 import { useEffect, useRef, useState } from 'react'
 import TaskPage from './TaskPage'
 import AddUser from './AddUser'
+import './Cactus.css'
+import Cactus from './Cactus'
 
 import { FiMoreVertical } from "react-icons/fi";
 
@@ -81,7 +83,7 @@ function App() {
   return (
     <>
 
-    <Container maxWidth="container.lg" py={10}>
+    <Container maxWidth="container.xl"  py={10}>
             <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
 
               <Flex flexDirection={'column'} pb={10}>
@@ -105,14 +107,21 @@ function App() {
                 
 
               </Flex>
+
+              <Flex justifyContent={'center'}>
+              <Cactus/>
+
+              </Flex>
+
+
       
       {session?.creatorId == loggedUser?.id ? '' : <Box>
        <Flex gap={4} wrap={'wrap'} justifyContent="space-between">
         <Flex gap={4}>
-        <Button rounded={8} p='4'                 
+        {/* <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
-                border={'3px solid'}
+                border={'2px solid'}
                 borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                 >
             All Tasks
@@ -120,15 +129,15 @@ function App() {
         <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
-                border={'3px solid'}
+                border={'2px solid'}
                 borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                 >
             For Me
-        </Button>
+        </Button> */}
         </Flex>
         <Flex rounded={8} p='4' height='10' alignItems={'center'} fontWeight={'medium'}
               bgColor={useColorModeValue("white", "gray.900")}
-              border={'3px solid'}
+              border={'2px solid'}
               borderColor={useColorModeValue("#f0f0f0", "#242a38")}
               >
         🔥 Streak

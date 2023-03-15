@@ -1,0 +1,77 @@
+.cactus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 1rem;
+  align-items: center;
+  height: 600px;
+  width: 1000px;
+}
+
+.canvas {
+  max-height: 80vh;
+  max-width: 50%;
+  height: 650px;
+  width: 650px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.slider {
+  width: 250px;
+  max-width: 30vw;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.slider .mark {
+  width: 2.4%;
+  max-width: 5px;
+  transform: translateY(-35%);
+  cursor: pointer;
+  fill: #cd8f3c;
+  stroke: #352b29;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+}
+.slider .end {
+  opacity: 0;
+}
+.slider .track {
+  left: 0;
+  right: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  stroke-linejoin: round;
+  cursor: pointer;
+  fill: #cd8f3c;
+  stroke: #352b29;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+}
+.slider .thumb {
+  width: 9.2%;
+  max-width: 20px;
+  fill: #cd8f3c;
+  stroke: #352b29;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 10;
+  stroke-width: 5px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.slider .thumb:focus {
+  transform: scale(1.2) translateY(-50%);
+  outline: none;
+}
