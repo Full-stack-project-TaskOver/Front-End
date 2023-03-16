@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, FormControl, Input, FormLabel, Textarea, Select, HStack, Icon } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
-import useColumnTasks from '../../hooks/useColumnTask'
-import Column from './Column'
 import { ColumnType } from '../../utils/enums'
 import { useParams } from 'react-router-dom'
 
 function TaskPage() {
 
-    const {addEmptyTask} = useColumnTasks(ColumnType.TO_DO)
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
