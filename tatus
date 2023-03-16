@@ -1,0 +1,420 @@
+[33mcommit 388b9dc25e42cc44f11f58f13f589d646d0f92b5[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Thu Mar 16 02:23:09 2023 +0300
+
+    fix bug
+
+[33mcommit 755fd38dabf9f698b98a695cc0c30c5bd2127b08[m
+Merge: e1ca0f2 992b70f
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Thu Mar 16 02:14:20 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit e1ca0f240e135cbeaa47e7f0085112f56505c56e[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Thu Mar 16 02:12:56 2023 +0300
+
+    fix bug
+
+[33mcommit 992b70f48efeb3147c2f25f7002111a5040ff162[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Thu Mar 16 02:10:30 2023 +0300
+
+    fix conflict
+
+[33mcommit bfd1af30f20a538e8ea6ec0e3b6380d71c5c5d67[m
+Merge: dbcd525 0ad55c7
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Thu Mar 16 01:49:51 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit dbcd525e23b5521245c63667c2007ed0f8fc7e64[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Thu Mar 16 01:43:59 2023 +0300
+
+    fix bug
+
+[33mcommit 0ad55c70b3137dc5222479e3e24a562828e1e9b7[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 21:33:37 2023 +0300
+
+    add speical cactus level
+
+[33mcommit b5db4f66937fdf8c111f6fa802c69095f801a46a[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 21:20:55 2023 +0300
+
+    removed console.log
+
+[33mcommit ce10337a1c5bfe062273ec0066aa3002c92c041f[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 21:18:48 2023 +0300
+
+    connecting cacuts with level status
+
+[33mcommit 250ff7050f4abe9449c1ed148d7dce4b4e37992e[m
+Merge: 2bc955c 18cc184
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 17:51:14 2023 +0300
+
+    merge solved
+
+[33mcommit 2bc955cf498e75942b7a680dc22ba26c28c3aed3[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 17:43:35 2023 +0300
+
+    update Taskindex level bars
+
+[33mcommit da0cd5b66e041d677dbe2da41d3f5b92bc47ca3b[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Wed Mar 15 17:42:55 2023 +0300
+
+    add level component
+
+[33mcommit 18cc18484131bf0513ece3dcb5b28257c2c355d4[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 16:55:56 2023 +0300
+
+    Add a cactus
+
+[33mcommit da14bb733ac1dc67876a277efc084623e11427f3[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 12:40:41 2023 +0300
+
+    remove button
+
+[33mcommit 565c9b95e33a00941bbe766a65c8170c7d3bf717[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 12:36:48 2023 +0300
+
+    add btns
+
+[33mcommit 95f1c91a709130349f7ef961b148fe51d995bd7f[m
+Merge: 468f530 c68f5ce
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Wed Mar 15 10:08:10 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit 468f530bfcfb2df9b1a7eee7fada804bc155e80e[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Wed Mar 15 10:04:36 2023 +0300
+
+    add if user add something the page update automatic and sign-up page
+
+[33mcommit c68f5cec2f38087b73bcdd76ff3238b07b4667bf[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Wed Mar 15 05:32:39 2023 +0300
+
+    update Session components
+
+[33mcommit 3ecd2889bfbb85dced4fc34ac7878689c4d6e3cd[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 02:27:26 2023 +0300
+
+    uncomment for code
+
+[33mcommit c3fd20e3d3861e09ccebd01b4d7661a34763607b[m
+Merge: d581818 4a2a437
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 01:54:36 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit d581818c688c5280fac487d515fbca59d873d308[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Wed Mar 15 01:52:47 2023 +0300
+
+    styled sessions
+
+[33mcommit 4a2a4374e211534a8392a89906ac893c59d2f22e[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Wed Mar 15 01:52:33 2023 +0300
+
+    add addUser component
+
+[33mcommit d9cd40e54edb7c5c42d1b650c7fea21caeee3787[m
+Merge: e2609f6 7c0a6db
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Tue Mar 14 14:19:41 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit e2609f6e32fc88f2fcbb683938f5f339d440d199[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Tue Mar 14 14:19:13 2023 +0300
+
+    add style to leaderborad.tsx
+
+[33mcommit a6952df905a0a291e201fbfc923d441c040234df[m
+Merge: 268d25e 7c0a6db
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Tue Mar 14 11:28:04 2023 +0300
+
+    merge solve
+
+[33mcommit 268d25e43f300ab55ed96bf804785ad97849ee1e[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Tue Mar 14 10:55:47 2023 +0300
+
+    Add landing page
+
+[33mcommit 7c0a6dbb0d520fc5aee7b60a1277c1b2f29be1d0[m
+Merge: c58bf3d 4f401e6
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Tue Mar 14 10:28:53 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit c58bf3d57a22de8d02b65562fff0a5bf200fb3ab[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Tue Mar 14 10:26:10 2023 +0300
+
+    add if condition if user logIn
+
+[33mcommit 4f401e6cd1f9b77be0b58eec4e09261cee161992[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Tue Mar 14 05:12:53 2023 +0300
+
+    show sessions in Admin and User section
+
+[33mcommit fd2c03301cf47fcce5878381a0f29939a8a064ce[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Tue Mar 14 02:09:38 2023 +0300
+
+    add Sessions routing
+
+[33mcommit 2188862d81d45a52af87501668739c64ebb2c371[m
+Merge: 7fefef0 a3009cf
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Tue Mar 14 01:01:15 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit 7fefef0e288f9c52e961a894d25f129734b98cca[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Tue Mar 14 01:01:00 2023 +0300
+
+    edit style
+
+[33mcommit a3009cf669fcef1aa2281f97008218818e813c31[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Tue Mar 14 00:47:40 2023 +0300
+
+    add leaderboard
+
+[33mcommit 491d8ba16255aec3d6c174495a17ca4c14c4948e[m
+Merge: e3eb9c7 127bca5
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Mon Mar 13 23:31:17 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End into main
+
+[33mcommit 127bca54d2d28be18053f848239f44d217d8df23[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Mon Mar 13 23:29:00 2023 +0300
+
+    fix bug
+
+[33mcommit d811ae306de846e020b4c6867aab69e8a81ed51d[m
+Merge: e06d8f8 e758cd1
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Mon Mar 13 23:25:28 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit e06d8f88cb3132f73f173501339525eae089323b[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Mon Mar 13 23:22:46 2023 +0300
+
+    creat session and connect with backend
+
+[33mcommit e758cd1b201d1fab153ad17a186697e63bc31d9f[m
+Merge: b77fabf a2bfea1
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Mon Mar 13 21:19:02 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit b77fabfd43540e28236b2ee2e9b7aecdbc1d371a[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Mon Mar 13 21:13:59 2023 +0300
+
+    edit the style.
+
+[33mcommit a2bfea1104b97d583411a2b93fae57d6f0e6595a[m
+Merge: b0b7a7b 96de8f8
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Mon Mar 13 14:34:39 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit b0b7a7bbef5550011213c7bd7733df207e2772a2[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Mon Mar 13 14:27:30 2023 +0300
+
+    creat task function and connect with backend
+
+[33mcommit e3eb9c70017d58ab99565822247821df5d256c81[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Mon Mar 13 13:19:54 2023 +0300
+
+    add landing page
+
+[33mcommit 96de8f8ce35ab2e7f559b64a94f93dc2e6a69dbb[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Mon Mar 13 12:18:38 2023 +0300
+
+    fix session overlay send data
+
+[33mcommit 5542a79bd471ad99995292f4ba5ef1ca182c84b5[m
+Merge: 77c5ca5 2635388
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Mon Mar 13 03:44:29 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End into main
+
+[33mcommit 77c5ca56cdd5727d312e8342ff2b14fc710281ff[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Mon Mar 13 03:44:15 2023 +0300
+
+    update session overlay card
+
+[33mcommit 2635388008c169761b59cbc2a204f891d6e9edb2[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Mon Mar 13 02:23:57 2023 +0300
+
+    edit sidenav
+
+[33mcommit 9ee6b271c0125187cd871018045dd2ab0bab538b[m
+Merge: ac89621 78c759e
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sun Mar 12 14:15:57 2023 +0300
+
+    MERGING
+
+[33mcommit ac89621ff32d2eb77195b26799fd3f146551cf3a[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sun Mar 12 14:14:26 2023 +0300
+
+    I create a TaskPage.tsx
+
+[33mcommit 78c759e7442c80e56b0f347abaa58c590dbcf7f2[m
+Merge: 505daf8 d8aaed6
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Sun Mar 12 13:33:18 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit 505daf8a39503db9bafa485ed9b2bccb2270265b[m
+Author: Abdalazez <abalanazi@nadeer.com.sa>
+Date:   Sun Mar 12 13:29:23 2023 +0300
+
+    creat signin, signup and connect it with back end
+
+[33mcommit d8aaed67369b9b70643d80edcd1196c53b964cf6[m
+Author: KhaledAlfawaz <khaled@al-fawaz.net>
+Date:   Sun Mar 12 11:10:26 2023 +0300
+
+    fix image path
+
+[33mcommit 078a0b8811f01a737b9d6d046f5ca913a2146c4c[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sun Mar 12 04:13:25 2023 +0300
+
+    update session colors, responsive
+
+[33mcommit 3b7faaaa2b2bc8c4b26cad422c9fea0ad8639ac5[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 23:24:58 2023 +0300
+
+    update app routes
+
+[33mcommit 3cd17e509e46ae1eaf522f1ae0e8e0e97c564458[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 23:23:23 2023 +0300
+
+    Add Sessoins
+
+[33mcommit 5c4e88408d16f20d416fed08cba4a1fc197f3858[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 23:21:13 2023 +0300
+
+    update session page
+
+[33mcommit 492d0f6c8c8c72964febf4f6ec350c1e287efec2[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sat Mar 11 23:11:56 2023 +0300
+
+    add btns, streak box and level bar.
+
+[33mcommit df544d1c975e17c9b0f25af60536fdceef3f4345[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 06:58:23 2023 +0300
+
+    update dark-mode at sessions page
+
+[33mcommit 916cdf776547a0cee9df616f6d1166422d4da39c[m
+Merge: 4748166 8d4f5b9
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 06:47:15 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End into main
+
+[33mcommit 4748166d4d940d2e2063950bf507a7262dcb8497[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 06:46:54 2023 +0300
+
+    update sessions page
+
+[33mcommit 8d4f5b98dade15892ed71038a09b345b135c56ab[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sat Mar 11 04:58:44 2023 +0300
+
+    Edit addEmptyTask() to add on TO_DO Column only.
+
+[33mcommit 6b201d988b692b5fc488bd1c6e9be14dc11220ab[m
+Merge: aafc543 d78b73c
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sat Mar 11 04:01:55 2023 +0300
+
+    Merge branch 'main' of https://github.com/Full-stack-project-TaskOver/Front-End
+
+[33mcommit aafc543f81a2198c356f2cb4dc37e0cd863d58b3[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sat Mar 11 04:01:33 2023 +0300
+
+    Add <DarkModeIconButton/> in the sidenav.
+
+[33mcommit d78b73c3e94d12c67866ad7c6c8b702bf0002064[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 02:44:34 2023 +0300
+
+    update import at main.tsx
+
+[33mcommit 42e8e85b0bab8728bb4074afc977e5982865c7c4[m
+Merge: 4e98ce6 0103ba6
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 02:42:36 2023 +0300
+
+    merge solved
+
+[33mcommit 4e98ce6ce767af7ae56967ee302a86d076cbdf5b[m
+Author: Rayan Jowair <rayanaljowair@gmail.com>
+Date:   Sat Mar 11 02:40:42 2023 +0300
+
+    add session page
+
+[33mcommit 0103ba6d217fbc7bf30809bc662641f5da64dd79[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Sat Mar 11 02:26:37 2023 +0300
+
+    Edit sidenav and kanban board.
+
+[33mcommit 9f395d6fe029f0f371c1c35bdb1cd9fb0b7b57c4[m
+Author: av4a <a.k.a.502.2000@gmail.com>
+Date:   Fri Mar 10 19:49:12 2023 +0300
+
+    The initial kanban board.

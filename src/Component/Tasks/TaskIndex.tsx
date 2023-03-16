@@ -159,7 +159,7 @@ function App() {
           <Box>
             <Flex gap={4} wrap={"wrap"} justifyContent="space-between">
               <Flex gap={4}>
-                {/* <Button rounded={8} p='4'                 
+                <Button rounded={8} p='4'                 
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f8f8f8", "gray.600")}}
                 border={'2px solid'}
@@ -174,7 +174,7 @@ function App() {
                 borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                 >
             For Me
-        </Button> */}
+        </Button>
               </Flex>
               <Flex
                 rounded={8}
