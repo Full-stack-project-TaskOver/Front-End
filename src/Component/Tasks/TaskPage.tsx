@@ -33,7 +33,7 @@ function TaskPage() {
       }
       
       setUsers(Object.values(data)[0] as string[])
-      console.log(data);
+      // console.log(data);
       
     };
 

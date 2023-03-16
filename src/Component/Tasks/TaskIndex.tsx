@@ -192,10 +192,6 @@ function App() {
           </Box>
         )}
 
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 16, md: 4 }}>
-          <TaskPage />
-        </SimpleGrid>
-
         <DndProvider backend={HTML5Backend}>
           <SimpleGrid
             columns={{ base: 1, md: 3 }}

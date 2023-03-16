@@ -29,15 +29,19 @@ function AddUser() {
             sessionId,
        })
       });
+      if(request.status === 400) {
+        return 'error'
+      }
       if (request.status === 200) {
         onClose()
        }
       console.log(await request.json());
-
+       console.log(request.status);
+       
     };
 
-    console.log(userId);
-    console.log(sessionId);
+    // console.log(userId);
+    // console.log(sessionId);
     
 
     // useEffect(() => {
