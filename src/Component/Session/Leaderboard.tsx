@@ -21,17 +21,13 @@ function Leaderboard() {
   let { id } = useParams();
 
   const getUsersAndPoints = async () => {
-    const req = await fetch('http://localhost:3003/usersAndSession/points', {
-      method: 'POST',
+    const req = await fetch(`http://localhost:3003/usersAndSession/points/${id}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        sessionId: id,
-      }),
     });
     const data = await req.json();
-
     setleaderBoardArr(data.session);
   };
 

@@ -1,12 +1,12 @@
 import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-
 import { useParams } from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
 import Cactus from './Cactus';
+import Level from "../LandingPage/Components/CactusLevel";
 
 interface Session {
     id:string,
@@ -49,7 +49,7 @@ const columnsFromBackend = {
   }
 };
 
-const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { id: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; })  => {
+const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { id: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -98,6 +98,11 @@ function TaskIndex() {
     let { id } = useParams();
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
+    const [level, setLevel] = React.useState<number>(0);
+
+    const sendLevel = (level: number) => {
+      setLevel(level);
+    };
   
     const fetchSession = async () => {
       const request = await fetch(`http://localhost:3003/session/${id}`, {
@@ -136,6 +141,7 @@ function TaskIndex() {
     useEffect(() => {
       fetchSession()
       fetchLoggedUser()
+      sendLevel(level);
     }, []);
 
     
@@ -167,7 +173,7 @@ function TaskIndex() {
     </Flex>
 
     <Flex justifyContent={'center'}>
-        <Cactus/>
+      <Cactus userLevel={level} />
     </Flex>
 
     {session?.creatorId == loggedUser?.id ? '' : 
@@ -181,7 +187,7 @@ function TaskIndex() {
         🔥 Streak
         </Flex>
     </Flex>
-        <Progress colorScheme='green' height='18px' value={20} my={8} rounded={18}/> 
+      <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
 

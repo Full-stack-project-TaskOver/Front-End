@@ -18,7 +18,7 @@ function TaskPage() {
     const [description, setDescription] = React.useState("")
     
     const fetchUsers = async () => {
-      const request = await fetch("http://localhost:3003/usersAndSession", {
+      const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -30,7 +30,8 @@ function TaskPage() {
       }
       
       setUsers(Object.values(data)[0] as string[])
-    
+      // console.log(data);
+      
     };
 
 

@@ -79,7 +79,12 @@ const fetchUserSessions = async () => {
   }
   console.log(Object.values(data)[0]);
   setuserSession(Object.values(data)[0] as string[])
-  
+  if(userSession ){
+    setTimeout(()=>{
+      fetchUserSessions()
+    },1000)
+   
+  }
 };
 
 useEffect(() => {
