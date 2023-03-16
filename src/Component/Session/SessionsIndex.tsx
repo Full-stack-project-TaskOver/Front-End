@@ -19,16 +19,21 @@ function SessionsIndex() {
   
   const toast = useToast();
 
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token')
-  if(!token){
-    navigate("/sign-in");
-  } 
+  // const navigate = useNavigate();
+  // useEffect(()=>{
+  //   console.log("hi");
+    
+
+    
+  //   const token = localStorage.getItem('token')
+  //   console.log(token);
+  //       !token && navigate("/sign-in");
+  //   },[])
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
 
-const fetchAdminSessions = async () => {
+  const fetchAdminSessions = async () => {
 
  
     const request = await fetch("http://localhost:3003/session/AsAdmin", {
