@@ -7,6 +7,8 @@ import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
 import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
+import TaskPage from './TaskPage';
+import './Cactus.css'
 
 interface Session {
     id:string,
@@ -23,33 +25,19 @@ interface Session {
     phone:number
   }
 
-const itemsFromBackend = [
-  { id: uuidv4(), title: "First task",},
-  { id: uuidv4(), title: "Second task" },
-  { id: uuidv4(), title: "Third task" },
-  { id: uuidv4(), title: "Fourth task" },
-  { id: uuidv4(), title: "Fifth task" },
-];
-
-const columnsFromBackend = {
-  [uuidv4()]: {
-    name: "Todo",
-    items: itemsFromBackend,
-    color:"orange"
-  },
-  [uuidv4()]: {
-    name: "In Progress",
-    items: [],
-    color:"blue"
-  },
-  [uuidv4()]: {
-    name: "Completed",
-    items: [],
-    color:"green"
+  interface Task {
+    id:string,
+    title:string,
+    assignById:string
+    assignToId: string
+    createdDate: string
+    deadline: null
+    description: string
+    sessionId: string
+    status:string
   }
-};
 
-const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { id: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
+const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { assignById: string; assignToId: string; createdDate: string; deadline: null; description: string; id: string; sessionId: string; status: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -86,11 +74,8 @@ const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumn
   }
 };
 
-const ColumnColorScheme: Record<ColumnType, string> = {
-    Todo: 'orange',
-    'In Progress': 'blue',
-    Completed: 'green',
-  };
+
+  
   
 
 function TaskIndex() {
@@ -99,6 +84,64 @@ function TaskIndex() {
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
+    const [tasks, setTasks] = React.useState<Task[]>([]);
+
+    const fetchTasks = async () => {
+      const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await request.json();
+      if(data.message === 'Session dose not exists'){
+          return data.message
+        }
+
+        console.log(data.session[0].task);
+        
+        setTasks(data.session[0].task as Task[])
+      };
+      console.log(tasks);
+
+
+      
+   
+      let itemsFromBackend = 
+//        [
+//  {       assignById: "973d1460-7782-4574-8b20-8ca4fc8fe1c3",
+//         assignToId: "c3df55bf-5fb4-49f6-a6ea-bb5f5e264d66",
+//         createdDate: "2023-03-16T17:39:54.155Z",
+//         deadline: null,
+//         description: "A",
+//         id: "8e5ecaad-de8f-4309-b1da-7fc5fb013b6c",
+//         sessionId: "7e933d65-3995-4b68-b215-8bf95da1a824",
+//         status: "TODO",
+//         title: "A",
+//       }
+//       ];
+  
+        // console.log(itemsFromBackend);
+        console.log(tasks);
+        
+ 
+        const columnsFromBackend = {
+          [uuidv4()]: {
+            name: "TODO",
+            items: tasks,
+            color:"orange"
+          },
+          [uuidv4()]: {
+            name: "INPROGRESS",
+            items: [],
+            color:"blue"
+          },
+          [uuidv4()]: {
+            name: "COMPLETED",
+            items: [],
+            color:"green"
+          }
+        };
 
     const sendLevel = (level: number) => {
       setLevel(level);
@@ -115,7 +158,7 @@ function TaskIndex() {
       if(data.message === 'Session dose not exists'){
         return data.message
       }
-      // console.log(data.session);
+      console.log(data);
       
       setSession(data.session)
     
@@ -139,13 +182,22 @@ function TaskIndex() {
     };
   
     useEffect(() => {
+      fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
     }, []);
 
     
+    // const [columns, setColumns] = useState(columnsFromBackend);
+    // console.log(columns);
+    // console.log(Object.entries(columns));
+
+    
+
     const [columns, setColumns] = useState(columnsFromBackend);
+    
+    
   return (
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
@@ -164,15 +216,14 @@ function TaskIndex() {
     <Flex justifyContent={'end'} gap={2} >
     {session?.creatorId == loggedUser?.id ? 
     <>
-        {/* <TaskPage/> */}
+        <TaskPage/>
         <AddUser/>
     </> : ''}
     </Flex>
     
 
     </Flex>
-
-    <Flex justifyContent={'center'}>
+    <Flex justifyContent={"center"}>
       <Cactus userLevel={level} />
     </Flex>
 
@@ -230,7 +281,9 @@ function TaskIndex() {
                         borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                         overflow="auto"
                     >
-                      {column.items.map((item, index) => {
+                      {tasks.map((item, index) => {
+                        if(column.name == item.status){
+
                           return (
                           <Draggable
                           key={item.id}
@@ -284,6 +337,7 @@ function TaskIndex() {
                                     }}
                                 </Draggable>
                                 );
+                        }
                             })}
                             {provided.placeholder}
                             </Stack>

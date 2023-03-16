@@ -19,16 +19,16 @@ function SessionsIndex() {
   
   const toast = useToast();
 
-  // const navigate = useNavigate();
-  // useEffect(()=>{
-  //   console.log("hi");
+  const navigate = useNavigate();
+  useEffect(()=>{
+    console.log("hi");
     
 
     
-  //   const token = localStorage.getItem('token')
-  //   console.log(token);
-  //       !token && navigate("/sign-in");
-  //   },[])
+    const token = localStorage.getItem('token')
+    console.log(token);
+        !token && navigate("/sign-in");
+    },[])
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
@@ -49,7 +49,7 @@ function SessionsIndex() {
     }
   
     setAdminSession(Object.values(data)[0] as string[]) 
-    if(adminSession ){
+    if(adminSession){
       setTimeout(()=>{
         fetchAdminSessions()
       },1000)

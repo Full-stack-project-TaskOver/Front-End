@@ -45,7 +45,7 @@ import { CiHospital1, CiGlobe } from "react-icons/ci";
 import { BsCardText } from "react-icons/bs";
 import { RiTeamLine } from "react-icons/Ri";
 
-import { Route, Link, useLocation } from "react-router-dom";
+import { Route, Link, useLocation, useNavigate } from "react-router-dom";
 import { ValueTarget } from "framer-motion";
 import DarkModeIconButton from './Tasks/DarkModeIcon';
 import Buttons from './Authentication/Buttons';
@@ -104,6 +104,7 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+
   return (
     <Box
       transition="3s ease"
@@ -139,6 +140,17 @@ interface NavItemProps extends FlexProps {
   value: ValueTarget;
 }
 const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
+  // const navigate = useNavigate();
+  // useEffect(()=>{
+  //   console.log("hi");
+    
+
+    
+  //   const token = localStorage.getItem('token')
+  //   console.log(token);
+  //     !token && navigate("/sign-in")
+  //   },[])
+
   return (
     <Tooltip label={children} fontSize='md'>
 
