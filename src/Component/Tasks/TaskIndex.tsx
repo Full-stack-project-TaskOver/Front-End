@@ -7,6 +7,7 @@ import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
 import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
+import TaskPage from './TaskPage';
 
 interface Session {
     id:string,
@@ -23,33 +24,18 @@ interface Session {
     phone:number
   }
 
-const itemsFromBackend = [
-  { id: uuidv4(), title: "First task",},
-  { id: uuidv4(), title: "Second task" },
-  { id: uuidv4(), title: "Third task" },
-  { id: uuidv4(), title: "Fourth task" },
-  { id: uuidv4(), title: "Fifth task" },
-];
+interface Task {
+  id: string,
+  title: string,
+  status: string
+}
 
-const columnsFromBackend = {
-  [uuidv4()]: {
-    name: "Todo",
-    items: itemsFromBackend,
-    color:"orange"
-  },
-  [uuidv4()]: {
-    name: "In Progress",
-    items: [],
-    color:"blue"
-  },
-  [uuidv4()]: {
-    name: "Completed",
-    items: [],
-    color:"green"
-  }
-};
 
-const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { id: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
+
+
+
+
+const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: Task[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -95,6 +81,8 @@ const ColumnColorScheme: Record<ColumnType, string> = {
 
 function TaskIndex() {
 
+
+  
     let { id } = useParams();
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
@@ -103,7 +91,75 @@ function TaskIndex() {
     const sendLevel = (level: number) => {
       setLevel(level);
     };
+
+
+
+    const [task, setTask] = React.useState<Task[]>([]);
+
+const getTaskOfUser = async () => {
+
+ 
+  const request = await fetch(`http://localhost:3003/task/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
+
+  const data = await request.json();
+  if(data.message == 'you dont have any sessions'){
+    return data.message
+  }
+
+  setTask(Object.values(data)[0] as Task[]) 
+  // if(adminSession ){
+  //   setTimeout(()=>{
+  //     getTaskOfUser()
+  //   },1000)
+   
+  // }
+
+
   
+};
+console.log(task);
+
+useEffect(() => {
+  getTaskOfUser()
+}, []);
+
+task.map((e)=>{
+ <h1></h1>
+
+})
+const itemsFromBackend = [
+  { id: uuidv4(), title: "First task",},
+  { id: uuidv4(), title: "Second task" },
+  { id: uuidv4(), title: "Third task" },
+  { id: uuidv4(), title: "Fourth task" },
+  { id: uuidv4(), title: "Fifth task" },
+];
+
+const columnsFromBackend = {
+  [uuidv4()]: {
+    name: "Todo",
+    items: task,
+    color:"orange"
+  },
+  [uuidv4()]: {
+    name: "In Progress",
+    items: [],
+    color:"blue"
+  },
+  [uuidv4()]: {
+    name: "Completed",
+    items: [],
+    color:"green"
+  }
+};
+  
+console.log(columnsFromBackend.items);
+
     const fetchSession = async () => {
       const request = await fetch(`http://localhost:3003/session/${id}`, {
         headers: {
@@ -164,7 +220,7 @@ function TaskIndex() {
     <Flex justifyContent={'end'} gap={2} >
     {session?.creatorId == loggedUser?.id ? 
     <>
-        {/* <TaskPage/> */}
+        <TaskPage/>
         <AddUser/>
     </> : ''}
     </Flex>
@@ -231,6 +287,7 @@ function TaskIndex() {
                         overflow="auto"
                     >
                       {column.items.map((item, index) => {
+                        
                           return (
                           <Draggable
                           key={item.id}
@@ -238,8 +295,10 @@ function TaskIndex() {
                             index={index}
                             >
                             {(provided, snapshot) => {
+                              
                               return (
                                   <Box
+                                  
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
