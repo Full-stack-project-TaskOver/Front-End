@@ -8,6 +8,7 @@ import AddUser from './AddUser';
 import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
+import './Cactus.css'
 
 interface Session {
     id:string,
@@ -24,18 +25,19 @@ interface Session {
     phone:number
   }
 
-interface Task {
-  id: string,
-  title: string,
-  status: string
-}
+  interface Task {
+    id:string,
+    title:string,
+    assignById:string
+    assignToId: string
+    createdDate: string
+    deadline: null
+    description: string
+    sessionId: string
+    status:string
+  }
 
-
-
-
-
-
-const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: Task[]; color: string; }; }>): void; (arg0: any): void; })=> {
+const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { assignById: string; assignToId: string; createdDate: string; deadline: null; description: string; id: string; sessionId: string; status: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
 
@@ -72,94 +74,79 @@ const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumn
   }
 };
 
-const ColumnColorScheme: Record<ColumnType, string> = {
-    Todo: 'orange',
-    'In Progress': 'blue',
-    Completed: 'green',
-  };
+
+  
   
 
 function TaskIndex() {
 
-
-  
     let { id } = useParams();
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
+    const [tasks, setTasks] = React.useState<Task[]>([]);
+
+    const fetchTasks = async () => {
+      const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await request.json();
+      if(data.message === 'Session dose not exists'){
+          return data.message
+        }
+
+        console.log(data.session[0].task);
+        
+        setTasks(data.session[0].task as Task[])
+      };
+      console.log(tasks);
+
+
+      
+   
+      let itemsFromBackend = 
+//        [
+//  {       assignById: "973d1460-7782-4574-8b20-8ca4fc8fe1c3",
+//         assignToId: "c3df55bf-5fb4-49f6-a6ea-bb5f5e264d66",
+//         createdDate: "2023-03-16T17:39:54.155Z",
+//         deadline: null,
+//         description: "A",
+//         id: "8e5ecaad-de8f-4309-b1da-7fc5fb013b6c",
+//         sessionId: "7e933d65-3995-4b68-b215-8bf95da1a824",
+//         status: "TODO",
+//         title: "A",
+//       }
+//       ];
+  
+        // console.log(itemsFromBackend);
+        console.log(tasks);
+        
+ 
+        const columnsFromBackend = {
+          [uuidv4()]: {
+            name: "TODO",
+            items: tasks,
+            color:"orange"
+          },
+          [uuidv4()]: {
+            name: "INPROGRESS",
+            items: [],
+            color:"blue"
+          },
+          [uuidv4()]: {
+            name: "COMPLETED",
+            items: [],
+            color:"green"
+          }
+        };
 
     const sendLevel = (level: number) => {
       setLevel(level);
     };
-
-
-
-    const [task, setTask] = React.useState<Task[]>([]);
-
-const getTaskOfUser = async () => {
-
- 
-  const request = await fetch(`http://localhost:3003/task/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  });
-
-  const data = await request.json();
-  if(data.message == 'you dont have any sessions'){
-    return data.message
-  }
-
-  setTask(Object.values(data)[0] as Task[]) 
-  // if(adminSession ){
-  //   setTimeout(()=>{
-  //     getTaskOfUser()
-  //   },1000)
-   
-  // }
-
-
   
-};
-console.log(task);
-
-useEffect(() => {
-  getTaskOfUser()
-}, []);
-
-task.map((e)=>{
- <h1></h1>
-
-})
-const itemsFromBackend = [
-  { id: uuidv4(), title: "First task",},
-  { id: uuidv4(), title: "Second task" },
-  { id: uuidv4(), title: "Third task" },
-  { id: uuidv4(), title: "Fourth task" },
-  { id: uuidv4(), title: "Fifth task" },
-];
-
-const columnsFromBackend = {
-  [uuidv4()]: {
-    name: "Todo",
-    items: task,
-    color:"orange"
-  },
-  [uuidv4()]: {
-    name: "In Progress",
-    items: [],
-    color:"blue"
-  },
-  [uuidv4()]: {
-    name: "Completed",
-    items: [],
-    color:"green"
-  }
-};
-  
-console.log(columnsFromBackend.items);
-
     const fetchSession = async () => {
       const request = await fetch(`http://localhost:3003/session/${id}`, {
         headers: {
@@ -171,7 +158,7 @@ console.log(columnsFromBackend.items);
       if(data.message === 'Session dose not exists'){
         return data.message
       }
-      // console.log(data.session);
+      console.log(data);
       
       setSession(data.session)
     
@@ -195,13 +182,22 @@ console.log(columnsFromBackend.items);
     };
   
     useEffect(() => {
+      fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
     }, []);
 
     
+    // const [columns, setColumns] = useState(columnsFromBackend);
+    // console.log(columns);
+    // console.log(Object.entries(columns));
+
+    
+
     const [columns, setColumns] = useState(columnsFromBackend);
+    
+    
   return (
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
@@ -227,8 +223,7 @@ console.log(columnsFromBackend.items);
     
 
     </Flex>
-
-    <Flex justifyContent={'center'}>
+    <Flex justifyContent={"center"}>
       <Cactus userLevel={level} />
     </Flex>
 
@@ -286,8 +281,9 @@ console.log(columnsFromBackend.items);
                         borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                         overflow="auto"
                     >
-                      {column.items.map((item, index) => {
-                        
+                      {tasks.map((item, index) => {
+                        if(column.name == item.status){
+
                           return (
                           <Draggable
                           key={item.id}
@@ -295,10 +291,8 @@ console.log(columnsFromBackend.items);
                             index={index}
                             >
                             {(provided, snapshot) => {
-                              
                               return (
                                   <Box
-                                  
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
@@ -343,6 +337,7 @@ console.log(columnsFromBackend.items);
                                     }}
                                 </Draggable>
                                 );
+                        }
                             })}
                             {provided.placeholder}
                             </Stack>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, transform } from "framer-motion";
 
 const generateStageBasedPathVariants = (i: number) =>
   new Array(8).fill("").reduce(
