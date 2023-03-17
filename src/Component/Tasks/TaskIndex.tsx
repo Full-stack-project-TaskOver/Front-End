@@ -1,4 +1,4 @@
-import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
+import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useParams } from 'react-router-dom';
@@ -9,7 +9,7 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
-
+import TaskOverlay from './TaskOverlay';
 interface Session {
     id:string,
     title:string,
@@ -37,9 +37,22 @@ interface Session {
     status:string
   }
 
+
+  
+  
+
+function TaskIndex() {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [sta, setSta] = React.useState<string[]>([]);
+
 const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { assignById: string; assignToId: string; createdDate: string; deadline: null; description: string; id: string; sessionId: string; status: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
+  console.log("*************8");
+
+console.log(columns);
+console.log("*************9");
 
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
@@ -47,7 +60,7 @@ const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumn
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 0, removed);
+    destItems.splice(destination.index, 1, removed);
     setColumns({
       ...columns,
       [source.droppableId]: {
@@ -56,9 +69,13 @@ const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumn
       },
       [destination.droppableId]: {
         ...destColumn,
-        items: destItems
+        items:destItems
       }
     });
+    
+    // console.log("----------"+sta+ 'hhhhhhhhhhhhhhhhhh');
+    // console.log(destColumn);
+
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
@@ -75,16 +92,20 @@ const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumn
 };
 
 
-  
-  
-
-function TaskIndex() {
 
     let { id } = useParams();
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
     const [tasks, setTasks] = React.useState<Task[]>([]);
+    const [itemId, setItemId] = React.useState<string>(" ");
+    const [itemStatus, setItemStatus] = React.useState<string>(" ");
+  
+
+
+    const [checkedItems, setCheckedItems] = useState([false, false])
+    const allChecked = checkedItems.every(Boolean)
+    const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
     const fetchTasks = async () => {
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
@@ -98,35 +119,14 @@ function TaskIndex() {
           return data.message
         }
 
-        console.log(data.session[0].task);
+        // console.log(data.session[0].task);
         
         setTasks(data.session[0].task as Task[])
       };
-      console.log(tasks);
 
-
-      
-   
-      let itemsFromBackend = 
-//        [
-//  {       assignById: "973d1460-7782-4574-8b20-8ca4fc8fe1c3",
-//         assignToId: "c3df55bf-5fb4-49f6-a6ea-bb5f5e264d66",
-//         createdDate: "2023-03-16T17:39:54.155Z",
-//         deadline: null,
-//         description: "A",
-//         id: "8e5ecaad-de8f-4309-b1da-7fc5fb013b6c",
-//         sessionId: "7e933d65-3995-4b68-b215-8bf95da1a824",
-//         status: "TODO",
-//         title: "A",
-//       }
-//       ];
-  
-        // console.log(itemsFromBackend);
-        console.log(tasks);
-        
  
         const columnsFromBackend = {
-          [uuidv4()]: {
+          [uuidv4()]: { 
             name: "TODO",
             items: tasks,
             color:"orange"
@@ -143,6 +143,27 @@ function TaskIndex() {
           }
         };
 
+
+        const [columns, setColumns] = useState(columnsFromBackend);
+        
+        console.log(columns);
+        
+        const updateTask = async () => {
+
+          const request = await fetch(`http://localhost:3003/task/updateStatus`, {
+            method:'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            
+            body:JSON.stringify({
+              id: itemId,
+              status: itemStatus
+            })
+          });
+         
+        };
     const sendLevel = (level: number) => {
       setLevel(level);
     };
@@ -158,7 +179,6 @@ function TaskIndex() {
       if(data.message === 'Session dose not exists'){
         return data.message
       }
-      console.log(data);
       
       setSession(data.session)
     
@@ -189,14 +209,7 @@ function TaskIndex() {
     }, []);
 
     
-    // const [columns, setColumns] = useState(columnsFromBackend);
-    // console.log(columns);
-    // console.log(Object.entries(columns));
-
-    
-
-    const [columns, setColumns] = useState(columnsFromBackend);
-    
+    console.log( columns);
     
   return (
     <Container maxWidth="container.xl"  py={10}>
@@ -241,12 +254,113 @@ function TaskIndex() {
       <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
+{/* view task */}
+<Modal onClose={onClose} isOpen={isOpen} size={'full'}>
+                                  <ModalOverlay />
 
+                                  <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
+
+                                    <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
+                                      <Text>Session Name</Text>
+                                    </Box>
+
+                                    <Heading p={6} as='h1' size='xl'>
+                                      Task Title
+                                    </Heading>
+
+                                    <Divider />
+
+                                    <ModalCloseButton />
+                                    <ModalBody px={6}>
+
+                                      <Flex py={6} color={useColorModeValue("gray.500", "gray.400")}>
+                                        <Flex flexDirection={'column'} pr={"4rem"} gap={4}>
+                                          <Text>Status</Text>
+                                          <Text>Assignee</Text>
+                                          <Text>Due Date</Text>
+                                          <Text>Lable</Text>
+                                        </Flex>
+                                        <Flex flexDirection={'column'} gap={4}>
+                                          <Text>Todo</Text>
+                                          <Text>Abduallah</Text>
+                                          <Text>10-10-2000</Text>
+                                          <Text>Programming</Text>
+                                        </Flex>
+                                      </Flex>
+                                      <Divider />
+                                      <Heading pt={6} as='h2' size='lg'>Description</Heading>
+                                      <Text py={5}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, perferendis corporis? Inventore quam expedita error tempore, et iure sint est quibusdam placeat maxime sunt? Suscipit magni recusandae sunt at quidem.</Text>
+                                      <Divider />
+
+                                      <Checkbox
+                                        pt={6}
+                                        display={'flex'}
+                                        alignItems={'center'}
+                                        size='lg'
+                                        colorScheme='green'
+                                        isChecked={allChecked}
+                                        isIndeterminate={isIndeterminate}
+                                        onChange={(e) => setCheckedItems([e.target.checked, e.target.checked])}
+                                      >
+                                        <Text fontSize='4xl' fontWeight='bold' mx={2} as='h2' size='lg'>
+                                          Sub Tasks
+
+                                        </Text>
+                                      </Checkbox>
+
+
+                                      <Box py={5}>
+
+                                        <Stack pl={6} mt={1} spacing={1}>
+                                          <Checkbox
+                                            // isChecked={checkedItems[0]}
+                                            // onChange={(e) => setCheckedItems([e.target.checked, checkedItems[1]])}
+                                          >
+                                            Child Checkbox 1
+                                          </Checkbox>
+                                          <Checkbox
+                                            // isChecked={checkedItems[1]}
+                                            // onChange={(e) => setCheckedItems([checkedItems[0], e.target.checked])}
+                                          >
+                                            Child Checkbox 2
+                                          </Checkbox>
+                                        </Stack>
+                                      </Box>
+
+                                      <Divider />
+
+                                      <Accordion defaultIndex={[0]} allowMultiple py={5}>
+                                        <AccordionItem border={'none'}>
+                                          <AccordionButton>
+                                            <Box as="span" flex='1' textAlign='left'>
+                                              <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
+                                            </Box>
+                                            <AccordionIcon />
+                                          </AccordionButton>
+                                          <Select placeholder='Select option'  onChange={(e)=> setItemStatus(e.target.value)}>
+                                          <option value='TODO'>TODO</option>
+                                          <option value='INPROGRESS'>INPROGRESS</option>
+                                          <option value='COMPLETED'>COMPLETED</option>
+                                          </Select>
+                                        </AccordionItem>
+
+                                      </Accordion>
+
+                                    </ModalBody>
+
+                                    <Divider />
+                                    <ModalFooter justifyContent={'center'}>
+                                      <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Submit</Button>
+                                    </ModalFooter>
+                                  </ModalContent>
+                                </Modal>
+{/* *********** */}
     <DragDropContext
       onDragEnd={result => onDragEnd(result, columns, setColumns)}
     >
         <SimpleGrid columns={{base:1, md: 3}} spacing={{base: 16, md: 4}} mt={4}>
         {Object.entries(columns).map(([columnId, column], index) => {
+          
         return (
             <Box>
                 <Heading fontSize="md" mb={4} letterSpacing="wide">
@@ -264,6 +378,8 @@ function TaskIndex() {
 
               <Droppable droppableId={columnId} key={columnId}>
                 {(provided, snapshot) => {
+                  // console.log(snapshot);
+                  
                   return (
                     <Stack
                     direction={{base:"row", md: "column"}}
@@ -281,34 +397,38 @@ function TaskIndex() {
                         borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                         overflow="auto"
                     >
+                      
                       {tasks.map((item, index) => {
+                        // console.log(item.id);
+                        
                         if(column.name == item.status){
 
                           return (
-                          <Draggable
+                          <Draggable 
+                          
                           key={item.id}
                           draggableId={item.id}
                             index={index}
                             >
                             {(provided, snapshot) => {
                               return (
-                                  <Box
+                                <><Box
+                                  onClick={() => {setItemId(item.id),setItemStatus(item.status) ,onOpen()}}
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
                                   style={{
                                     userSelect: "none",
-                                    rotate:snapshot.isDragging ? "2deg": "0deg",
+                                    rotate: snapshot.isDragging ? "2deg" : "0deg",
                                     backgroundColor: snapshot.isDragging
                                       ? "#f8f8f8"
                                       : "white",
-                                      ...provided.draggableProps.style
+                                    ...provided.draggableProps.style
                                   }}
-                                  rotate={snapshot.isDragging ? "30deg": "0deg"}
+                                  rotate={snapshot.isDragging ? "30deg" : "0deg"}
                                   display={'flex'}
                                   flexDirection='column'
-                                //   onClick={onOpen}
-                                //   ref={ref}
+                                  //   ref={ref}
                                   as="div"
                                   role="group"
                                   position="relative"
@@ -328,11 +448,11 @@ function TaskIndex() {
                                   color={useColorModeValue("gray.700", "gray.300")}
                                   fontWeight="semibold"
                                 >
-                                    <Text pb={8}>{item.title}</Text> 
-                                    <Spacer/>
-                                    <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2}/>
-        
-                                        </Box>
+                                    <Text pb={8}>{item.title}</Text>
+                                    <Spacer />
+                                    <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} />
+
+                                  </Box></>
                                     );
                                     }}
                                 </Draggable>
@@ -342,7 +462,7 @@ function TaskIndex() {
                             {provided.placeholder}
                             </Stack>
                         );
-                        }}
+                      }}
                     </Droppable>
         </Box>
             );
