@@ -11,20 +11,20 @@ interface level {
 }
 
 function CactusLevel(props: any) {
-  const userPoints = props.userPoints;
+  let userPoints = props.userPoints;
   let size = props.size;
   let color = props.color;
   const levels = [
-    { level: 1, goalPoints: 200 },
-    { level: 2, goalPoints: 500 },
-    { level: 3, goalPoints: 800 },
-    { level: 4, goalPoints: 1000 },
-    { level: 5, goalPoints: 1400 },
-    { level: 6, goalPoints: 2000 },
-    { level: 7, goalPoints: 3000 },
-    { level: 8, goalPoints: 3300 },
-    { level: 9, goalPoints: 4000 },
-    { level: 10, goalPoints: 6000 },
+    { level: 1, goalPoints: 500 },
+    { level: 2, goalPoints: 1000 },
+    { level: 3, goalPoints: 1500 },
+    { level: 4, goalPoints: 2000 },
+    { level: 5, goalPoints: 2500 },
+    { level: 6, goalPoints: 3000 },
+    { level: 7, goalPoints: 3500 },
+    { level: 8, goalPoints: 4000 },
+    { level: 9, goalPoints: 4500 },
+    { level: 10, goalPoints: 5000 },
   ];
 
   //   takes user points then return object:{ level: number; goalPoints: number; } has the user level and goalPoints
@@ -37,30 +37,17 @@ function CactusLevel(props: any) {
     }
   };
 
-  //
-  const getUserProgress = () => {
-    for (let index = 0; index < levels.length; index++) {
-      const currentStage = levels[index];
-
-      if (userLevel == 0 || userLevel == 1) {
-        return userPoints;
-      } else if (userLevel - 1 == currentStage.level) {
-        return userPoints - currentStage.goalPoints;
-      }
-    }
-    return -1;
-  };
-
+  
   const cureentUserStage = getUserStage(userPoints);
   // User goal points
+
   const userGoal = cureentUserStage?.goalPoints
     ? cureentUserStage?.goalPoints
     : -1;
   // User Current Level
   const userLevel = cureentUserStage?.level ? cureentUserStage?.level : -1;
-  const userProgress = getUserProgress();
-  // Level in percentage form
-  const levelPercantage = ((userProgress ? userProgress : -1) / userGoal) * 100;
+  const pointsLeft = userGoal == userPoints ? userGoal : userGoal - userPoints;
+  let nextGoal = 0;
   // Level bar color set.
   const defaultLevelColor = "linear-gradient(to right, #f12711, #f5af19)";
   color = color.trim() == "" ? defaultLevelColor : color;
@@ -68,10 +55,42 @@ function CactusLevel(props: any) {
   const defaultLevelSize = "2rem";
   size = size.trim() == "" ? defaultLevelSize : size;
 
+  const getUserProgress = () => {
+    for (let index = 0; index < levels.length; index++) {
+
+      if (userGoal == pointsLeft) {
+        return 0;
+      }
+      if (userLevel == 1) {
+        return userPoints;
+      } else if (
+        userLevel - 1 == levels[index].level ||
+        userPoints == levels[index].goalPoints
+      ) {
+        return userPoints - levels[index].goalPoints;
+      }
+    }
+  };
+  const userProgress = getUserProgress();
+  // Level in percentage form
+  const getlevelPercantage = () => {
+    if (userGoal == pointsLeft) {
+      return 0;
+    } else if (userProgress) {
+      return (userProgress / userGoal) * 100;
+    }
+  };
+
+  const levelPercantage = getlevelPercantage();
+
   // Sending the level to the parent
   useEffect(() => {
     props.sendLevel(userLevel);
   });
+  console.log("levelPercantage %: ", levelPercantage);
+  console.log("userGoal: ", userGoal);
+  console.log("userLevel: ", userLevel);
+  console.log("userProgress: ", userProgress);
 
   return (
     <>
@@ -82,22 +101,21 @@ function CactusLevel(props: any) {
         <Flex
           className="level-text-containter"
           justifyContent={"space-between"}>
-          <Text>Points {userProgress}</Text>
-          <Text>Level {userLevel + 1}</Text>
+          <Text px={"0.8rem"}>{userProgress}XP</Text>
+          <Text px={"0.8rem"}>Level {userLevel + 1}</Text>
         </Flex>
         <Flex
           height={size}
           border="2px solid #eee"
           borderRadius={"1rem"}
           position={"relative"}>
-          {/* <Text
-          position="absolute"
-          top="50%"
-          left="50%"
-          transform={"translate(-50%, -50%)"}>
-          Bar Should be here
-        </Text> */}
-
+          <Text
+            position="absolute"
+            top="50%"
+            left="50%"
+            transform={"translate(-50%, -50%)"}>
+            Bar Should be here
+          </Text>
           {/* LEVEL BORDER */}
           <motion.div
             className="level-border"
@@ -135,13 +153,14 @@ function CactusLevel(props: any) {
               }}
               transition={{
                 duration: 3,
-                // type: "Spring",
                 times: [0, 0.2, 0.5, 0.8, 0.1],
               }}></motion.div>
           </motion.div>
         </Flex>
         <Flex className="level-text-containter" justifyContent={"end"}>
-          <Text color={"gray.500"}>{userGoal - userPoints} XP Left</Text>
+          <Text px={"0.8rem"} color={"gray.500"}>
+            {pointsLeft} XP Left
+          </Text>
         </Flex>
       </Flex>
     </>
