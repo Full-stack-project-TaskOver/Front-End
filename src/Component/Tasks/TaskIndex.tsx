@@ -9,7 +9,6 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
-import TaskOverlay from './TaskOverlay';
 interface Session {
     id:string,
     title:string,
@@ -100,6 +99,7 @@ console.log("*************9");
     const [tasks, setTasks] = React.useState<Task[]>([]);
     const [itemId, setItemId] = React.useState<string>(" ");
     const [itemStatus, setItemStatus] = React.useState<string>(" ");
+    const [point, setPoint] = React.useState<number>();
   
 
 
@@ -200,12 +200,35 @@ console.log("*************9");
       // setSession(data.session)
     
     };
+
+
+    // get point of user
+    const getPoint = async () => {
+      const request = await fetch(`http://localhost:3003/usersAndSession/point/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await request.json();
+      if(data.message === 'Session dose not exists'){
+        return data.message
+      }
+      
+      setPoint(data.message[0].point)
+    
+    };
+    
+  console.log('----------');
+  console.log(point);
+  console.log('------------');
   
     useEffect(() => {
       fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
+      getPoint()
     }, []);
 
     
@@ -251,7 +274,7 @@ console.log("*************9");
         🔥 Streak
         </Flex>
     </Flex>
-      <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
+      <Level userPoints={point} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
 {/* view task */}
