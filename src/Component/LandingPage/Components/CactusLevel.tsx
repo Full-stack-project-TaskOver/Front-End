@@ -1,6 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import {
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+  useEffect,
+} from "react";
 import App from "../../Tasks/TaskIndex";
 
 interface level {
@@ -11,86 +16,36 @@ interface level {
 }
 
 function CactusLevel(props: any) {
-  let userPoints = props.userPoints;
+  let initialPoints = props.userPoints;
   let size = props.size;
   let color = props.color;
-  const levels = [
-    { level: 1, goalPoints: 500 },
-    { level: 2, goalPoints: 1000 },
-    { level: 3, goalPoints: 1500 },
-    { level: 4, goalPoints: 2000 },
-    { level: 5, goalPoints: 2500 },
-    { level: 6, goalPoints: 3000 },
-    { level: 7, goalPoints: 3500 },
-    { level: 8, goalPoints: 4000 },
-    { level: 9, goalPoints: 4500 },
-    { level: 10, goalPoints: 5000 },
-  ];
+  let userLevel: number;
+  let userPoints;
+  let pointsLeft;
+  let currentUserPoints;
+  let levelPercentage;
+  userLevel = Math.trunc(initialPoints / 500);
+  userPoints = userLevel * 500;
+  currentUserPoints = initialPoints - userPoints;
+  pointsLeft = 500 - currentUserPoints;
+  levelPercentage = (currentUserPoints / 500) * 100;
 
-  //   takes user points then return object:{ level: number; goalPoints: number; } has the user level and goalPoints
-  const getUserStage = (points: number) => {
-    for (let index = 0; index < levels.length; index++) {
-      const currentStage = levels[index];
-      if (currentStage.goalPoints >= points) {
-        return currentStage;
-      }
-    }
-  };
+  console.log("Level: ", userLevel);
+  console.log("User Points: ", userPoints);
+  console.log("Current User Points: ", currentUserPoints);
+  console.log("Points Left: ", pointsLeft);
+  console.log("%: ", levelPercentage);
 
-  
-  const cureentUserStage = getUserStage(userPoints);
-  // User goal points
-
-  const userGoal = cureentUserStage?.goalPoints
-    ? cureentUserStage?.goalPoints
-    : -1;
-  // User Current Level
-  const userLevel = cureentUserStage?.level ? cureentUserStage?.level : -1;
-  const pointsLeft = userGoal == userPoints ? userGoal : userGoal - userPoints;
-  let nextGoal = 0;
-  // Level bar color set.
   const defaultLevelColor = "linear-gradient(to right, #f12711, #f5af19)";
   color = color.trim() == "" ? defaultLevelColor : color;
 
   const defaultLevelSize = "2rem";
   size = size.trim() == "" ? defaultLevelSize : size;
 
-  const getUserProgress = () => {
-    for (let index = 0; index < levels.length; index++) {
-
-      if (userGoal == pointsLeft) {
-        return 0;
-      }
-      if (userLevel == 1) {
-        return userPoints;
-      } else if (
-        userLevel - 1 == levels[index].level ||
-        userPoints == levels[index].goalPoints
-      ) {
-        return userPoints - levels[index].goalPoints;
-      }
-    }
-  };
-  const userProgress = getUserProgress();
-  // Level in percentage form
-  const getlevelPercantage = () => {
-    if (userGoal == pointsLeft) {
-      return 0;
-    } else if (userProgress) {
-      return (userProgress / userGoal) * 100;
-    }
-  };
-
-  const levelPercantage = getlevelPercantage();
-
   // Sending the level to the parent
   useEffect(() => {
     props.sendLevel(userLevel);
   });
-  console.log("levelPercantage %: ", levelPercantage);
-  console.log("userGoal: ", userGoal);
-  console.log("userLevel: ", userLevel);
-  console.log("userProgress: ", userProgress);
 
   return (
     <>
@@ -101,8 +56,8 @@ function CactusLevel(props: any) {
         <Flex
           className="level-text-containter"
           justifyContent={"space-between"}>
-          <Text px={"0.8rem"}>{userProgress}XP</Text>
-          <Text px={"0.8rem"}>Level {userLevel + 1}</Text>
+          <Text px={"0.8rem"}>{currentUserPoints}XP</Text>
+          <Text px={"0.8rem"}>Level {userLevel}</Text>
         </Flex>
         <Flex
           height={size}
@@ -130,7 +85,7 @@ function CactusLevel(props: any) {
             initial={{ width: "5%" }}
             animate={{
               opacity: 1,
-              width: `${levelPercantage}%`,
+              width: `${levelPercentage}%`,
             }}
             transition={{
               duration: 1,
