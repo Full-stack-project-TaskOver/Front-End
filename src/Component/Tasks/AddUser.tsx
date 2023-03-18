@@ -64,11 +64,11 @@ function AddUser() {
 
                 size="sm"
                 color={useColorModeValue("white", "white")}
-                bgColor={useColorModeValue('#2bcb7d', "#19A963")}
+                bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
                 border={'2px solid'}
-                borderColor={useColorModeValue("#19A963", "#19A963")}
+                borderColor={useColorModeValue("#19A963", "#0d7040")}
                 _hover={{
-                    bgColor: useColorModeValue("#2cb997", "#5addbe"),
+                    bgColor: useColorModeValue("#2eb573", "#2eb573"),
                 }
                 }
                 rounded={8} p='4'                 

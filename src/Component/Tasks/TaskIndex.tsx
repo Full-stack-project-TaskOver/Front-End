@@ -43,8 +43,8 @@ interface Session {
   
 
 function TaskIndex() {
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
-
 
 const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
@@ -219,8 +219,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         return 'You are not authorized , please log in'
       }
       setloggedUser(data.user);
-      
-      // setSession(data.session)
     
     };
   
@@ -283,70 +281,70 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
       <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
-{/* view task */}
-                          <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
-                                  <ModalOverlay />
+        <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
+                <ModalOverlay />
 
-                                  <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
+                <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
 
-                                    <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
-                                      <Text>{session?.title}</Text>
-                                    </Box>
+                  <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
+                    <Text>{session?.title}</Text>
+                  </Box>
 
-                                    <Heading p={6} as='h1' size='xl'>
-                                      {taskTitle}
-                                    </Heading>
+                  <Heading p={6} as='h1' size='xl'>
+                    {taskTitle}
+                  </Heading>
 
-                                    <Divider />
+                  <Divider />
 
-                                    <ModalCloseButton />
-                                    <ModalBody px={6}>
+                  <ModalCloseButton />
+                  <ModalBody px={6}>
 
-                                      <Flex py={6} color={useColorModeValue("gray.500", "gray.400")}>
-                                        <Flex flexDirection={'column'} pr={"4rem"} gap={4}>
-                                          <Text>Status</Text>
-                                          <Text>Assignee</Text>
-                                          <Text>Create at</Text>
-
-                                        </Flex>
-                                        <Flex flexDirection={'column'} gap={4}>
-                                          <Text>{taskTitle}</Text>
-                                          <Text>{assignToId}</Text>
-                                          <Text>{taskCreateAt}</Text>
-                                        </Flex>
-                                      </Flex>
-                                      <Divider />
-                                      <Heading pt={6} as='h2' size='lg'>Description</Heading>
-                                      <Text py={5} color={useColorModeValue("gray.500", "gray.400")}>{taskDesc}</Text>
-                                      <Divider />
+                    <Flex py={6} color={useColorModeValue("gray.500", "gray.400")}>
+                      <Flex flexDirection={'column'} pr={"4rem"} gap={4}>
+                        <Text>Status</Text>
+                        <Text>Assignee</Text>
+                        <Text>Create at</Text>
+                      </Flex>
+                      <Flex flexDirection={'column'} gap={4}>
+                        <Text>{taskTitle}</Text>
+                        <Text>{assignToId}</Text>
+                        <Text>{taskCreateAt}</Text>
+                      </Flex>
+                    </Flex>
+                    <Divider />
+                    <Heading pt={6} as='h2' size='lg'>Description</Heading>
+                    <Text py={5} color={useColorModeValue("gray.500", "gray.400")}>{taskDesc}</Text>
+                    <Divider />
 
 
-                                      <Accordion defaultIndex={[0]} allowMultiple py={5}>
-                                        <AccordionItem border={'none'}>
-                                          <AccordionButton>
-                                            <Box as="span" flex='1' textAlign='left'>
-                                              <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
-                                            </Box>
-                                            <AccordionIcon />
-                                          </AccordionButton>
-                                          <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
-                                          <option value='TODO'>TODO</option>
-                                          <option value='INPROGRESS'>INPROGRESS</option>
-                                          <option value='COMPLETED'>COMPLETED</option>
-                                          </Select>
-                                        </AccordionItem>
+                    <Accordion defaultIndex={[0]} allowMultiple py={5}>
+                      <AccordionItem border={'none'}>
+                        <AccordionButton>
+                          <Box as="span" flex='1' textAlign='left'>
+                            <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </AccordionItem>
 
-                                      </Accordion>
+                    </Accordion>
 
-                                    </ModalBody>
+                  </ModalBody>
 
-                                    <Divider />
-                                    <ModalFooter justifyContent={'center'}>
-                                      <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Submit</Button>
-                                    </ModalFooter>
-                                  </ModalContent>
-                                </Modal>
-{/* *********** */}
+                  <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
+                        <option value='TODO'>TODO</option>
+                        <option value='INPROGRESS'>INPROGRESS</option>
+                        <option value='COMPLETED'>COMPLETED</option>
+                  </Select>
+
+                  <Divider />
+                  <ModalFooter justifyContent={'center'}>
+                    <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Submit</Button>
+                  </ModalFooter>
+                </ModalContent>
+        </Modal>
+
+
     <DragDropContext
       onDragEnd={result => onDragEnd(result, columns, setColumns)}
     >
@@ -391,9 +389,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                     >
                       
                       {tasks.map((item, index) => {
-                        // console.log(item.id);
                         
-                        if(column.name == item.status){
+                        if(column.name == item.status && loggedUser?.id == session?.creatorId){
 
                           return (
                           <Draggable 
@@ -408,7 +405,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                   onClick={() => {
                                     const {id, title, status, description, createdDate} = item
                                     const assignTo = item.user.name
-                                    
+                      
                                     setUseState(id, title, status, assignTo, description, createdDate)
                                     onOpen()
                                     }
@@ -457,6 +454,69 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                     }}
                                 </Draggable>
                                 );
+                        }else if(column.name == item.status && loggedUser?.id == item.user.id){
+                          return (
+                            <Draggable 
+                            
+                            key={item.id}
+                            draggableId={item.id}
+                              index={index}
+                              >
+                              {(provided, snapshot) => {
+                                return (
+                                  <><Box
+                                    onClick={() => {
+                                      const {id, title, status, description, createdDate} = item
+                                      const assignTo = item.user.name
+                        
+                                      setUseState(id, title, status, assignTo, description, createdDate)
+                                      onOpen()
+                                      }
+                                    }
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={{
+                                      userSelect: "none",
+                                      rotate: snapshot.isDragging ? "2deg" : "0deg",
+                                      backgroundColor: snapshot.isDragging
+                                        ? "#f8f8f8"
+                                        : "white",
+                                      ...provided.draggableProps.style
+                                    }}
+                                    rotate={snapshot.isDragging ? "30deg" : "0deg"}
+                                    display={'flex'}
+                                    flexDirection='column'
+                                    //   ref={ref}
+                                    as="div"
+                                    role="group"
+                                    position="relative"
+                                    rounded="lg"
+                                    minW={200}
+                                    pt={2}
+                                    px={7}
+                                    pb={3}
+                                    border='3px solid'
+                                    borderColor={useColorModeValue("#f0f0f0", "#242a38")}
+                                    cursor="grab"
+                                    bgColor={useColorModeValue("white", "gray.900")}
+                                    flexGrow={0}
+                                    flexShrink={0}
+                                    minH={150}
+                                    maxH={200}
+                                    color={useColorModeValue("gray.700", "gray.300")}
+                                    fontWeight="semibold"
+                                  >
+                                      <Text pb={8}>{item.title}</Text>
+                                      <Spacer />
+                                      {/* {console.log(item)} */}
+                                      <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} />
+  
+                                    </Box></>
+                                      );
+                                      }}
+                                  </Draggable>
+                                  );
                         }
                             })}
                             {provided.placeholder}
