@@ -13,7 +13,7 @@ import {
     useColorModeValue,
     useToast,
   } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
   
   export default function SimpleCard() {
@@ -50,7 +50,6 @@ import { useNavigate } from 'react-router-dom';
           position: "top",
         });
         localStorage.setItem("token", data.token);
-        console.log( data.token);
         navigate("Sessions");
       } catch (error) {
         toast({
