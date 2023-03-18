@@ -20,21 +20,13 @@ function SessionsIndex() {
   const toast = useToast();
 
   const navigate = useNavigate();
-  useEffect(()=>{
-    console.log("hi");
-    
-
-    
-    const token = localStorage.getItem('token')
-    console.log(token);
-        !token && navigate("/sign-in");
-    },[])
 
   const [adminSession, setAdminSession] = React.useState<string[]>([]);
   const [userSession, setuserSession] = React.useState<string[]>([]);
 
   const fetchAdminSessions = async () => {
-
+    if(localStorage.getItem('token') == '')
+    return
  
     const request = await fetch("http://localhost:3003/session/AsAdmin", {
       headers: {
@@ -47,9 +39,8 @@ function SessionsIndex() {
     if(data.message == 'you dont have any sessions'){
       return data.message
     }
-  
     setAdminSession(Object.values(data)[0] as string[]) 
-    if(adminSession){
+    if(adminSession && localStorage.getItem('token') != '' ){
       setTimeout(()=>{
         fetchAdminSessions()
       },1000)
@@ -61,6 +52,8 @@ function SessionsIndex() {
 
 const fetchUserSessions = async () => {
   
+  if(localStorage.getItem('token') == '')
+    return
 
   const request = await fetch("http://localhost:3003/session/AsUser", {
     headers: {
@@ -77,9 +70,9 @@ const fetchUserSessions = async () => {
     
     return data.message
   }
-  console.log(Object.values(data)[0]);
+  // console.log(Object.values(data)[0]);
   setuserSession(Object.values(data)[0] as string[])
-  if(userSession ){
+  if(userSession && localStorage.getItem('token') != '' ){
     setTimeout(()=>{
       fetchUserSessions()
     },1000)
@@ -90,6 +83,9 @@ const fetchUserSessions = async () => {
 useEffect(() => {
   fetchAdminSessions()
   fetchUserSessions()
+    
+    const token = localStorage.getItem('token')
+        !token && navigate("/sign-in");
 }, []);
 
 

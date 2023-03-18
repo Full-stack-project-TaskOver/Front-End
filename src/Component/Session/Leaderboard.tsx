@@ -48,7 +48,7 @@ function Leaderboard() {
   }
 
   return (
-    <Box px={{base:0, md:'6rem'}}>
+    <Box px={{base:0, md:'6rem'}} mb="6rem">
       <Heading as={'h1'} fontSize={'3rem'} my={'6rem'} textAlign={'center'}>
         Leaderboard 
       </Heading>
@@ -59,6 +59,7 @@ function Leaderboard() {
              py={'2rem'} px={{base:0, sm:'3rem'}} alignItems="center" 
             borderRadius={'15px'}
             border={'3px dashed '} borderColor={useColorModeValue("#f0f0f0", "#242a38")}
+            bgColor={useColorModeValue("gray.50", "gray.900")}
             >
               <Img position={'absolute'} 
               top={'-83px'} left={10}
@@ -69,7 +70,6 @@ function Leaderboard() {
                     justifyContent={'space-around'} alignItems={'center'} 
                     pb={'2rem'}
                     fontSize={'1rem'}
-
                     fontWeight={'bold'}
 
                     
@@ -88,7 +88,7 @@ function Leaderboard() {
                     justifyContent={'space-around'}
                     my={'10px'}
                     fontSize={'1rem'}
-                    backgroundColor={useColorModeValue("#fdfdfd", "#gray.800")}
+                    backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
                     border='3px solid'
                     borderLeft={{base:'none', sm:`3px solid ${useColorModeValue("#f0f0f0", "#242a38")}`}}
                     borderRight={{base:'none', sm:`3px solid ${useColorModeValue("#f0f0f0", "#242a38")}`}}

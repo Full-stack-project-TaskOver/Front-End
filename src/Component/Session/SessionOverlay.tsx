@@ -22,6 +22,7 @@ import {
   SimpleGrid,
   FormControl,
   FormLabel,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -101,12 +102,15 @@ function SessionOverlay(props:Session) {
   const options = ["Company", "OpenSource", "Family", "Personal"];
   const [sessionId, setSessionId] = React.useState<string>('');
   const [userId, setUserId] = React.useState<string>();
+  const toast = useToast();
 
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)
 
 
 const fetchLoggedUser = async () => {
+  if(localStorage.getItem('token') == '')
+    return
   const request = await fetch(`http://localhost:3003/user`, {
     headers: {
       'Content-Type': 'application/json',
@@ -122,7 +126,7 @@ const fetchLoggedUser = async () => {
 
 
 const joinSession = async () => {
-  const request = await fetch("http://localhost:3003/usersAndSession", {
+  const request = await fetch("http://localhost:3003/usersAndSession/join-session", {
     method:'POST',
     headers: {
       "Content-Type": "application/json",
@@ -133,12 +137,30 @@ const joinSession = async () => {
         sessionId,
    })
   });
-  if (request.status === 200) {
+  const data = await request.json()
+    if (request.status !== 200) {
+      toast({
+        title: data.message,
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
+    }
+    toast({
+      title:"Join Session successfully!",
+      status: "success",
+      duration: 3000,
+      position: "top",
+    });
     onClose()
-   }
   console.log(await request.json());
 
 };
+
+// console.log(userId);
+// console.log(sessionId);
+
 
 useEffect(() => {
   fetchLoggedUser()
@@ -189,15 +211,23 @@ useEffect(() => {
       
     });
 
-
-    if(request.status == 200){
-      
-      
-      onClose()
-      // navigate("/Session");
-    
-
+    if (request.status !== 200) {
+      toast({
+        title: 'Name is required',
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
     }
+    toast({
+      title:"Session added successfully!",
+      status: "success",
+      duration: 3000,
+      position: "top",
+    });
+    onClose()
+    
     console.log(await request.json());
     
   };
@@ -251,7 +281,7 @@ useEffect(() => {
         <ModalBody pb={6}>
           <FormControl>
             <FormLabel>Session ID</FormLabel>
-            <Input ref={initialRef} placeholder='Enter session id' onChange={(e)=> setSessionId(e.target.value)}/>
+            <Input required ref={initialRef} placeholder='Enter session id' onChange={(e)=> setSessionId(e.target.value)}/>
           </FormControl>
         </ModalBody>
 
@@ -358,3 +388,5 @@ useEffect(() => {
 }
 
 export default SessionOverlay;
+
+

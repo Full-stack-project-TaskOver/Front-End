@@ -7,35 +7,45 @@ import { ReactNode, useEffect, useState } from "react";
 
 function Buttons() {
   const token = localStorage.getItem('token')
-  if(token){
     interface User{
       name: string
     }
   
-    const [user, setUser] = React.useState<User>();
+    const [user, setUser] = React.useState<string>("");
   
-  const getUserById = async () => {
-    const request = await fetch("http://localhost:3003/user", {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    });
-    const data = await request.json();
-    setUser(Object.values(data)[0] as User)
-  };
   
   useEffect(() => {
+    const getUserById = async () => {
+      const response = await fetch("http://localhost:3003/user", {
+       headers: {
+         'Content-Type': 'application/json',
+         Authorization: "Bearer " + localStorage.getItem("token"),
+       },
+     }) 
+     const data = await response.json()
+    //  console.log(data);
+     
+     const {name} = data.user
+    //  console.log(name);
+     
+ 
+       setUser(name)
+     
+     
+     // const data = await request.json();
+   };
     getUserById()
+    
   }, []);
   
   const navigate = useNavigate();
 
   const signOut = () =>{
-    localStorage.removeItem("token")
+    localStorage.setItem("token" , '')
     navigate('/')
   }
-    return(
+  function Profile(){
+    return (
       <Flex alignItems={"center"}>
 
       <Menu>
@@ -55,7 +65,7 @@ function Buttons() {
               alignItems="flex-start"
               spacing="1px"
               ml="2">
-              <Text fontSize="sm">{user != undefined &&  user.name}</Text>
+              <Text fontSize="sm">{user && user}</Text>
               <Text fontSize="xs" color="gray.600">
               </Text>
             </VStack>
@@ -76,19 +86,27 @@ function Buttons() {
       </Menu>
     </Flex>
     )
-  }else{
+      }
+    
 
-    return (
-      <Flex gap={2} flexDir={'row'} justifyContent={'center'}>
+  function Btns() {
+      return(
+        <Flex gap={2} flexDir={'row'} justifyContent={'center'}>
         <Link to="/sign-in">
-          <Button _hover={{backgroundColor:'rgba(0, 135, 85, 0.7)'}}>تسجيل الدخول</Button>
+          <Button _hover={{backgroundColor:'rgba(0, 135, 85, 0.7)'}}>Sign In</Button>
         </Link>
         <Link to="/sign-up">
-          <Button _hover={{backgroundColor:'rgba(0, 135, 85, 0.7)'}}>حساب جديد</Button>
+          <Button _hover={{backgroundColor:'rgba(0, 135, 85, 0.7)'}}>Sign Up</Button>
         </Link>
       </Flex>
-    );
-  }
+      )
+    }
+
+  return(
+    <>
+      {token? <Profile/>: <Btns/>}
+    </>
+  )
 }
 
 export default Buttons;
