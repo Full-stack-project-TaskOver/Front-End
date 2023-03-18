@@ -18,6 +18,16 @@ import {
   MenuList,
   Img,
   useToast,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
@@ -46,12 +56,15 @@ interface User {
 
 // Session Card Component
 function SessionCard(props: sessionCard) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
   const navigate = useNavigate();
   const [loggedUser, setloggedUser] = React.useState<User>();
   const toast = useToast();
 
   const deleteSessions = async () => {
-
+    
     const request = await fetch(`http://localhost:3003/session/${props.id}`, {
       method: 'DELETE',
       headers: {
@@ -123,7 +136,32 @@ function SessionCard(props: sessionCard) {
     fetchLoggedUser()
   }, []);
 
+const openModal = () => {
+  return(
 
+  <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Are you sure you want to delete {props.title} Session</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button onClick={deleteSessions} colorScheme="red" mr={3}>
+              Delete
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+  )
+}
    
 
   
@@ -178,7 +216,8 @@ function SessionCard(props: sessionCard) {
                 w="0.5rem"
               />
               <MenuList minW={{ base: "4rem", md: "8rem" }}>
-                <MenuItem color={"red"} onClick={deleteSessions}
+                {openModal()}
+                <MenuItem color={"red"} onClick={onOpen}
                 fontWeight='medium'
                 bgColor={useColorModeValue("white", "gray.900")}
                 _hover={{bgColor: useColorModeValue("#f2f2f2", "gray.600")}}>

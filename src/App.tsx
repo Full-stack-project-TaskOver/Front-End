@@ -10,6 +10,7 @@ import "./App.css";
 import Leaderboard from "./Component/Session/Leaderboard";
 import Level from "./Component/LandingPage/Components/CactusLevel";
 import LandingPage from "./Component/LandingPage/LandingPage";
+import ShowUsers from "./Component/Tasks/ShowUsers";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         <Route
           path="/:id"
           element={<SideNav children={<TaskIndex />} />}></Route>
+        <Route
+          path="/:id/show-users"
+          element={<SideNav children={<ShowUsers />} />}></Route>
 
         <Route
           path="Sessions"

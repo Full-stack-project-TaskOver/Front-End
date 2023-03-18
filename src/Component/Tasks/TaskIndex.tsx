@@ -1,7 +1,7 @@
 import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
@@ -9,6 +9,7 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
+import ShowUsers from './ShowUsers';
 interface Session {
     id:string,
     title:string,
@@ -100,7 +101,7 @@ console.log("*************9");
     const [itemId, setItemId] = React.useState<string>(" ");
     const [itemStatus, setItemStatus] = React.useState<string>(" ");
     const [point, setPoint] = React.useState<number>();
-  
+    const navigate = useNavigate();
 
 
     const [checkedItems, setCheckedItems] = useState([false, false])
@@ -252,6 +253,24 @@ console.log("*************9");
     <Flex justifyContent={'end'} gap={2} >
     {session?.creatorId == loggedUser?.id ? 
     <>
+    <Button
+        onClick={()=> navigate(`/${id}/show-users`)}
+        size="sm"
+        color={useColorModeValue('white', 'white')}
+        bgColor={useColorModeValue('#2bcb7d', '#19A963')}
+        border={'2px solid'}
+        borderColor={useColorModeValue('#19A963', '#19A963')}
+        _hover={{
+          bgColor: useColorModeValue('#2cb997', '#5addbe'),
+        }}
+        rounded={8}
+        p="4"
+        variant="solid"
+        // colorScheme="black"
+        aria-label="add-task"
+      >
+        <Text>Show Users</Text>
+      </Button>
         <TaskPage/>
         <AddUser/>
     </> : ''}
