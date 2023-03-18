@@ -37,7 +37,7 @@ function TaskPage() {
     };
 
 
-// console.log(users)
+// add task 
     const addTask = async () => {
       const request = await fetch('http://localhost:3003/task', {
         method: "POST",
@@ -86,12 +86,12 @@ function TaskPage() {
                 size="sm"
                 rounded={8} p='4' 
                 color={useColorModeValue("white", "white")}
-                bgColor={useColorModeValue('#5addbe', "#5bc8ae")}
+                bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
                 border={'2px solid'}
-                borderColor={useColorModeValue("#5bc8ae", "#30917a")}
+                borderColor={useColorModeValue("#19A963", "#0d7040")}
                 _hover={{
-                    bgColor: useColorModeValue("#2cb997", "#5addbe"),
-                }
+                    bgColor: useColorModeValue("#2eb573", "#2eb573"),
+                  }
                 }
                 variant="solid"
                 colorScheme="black"

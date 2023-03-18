@@ -16,6 +16,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<SideNav children={<LandingPage />} />}></Route>
         <Route path="sign-up" element={signUp()}></Route>
         <Route path="sign-in" element={signIn()}></Route>
         <Route
@@ -31,9 +32,6 @@ function App() {
         <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route>
-        <Route
-          path="/"
-          element={<SideNav children={<LandingPage />} />}></Route>
       </Routes>
     </>
   );
