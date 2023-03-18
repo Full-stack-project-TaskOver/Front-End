@@ -22,7 +22,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
-import logo from "../../../assets/logo2.svg";
+import logo from "../../../assets/logo3.svg";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 

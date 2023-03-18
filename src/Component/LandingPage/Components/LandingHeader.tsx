@@ -52,7 +52,7 @@ function LandingHeader() {
               background: "linear-gradient(to right, #ff9966, #ff5e62)",
             }}
             whileHover={{
-              background: "linear-gradient(to right, #ff5e62, #ff9966)",
+              background: "linear-gradient(to right, #, #ff9966)",
               scale: 1.05,
               boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
             }}
