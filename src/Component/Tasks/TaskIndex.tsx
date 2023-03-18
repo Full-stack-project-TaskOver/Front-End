@@ -97,6 +97,7 @@ console.log("*************9");
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
     const [tasks, setTasks] = React.useState<Task[]>([]);
+    const [taskDetails, setTaskDetails] = React.useState<Task[]>([]);
     const [itemId, setItemId] = React.useState<string>(" ");
     const [itemStatus, setItemStatus] = React.useState<string>(" ");
     const [point, setPoint] = React.useState<number>();
@@ -218,10 +219,35 @@ console.log("*************9");
       setPoint(data.message[0].point)
     
     };
+
+    // get details of task
+
+    const getTaskByIs = async () => {
+      const request = await fetch("http://localhost:3003/task/details", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body:JSON.stringify({
+          id: itemId,
+        })
+      });
+      const data = await request.json();
+      if(data.message === 'There is no task'){
+        return data.message
+      }
+      
+      setTaskDetails(Object.values(data)[0] as Task[])
+      // console.log(data);
+      
+    };
     
-  console.log('----------');
-  console.log(point);
-  console.log('------------');
+    
+  // console.log('----------$');
+  // console.log(taskDetails);
+  // console.log( itemId);
+  // console.log('------------$');
   
     useEffect(() => {
       fetchTasks()
@@ -229,12 +255,14 @@ console.log("*************9");
       fetchLoggedUser()
       sendLevel(level);
       getPoint()
+      getTaskByIs()
     }, []);
-
+    
     
     console.log( columns);
-    
+   
   return (
+    
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
 
@@ -278,19 +306,21 @@ console.log("*************9");
     </Box>
           }
 {/* view task */}
+
+
 <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
                                   <ModalOverlay />
 
                                   <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
-
+                                
                                     <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
                                       <Text>Session Name</Text>
                                     </Box>
-
+                                    {/* {taskDetails != undefined && taskDetails.map((task: any) => (    ))} */}
                                     <Heading p={6} as='h1' size='xl'>
-                                      Task Title
+                                      {taskDetails[0]?.title}
                                     </Heading>
-
+ 
                                     <Divider />
 
                                     <ModalCloseButton />
@@ -304,62 +334,25 @@ console.log("*************9");
                                           <Text>Lable</Text>
                                         </Flex>
                                         <Flex flexDirection={'column'} gap={4}>
-                                          <Text>Todo</Text>
-                                          <Text>Abduallah</Text>
-                                          <Text>10-10-2000</Text>
+                                          <Text>{taskDetails[0]?.status}</Text>
+                                          <Text>Assignee</Text>
+                                          <Text>{taskDetails[0]?.createdDate}</Text>
                                           <Text>Programming</Text>
                                         </Flex>
                                       </Flex>
                                       <Divider />
                                       <Heading pt={6} as='h2' size='lg'>Description</Heading>
-                                      <Text py={5}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, perferendis corporis? Inventore quam expedita error tempore, et iure sint est quibusdam placeat maxime sunt? Suscipit magni recusandae sunt at quidem.</Text>
+                                      <Text py={5}>{taskDetails[0]?.description}</Text>
                                       <Divider />
-
-                                      <Checkbox
-                                        pt={6}
-                                        display={'flex'}
-                                        alignItems={'center'}
-                                        size='lg'
-                                        colorScheme='green'
-                                        isChecked={allChecked}
-                                        isIndeterminate={isIndeterminate}
-                                        onChange={(e) => setCheckedItems([e.target.checked, e.target.checked])}
-                                      >
-                                        <Text fontSize='4xl' fontWeight='bold' mx={2} as='h2' size='lg'>
-                                          Sub Tasks
-
-                                        </Text>
-                                      </Checkbox>
-
-
-                                      <Box py={5}>
-
-                                        <Stack pl={6} mt={1} spacing={1}>
-                                          <Checkbox
-                                            // isChecked={checkedItems[0]}
-                                            // onChange={(e) => setCheckedItems([e.target.checked, checkedItems[1]])}
-                                          >
-                                            Child Checkbox 1
-                                          </Checkbox>
-                                          <Checkbox
-                                            // isChecked={checkedItems[1]}
-                                            // onChange={(e) => setCheckedItems([checkedItems[0], e.target.checked])}
-                                          >
-                                            Child Checkbox 2
-                                          </Checkbox>
-                                        </Stack>
-                                      </Box>
 
                                       <Divider />
 
                                       <Accordion defaultIndex={[0]} allowMultiple py={5}>
                                         <AccordionItem border={'none'}>
-                                          <AccordionButton>
+                                     
                                             <Box as="span" flex='1' textAlign='left'>
                                               <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
                                             </Box>
-                                            <AccordionIcon />
-                                          </AccordionButton>
                                           <Select placeholder='Select option'  onChange={(e)=> setItemStatus(e.target.value)}>
                                           <option value='TODO'>TODO</option>
                                           <option value='INPROGRESS'>INPROGRESS</option>
@@ -436,7 +429,7 @@ console.log("*************9");
                             {(provided, snapshot) => {
                               return (
                                 <><Box
-                                  onClick={() => {setItemId(item.id),setItemStatus(item.status) ,onOpen()}}
+                                  onClick={() => {setItemId(item.id),setItemStatus(item.status) ,onOpen(), getTaskByIs()}}
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}

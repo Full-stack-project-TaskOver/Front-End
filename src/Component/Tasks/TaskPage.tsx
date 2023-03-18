@@ -35,7 +35,7 @@ function TaskPage() {
     };
 
 
-// console.log(users)
+// add task 
     const addTask = async () => {
       const request = await fetch('http://localhost:3003/task', {
         method: "POST",
@@ -102,7 +102,7 @@ function TaskPage() {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Title</FormLabel>
-              <Input ref={initialRef} placeholder='Title' onChange={(e)=> setTitle(e.target.value)}/>
+              <Input required ref={initialRef} placeholder='Title' onChange={(e)=> setTitle(e.target.value)}/>
             </FormControl>
 
             <FormControl mt={4}>
