@@ -287,7 +287,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     
 
     </Flex>
-    <Flex justifyContent={"center"}>
+    <Flex justifyContent={"center"} display={session?.creatorId == loggedUser?.id ? "none" : "flex"}>
       <Cactus userLevel={level} />
     </Flex>
 
