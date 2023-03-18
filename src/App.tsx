@@ -29,9 +29,7 @@ function App() {
         {/* <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route> */}
-        <Route
-          path="Landing"
-          element={<SideNav children={<LandingPage />} />}></Route>
+        <Route path="Landing" element={<LandingPage />}></Route>
       </Routes>
     </>
   );
