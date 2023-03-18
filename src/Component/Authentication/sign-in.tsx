@@ -33,7 +33,7 @@ import { useNavigate } from 'react-router-dom';
           },
           body: JSON.stringify({ email, password }),
         });
-          const data = await request.json();
+          const data = await request.json();          
         if (request.status !== 200) {
           toast({
             title: data.message,
@@ -94,7 +94,7 @@ import { useNavigate } from 'react-router-dom';
                   direction={{ base: 'column', sm: 'row' }}
                   align={'start'}
                   justify={'space-between'}>
-                  <Checkbox>Remember me</Checkbox>
+                  {/* <Checkbox>Remember me</Checkbox> */}
                   <Link color={'blue.400'}>Forgot password?</Link>
                 </Stack>
                 <Button onClick={submitLogin}

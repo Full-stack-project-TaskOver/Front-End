@@ -1,7 +1,7 @@
 import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useParams } from 'react-router-dom';
+import { createPath, useParams } from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
@@ -9,6 +9,7 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
+
 interface Session {
     id:string,
     title:string,
@@ -25,12 +26,13 @@ interface Session {
   }
 
   interface Task {
+    user: any;
     id:string,
     title:string,
     assignById:string
     assignToId: string
     createdDate: string
-    deadline: null
+    // deadline: null
     description: string
     sessionId: string
     status:string
@@ -43,23 +45,40 @@ interface Session {
 function TaskIndex() {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const [sta, setSta] = React.useState<string[]>([]);
 
-const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: { assignById: string; assignToId: string; createdDate: string; deadline: null; description: string; id: string; sessionId: string; status: string; title: string; }[]; color: string; }; }>): void; (arg0: any): void; }) => {
+const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
   const { source, destination } = result;
-  console.log("*************8");
-
-console.log(columns);
-console.log("*************9");
+  console.log("source", source);
+  console.log("destination", destination);
+  console.log("columns", columns);
+  
 
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
+    console.log("sourceItems---", sourceColumn.items);
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
+    console.log("sourceItems---", sourceItems);
     const [removed] = sourceItems.splice(source.index, 1);
-    destItems.splice(destination.index, 1, removed);
+    
+    console.log("sourceItems", sourceItems);
+    console.log("removed", removed);
+    
+    destItems.splice(destination.index, 0, removed);
+    console.log({
+      ...columns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems
+      },
+      [destination.droppableId]: {
+        ...destColumn,
+        items: destItems
+      }
+    });
+    
     setColumns({
       ...columns,
       [source.droppableId]: {
@@ -68,13 +87,9 @@ console.log("*************9");
       },
       [destination.droppableId]: {
         ...destColumn,
-        items:destItems
+        items: destItems
       }
     });
-    
-    // console.log("----------"+sta+ 'hhhhhhhhhhhhhhhhhh');
-    // console.log(destColumn);
-
   } else {
     const column = columns[source.droppableId];
     const copiedItems = [...column.items];
@@ -97,18 +112,26 @@ console.log("*************9");
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
     const [tasks, setTasks] = React.useState<Task[]>([]);
-    const [taskDetails, setTaskDetails] = React.useState<Task[]>([]);
-    const [itemId, setItemId] = React.useState<string>(" ");
-    const [itemStatus, setItemStatus] = React.useState<string>(" ");
-    const [point, setPoint] = React.useState<number>();
-  
 
 
-    const [checkedItems, setCheckedItems] = useState([false, false])
-    const allChecked = checkedItems.every(Boolean)
-    const isIndeterminate = checkedItems.some(Boolean) && !allChecked
+    const [taskId, setTaskId] = React.useState<string>("");
+    const [taskTitle, setTaskTitle] = React.useState<string>("");
+    const [taskStatus, setTaskStatus] = React.useState<string>("");
+    const [assignToId, setAssignToId] = React.useState<string>("");
+    const [taskDesc, setTaskDesc] = React.useState<string>("");
+    const [taskCreateAt, setTaskCreateAt] = React.useState<string>("");
 
-    const fetchTasks = async () => {
+
+    function setUseState(id:string, title:string, status:string, assignTo:string, taskDesc:string, createAt:string) {
+      setTaskId(id)
+      setTaskTitle(title)
+      setTaskStatus(status)
+      setAssignToId(assignTo)
+      setTaskDesc(taskDesc)
+      setTaskCreateAt(createAt.substring(0,10))
+    }
+
+    const fetchTasks:any = async () => {
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -121,15 +144,19 @@ console.log("*************9");
         }
 
         // console.log(data.session[0].task);
+        console.log(data);
+        
         
         setTasks(data.session[0].task as Task[])
+        return data;
       };
 
- 
+      console.log(tasks,"tasks");
+      
         const columnsFromBackend = {
           [uuidv4()]: { 
             name: "TODO",
-            items: tasks,
+            items: fetchTasks,
             color:"orange"
           },
           [uuidv4()]: {
@@ -159,10 +186,11 @@ console.log("*************9");
             },
             
             body:JSON.stringify({
-              id: itemId,
-              status: itemStatus
+              id: taskId,
+              status: taskStatus
             })
           });
+          fetchTasks()
          
         };
     const sendLevel = (level: number) => {
@@ -201,68 +229,24 @@ console.log("*************9");
       // setSession(data.session)
     
     };
-
-
-    // get point of user
-    const getPoint = async () => {
-      const request = await fetch(`http://localhost:3003/usersAndSession/point/${id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      const data = await request.json();
-      if(data.message === 'Session dose not exists'){
-        return data.message
-      }
-      
-      setPoint(data.message[0].point)
-    
-    };
-
-    // get details of task
-
-    const getTaskByIs = async () => {
-      const request = await fetch("http://localhost:3003/task/details", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        body:JSON.stringify({
-          id: itemId,
-        })
-      });
-      const data = await request.json();
-      if(data.message === 'There is no task'){
-        return data.message
-      }
-      
-      setTaskDetails(Object.values(data)[0] as Task[])
-      // console.log(data);
-      
-    };
-    
-    
-  // console.log('----------$');
-  // console.log(taskDetails);
-  // console.log( itemId);
-  // console.log('------------$');
   
     useEffect(() => {
       fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
-      getPoint()
-      getTaskByIs()
     }, []);
-    
+
+    useEffect(() => {
+      updateTask()
+      console.log("hi");
+      
+    }, [taskId]);
+
     
     console.log( columns);
-   
-  return (
     
+  return (
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
 
@@ -302,25 +286,23 @@ console.log("*************9");
         🔥 Streak
         </Flex>
     </Flex>
-      <Level userPoints={point} color={""} size={""} sendLevel={sendLevel} />
+      <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
 {/* view task */}
-
-
-<Modal onClose={onClose} isOpen={isOpen} size={'full'}>
+                          <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
                                   <ModalOverlay />
 
                                   <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
-                                
+
                                     <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
-                                      <Text>Session Name</Text>
+                                      <Text>{session?.title}</Text>
                                     </Box>
-                                    {/* {taskDetails != undefined && taskDetails.map((task: any) => (    ))} */}
+
                                     <Heading p={6} as='h1' size='xl'>
-                                      {taskDetails[0]?.title}
+                                      {taskTitle}
                                     </Heading>
- 
+
                                     <Divider />
 
                                     <ModalCloseButton />
@@ -330,30 +312,30 @@ console.log("*************9");
                                         <Flex flexDirection={'column'} pr={"4rem"} gap={4}>
                                           <Text>Status</Text>
                                           <Text>Assignee</Text>
-                                          <Text>Due Date</Text>
-                                          <Text>Lable</Text>
+                                          <Text>Create at</Text>
+
                                         </Flex>
                                         <Flex flexDirection={'column'} gap={4}>
-                                          <Text>{taskDetails[0]?.status}</Text>
-                                          <Text>Assignee</Text>
-                                          <Text>{taskDetails[0]?.createdDate}</Text>
-                                          <Text>Programming</Text>
+                                          <Text>{taskTitle}</Text>
+                                          <Text>{assignToId}</Text>
+                                          <Text>{taskCreateAt}</Text>
                                         </Flex>
                                       </Flex>
                                       <Divider />
                                       <Heading pt={6} as='h2' size='lg'>Description</Heading>
-                                      <Text py={5}>{taskDetails[0]?.description}</Text>
+                                      <Text py={5} color={useColorModeValue("gray.500", "gray.400")}>{taskDesc}</Text>
                                       <Divider />
 
-                                      <Divider />
 
                                       <Accordion defaultIndex={[0]} allowMultiple py={5}>
                                         <AccordionItem border={'none'}>
-                                     
+                                          <AccordionButton>
                                             <Box as="span" flex='1' textAlign='left'>
                                               <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
                                             </Box>
-                                          <Select placeholder='Select option'  onChange={(e)=> setItemStatus(e.target.value)}>
+                                            <AccordionIcon />
+                                          </AccordionButton>
+                                          <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
                                           <option value='TODO'>TODO</option>
                                           <option value='INPROGRESS'>INPROGRESS</option>
                                           <option value='COMPLETED'>COMPLETED</option>
@@ -429,7 +411,14 @@ console.log("*************9");
                             {(provided, snapshot) => {
                               return (
                                 <><Box
-                                  onClick={() => {setItemId(item.id),setItemStatus(item.status) ,onOpen(), getTaskByIs()}}
+                                  onClick={() => {
+                                    const {id, title, status, description, createdDate} = item
+                                    const assignTo = item.user.name
+                                    
+                                    setUseState(id, title, status, assignTo, description, createdDate)
+                                    onOpen()
+                                    }
+                                  }
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
@@ -466,6 +455,7 @@ console.log("*************9");
                                 >
                                     <Text pb={8}>{item.title}</Text>
                                     <Spacer />
+                                    {/* {console.log(item)} */}
                                     <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} />
 
                                   </Box></>

@@ -115,7 +115,7 @@ export default function SignupCard() {
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
                     }>
-                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    {showPassword ? <ViewOffIcon /> : <ViewIcon /> }
                   </Button>
                 </InputRightElement>
               </InputGroup>
