@@ -1,7 +1,7 @@
 import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { createPath, useParams } from 'react-router-dom';
+import { createPath, useNavigate, useParams } from 'react-router-dom';
 import {v4 as uuidv4} from 'uuid';
 import { ColumnType } from '../../utils/enums';
 import AddUser from './AddUser';
@@ -112,6 +112,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
     const [tasks, setTasks] = React.useState<Task[]>([]);
+    const navigate = useNavigate();
 
 
     const [taskId, setTaskId] = React.useState<string>("");
@@ -260,6 +261,23 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         }
     </Flex>
     <Flex justifyContent={'end'} gap={2} >
+    <Button
+      onClick={()=>navigate(`/${id}/show-users`)}
+      size="sm"
+      color={useColorModeValue('white', 'white')}
+      bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
+      border={'2px solid'}
+      borderColor={useColorModeValue('#19A963', '#0d7040')}
+      _hover={{
+      bgColor: useColorModeValue('#2eb573', '#2eb573'),
+      }}
+      rounded={8}
+      p="4"
+      variant="solid"
+      aria-label="add-task"
+          >
+          <Text>Show Users</Text>
+      </Button>
     {session?.creatorId == loggedUser?.id ? 
     <>
         <TaskPage/>
