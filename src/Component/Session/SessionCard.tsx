@@ -17,6 +17,7 @@ import {
   MenuButton,
   MenuList,
   Img,
+  useToast,
 } from "@chakra-ui/react";
 import { MdLeaderboard } from "react-icons/md";
 import { FiMoreVertical } from "react-icons/fi";
@@ -47,6 +48,7 @@ interface User {
 function SessionCard(props: sessionCard) {
   const navigate = useNavigate();
   const [loggedUser, setloggedUser] = React.useState<User>();
+  const toast = useToast();
 
   const deleteSessions = async () => {
 
@@ -57,8 +59,22 @@ function SessionCard(props: sessionCard) {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    console.log(request);
-    console.log(await request.json());
+    const data = await request.json()
+    if (request.status !== 200) {
+      toast({
+        title: data.message,
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
+    }
+    toast({
+      title:"Session deleted successfully!",
+      status: "success",
+      duration: 3000,
+      position: "top",
+    });
   };
 
   const leaveSession = async () => {
@@ -70,7 +86,22 @@ function SessionCard(props: sessionCard) {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-
+    const data = await request.json()
+    if (request.status !== 200) {
+      toast({
+        title: data.message,
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
+    }
+    toast({
+      title:"left Session successfully!",
+      status: "success",
+      duration: 3000,
+      position: "top",
+    });
   };
 
   const fetchLoggedUser = async () => {
@@ -195,3 +226,5 @@ function SessionCard(props: sessionCard) {
 }
 
 export default SessionCard;
+
+

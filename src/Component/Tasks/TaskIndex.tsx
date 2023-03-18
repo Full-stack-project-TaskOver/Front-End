@@ -259,9 +259,10 @@ console.log("*************9");
     
 
     </Flex>
-    <Flex justifyContent={"center"}>
+    {session?.creatorId == loggedUser?.id ? '' : <Flex justifyContent={"center"}>
       <Cactus userLevel={level} />
-    </Flex>
+    </Flex>}
+    
 
     {session?.creatorId == loggedUser?.id ? '' : 
     <Box>
