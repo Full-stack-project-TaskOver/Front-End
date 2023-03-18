@@ -49,22 +49,15 @@ function TaskIndex() {
 const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
   const { source, destination } = result;
-  console.log("source", source);
-  console.log("destination", destination);
-  console.log("columns", columns);
+
   
 
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
-    console.log("sourceItems---", sourceColumn.items);
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
-    console.log("sourceItems---", sourceItems);
     const [removed] = sourceItems.splice(source.index, 1);
-    
-    console.log("sourceItems", sourceItems);
-    console.log("removed", removed);
     
     destItems.splice(destination.index, 0, removed);
     console.log({
@@ -132,6 +125,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     }
 
     const fetchTasks:any = async () => {
+      
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
         headers: {
           'Content-Type': 'application/json',
