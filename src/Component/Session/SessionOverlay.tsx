@@ -109,6 +109,8 @@ function SessionOverlay(props:Session) {
 
 
 const fetchLoggedUser = async () => {
+  if(localStorage.getItem('token') == '')
+    return
   const request = await fetch(`http://localhost:3003/user`, {
     headers: {
       'Content-Type': 'application/json',

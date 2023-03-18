@@ -32,7 +32,7 @@ function Buttons() {
   const navigate = useNavigate();
 
   const signOut = () =>{
-    localStorage.removeItem("token")
+    localStorage.setItem("token" , '')
     navigate('/')
   }
     return(
