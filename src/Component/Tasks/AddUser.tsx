@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, FormControl, Input, FormLabel, Textarea, Select, HStack, Icon } from '@chakra-ui/react'
+import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, FormControl, Input, FormLabel, Textarea, Select, HStack, Icon, useToast } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { ColumnType } from '../../utils/enums'
 import { useParams } from 'react-router-dom'
@@ -9,7 +9,7 @@ function AddUser() {
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const toast = useToast();
     let  {id}  = useParams();
     const sessionId = id
     const [userId, setUserId] = React.useState("")
@@ -27,12 +27,23 @@ function AddUser() {
             sessionId,
        })
       });
-      if(request.status === 400) {
-        return 'error'
+      const data = await request.json()
+      if (request.status !== 200) {
+        toast({
+          title: data.message,
+          status: "error",
+          duration: 3000,
+          position: "top",
+        });
+        return;
       }
-      if (request.status === 200) {
-        onClose()
-       }
+      toast({
+        title:"User added successfully!",
+        status: "success",
+        duration: 3000,
+        position: "top",
+      });
+      onClose()
       console.log(await request.json());
        console.log(request.status);
        
@@ -105,3 +116,5 @@ function AddUser() {
 }
 
 export default AddUser
+
+

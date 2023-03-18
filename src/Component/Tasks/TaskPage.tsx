@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, FormControl, Input, FormLabel, Textarea, Select, HStack, Icon } from '@chakra-ui/react'
+import { Box, Text, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, FormControl, Input, FormLabel, Textarea, Select, HStack, Icon, useToast } from '@chakra-ui/react'
 import { AddIcon } from '@chakra-ui/icons'
 import { ColumnType } from '../../utils/enums'
 import { useParams } from 'react-router-dom'
@@ -11,6 +11,8 @@ function TaskPage() {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     let { id } = useParams();
+    const toast = useToast();
+
   
     const [users, setUsers] = useState<string[]>([]);
     const [title, setTitle] = React.useState("")
@@ -48,12 +50,25 @@ function TaskPage() {
           description,
           assignToId,
           sessionId:id,
-
         }),
       });
-     if (request.status === 200) {
+      const data = await request.json()
+      if (request.status !== 200) {
+        toast({
+          title: data.message,
+          status: "error",
+          duration: 3000,
+          position: "top",
+        });
+        return;
+      }
+      toast({
+        title:"Task added successfully!",
+        status: "success",
+        duration: 3000,
+        position: "top",
+      });
       onClose()
-     }
       // console.log(await request.json());
     
     };
@@ -102,17 +117,17 @@ function TaskPage() {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Title</FormLabel>
-              <Input ref={initialRef} placeholder='Title' onChange={(e)=> setTitle(e.target.value)}/>
+              <Input required ref={initialRef} placeholder='Title' isRequired onChange={(e)=> setTitle(e.target.value)}/>
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Description</FormLabel>
-              <Textarea placeholder='Description' onChange={(e)=> setDescription(e.target.value)}/>
+              <Textarea required placeholder='Description' onChange={(e)=> setDescription(e.target.value)}/>
             </FormControl>
  
              <FormControl mt={4}>
             <FormLabel>Assignee to</FormLabel>
-            <Select placeholder='Assignee to' onChange={(e)=> setAssignToId(e.target.value)}>
+            <Select required placeholder='Assignee to' onChange={(e)=> setAssignToId(e.target.value)}>
               {users != undefined && users.map((e: any) => (   
               <option value={e.user.id} key={e.user.id}>{(e.user.name)}</option>
               ))}
@@ -135,3 +150,4 @@ function TaskPage() {
 }
 
 export default TaskPage
+

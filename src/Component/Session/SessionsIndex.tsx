@@ -47,7 +47,6 @@ function SessionsIndex() {
     if(data.message == 'you dont have any sessions'){
       return data.message
     }
-  
     setAdminSession(Object.values(data)[0] as string[]) 
     if(adminSession){
       setTimeout(()=>{
@@ -77,7 +76,7 @@ const fetchUserSessions = async () => {
     
     return data.message
   }
-  console.log(Object.values(data)[0]);
+  // console.log(Object.values(data)[0]);
   setuserSession(Object.values(data)[0] as string[])
   if(userSession ){
     setTimeout(()=>{
