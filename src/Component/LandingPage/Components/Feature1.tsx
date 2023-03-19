@@ -97,25 +97,26 @@ export default function Feature1() {
     }
   }, [controls, inView]);
   return (
-    <Box p={"2em"}>
+    <>
+    <Box mb={20}>
       <motion.div
         ref={ref}
         animate={controls}
         initial="hidden"
         variants={squareVariants}
         className="square">
-        <Stack
+        <Stack 
           spacing={4}
           as={Container}
           maxW={"3xl"}
           textAlign={"center"}
           position={"relative"}>
-          <Heading fontSize={{ base: "2xl", sm: "4xl" }} fontWeight={"bold"}>
+          <Heading fontSize={{ base: "2xl", sm: "5xl" }} fontWeight={"bold"}>
             Why TaskOver?
           </Heading>
-          <Text
+          <Text 
             color={"gray.600"}
-            fontSize={{ base: "sm", sm: "lg" }}
+            fontSize={{ base: "sm", sm: "xl" }}
             textAlign={"justify"}>
             We understand that managing tasks can be a daunting and monotonous
             process, but with our platform, you can turn it into a fun and
@@ -125,9 +126,10 @@ export default function Feature1() {
           </Text>
         </Stack>
       </motion.div>
-
-      <Container maxW={"5xl"} my={12}>
-        <Flex flexWrap="wrap" gridGap={6} justify="center">
+      </Box>
+      <Box p={"2em"}>
+      <Container maxW={"5xl"} my={12} mt={100} gap={1000}>
+        <Flex flexWrap="wrap" gridGap={6} justify="center" >
           <Card
             heading={"Gamified Tasks"}
             icon={<Image src={card1} w={10} h={10} />}
@@ -159,5 +161,6 @@ export default function Feature1() {
         </Flex>
       </Container>
     </Box>
+    </>
   );
 }

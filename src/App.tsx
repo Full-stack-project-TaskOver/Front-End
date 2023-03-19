@@ -11,14 +11,13 @@ import Leaderboard from "./Component/Session/Leaderboard";
 import Level from "./Component/LandingPage/Components/CactusLevel";
 import LandingPage from "./Component/LandingPage/LandingPage";
 import ShowUsers from "./Component/Tasks/ShowUsers";
+import Profile from "./Component/Profile/Profile";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={<SideNav children={<LandingPage />} />}></Route>
+        <Route path="/" element={<LandingPage />}></Route>
         <Route path="sign-up" element={signUp()}></Route>
         <Route path="sign-in" element={signIn()}></Route>
         <Route
@@ -27,18 +26,20 @@ function App() {
         <Route
           path="/:id/show-users"
           element={<SideNav children={<ShowUsers />} />}></Route>
-
         <Route
           path="Sessions"
           element={<SideNav children={<SessionsIndex />} />}></Route>
         {/* <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route> */}
-        <Route path="Landing" element={<LandingPage />}></Route>
         <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route>
+          <Route
+          path="/Profile"
+          element={<SideNav children={<Profile />} />}></Route>
       </Routes>
+      
     </>
   );
 }

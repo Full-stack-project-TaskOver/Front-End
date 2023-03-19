@@ -47,12 +47,12 @@ export default function ShowUsers() {
     if(data.message === 'There is no Users in Sessions'){
       return data.message
     }
+    console.log(Object.values(data.message));
     
     setUsers(Object.values(data.message) as User[])
     
   };
 
-  
   const deleteUser = async (userId:string) => {
 
     
@@ -63,7 +63,7 @@ export default function ShowUsers() {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const data = await request.json()
+    const data = await request.json()    
     if (request.status !== 200) {
       toast({
         title: data.message,

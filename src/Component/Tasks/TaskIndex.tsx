@@ -1,4 +1,4 @@
-import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
+import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { createPath, useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
+import { motion } from 'framer-motion';
 
 interface Session {
     id:string,
@@ -50,35 +51,20 @@ function TaskIndex() {
   const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
-  console.log("source", source);
-  console.log("destination", destination);
-  console.log("columns", columns);
+
   
 
   if (source.droppableId !== destination.droppableId) {
     const sourceColumn = columns[source.droppableId];
     const destColumn = columns[destination.droppableId];
-    console.log("sourceItems---", sourceColumn.items);
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
-    console.log("sourceItems---", sourceItems);
     const [removed] = sourceItems.splice(source.index, 1);
     
-    console.log("sourceItems", sourceItems);
-    console.log("removed", removed);
+
     
     destItems.splice(destination.index, 0, removed);
-    console.log({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems
-      }
-    });
+
     
     setColumns({
       ...columns,
@@ -109,6 +95,8 @@ function TaskIndex() {
 
 
     let { id } = useParams();
+    const initialRef = React.useRef(null)
+    const finalRef = React.useRef(null)
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
@@ -119,21 +107,26 @@ function TaskIndex() {
     const [taskId, setTaskId] = React.useState<string>("");
     const [taskTitle, setTaskTitle] = React.useState<string>("");
     const [taskStatus, setTaskStatus] = React.useState<string>("");
+    const [assignTo, setAssignTo] = React.useState<string>("");
     const [assignToId, setAssignToId] = React.useState<string>("");
     const [taskDesc, setTaskDesc] = React.useState<string>("");
     const [taskCreateAt, setTaskCreateAt] = React.useState<string>("");
+    const [point, setPoint] = React.useState<number>(0);
+   
 
 
-    function setUseState(id:string, title:string, status:string, assignTo:string, taskDesc:string, createAt:string) {
+    function setUseState(id:string, title:string, status:string, assignTo:string, taskDesc:string, createAt:string, assignToId:string) {
+      setAssignToId(assignToId)
       setTaskId(id)
       setTaskTitle(title)
       setTaskStatus(status)
-      setAssignToId(assignTo)
+      setAssignTo(assignTo)
       setTaskDesc(taskDesc)
       setTaskCreateAt(createAt.substring(0,10))
     }
 
-    const fetchTasks:any = async () => {
+    const fetchTasks = async () => {
+      
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -212,7 +205,6 @@ function TaskIndex() {
       }
       
       setSession(data.session)
-    
     };
   
     const fetchLoggedUser = async () => {
@@ -229,12 +221,31 @@ function TaskIndex() {
       setloggedUser(data.user);
     
     };
+
+    const getPoint = async () => {
+      
+      const request = await fetch(`http://localhost:3003/usersAndSession/getPoint/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await request.json();
+      if(data.message === 'Session dose not exists'){
+        return data.message
+      }
+
+      setPoint(data.message[0].point)
+
+    };
   
     useEffect(() => {
       fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
+      getPoint()
+
     }, []);
 
     useEffect(() => {
@@ -244,6 +255,34 @@ function TaskIndex() {
     }, [taskId]);
 
     
+    function rejectTask(){
+     setTaskStatus("TODO")
+    }
+
+
+ 
+      // const addPoint = point + 100
+      const addPointToUser = async () => {
+             
+        const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
+          method:'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          body:JSON.stringify({
+            assignToId
+          })
+        });
+        const data = await request.json()
+        
+      };
+      console.log('$$$$$$$$$$$$');
+      console.log(point);
+      console.log('$$$$$$$$$$$$');
+           
+
+   
     console.log( columns);
 
     const [time, setTime] = useState(0);
@@ -294,35 +333,57 @@ function TaskIndex() {
     ) : ('')
         }
     </Flex>
-    <Flex justifyContent={{base: "center", md:'end'}} gap={2} wrap={'wrap'} >
+    </Flex>
 
+
+    <Flex justifyContent={{base: "center", md:'end'}} gap={2} wrap={'wrap'}  >
+    {/* <Flex
+      // height={"2.5rem"}
+      // width={"8rem"}
+      // borderRadius={"5px"}
+      // aria-label="add-task"
+          > */}
+            <motion.button
+                style={{
+                  height:"2.5rem",
+                  width:"8rem",
+                  textAlign: "center",
+                  alignContent: "center",
+                  // marginTop: "1rem",
+                  // fontSize: "1.2rem",
+                  borderColor:"#F0F0F0",
+                  boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                  // fontWeight: "500",
+                  borderRadius: "5px",
+                  background:"#FFA476"
+                }}
+                initial={{
+                  color:"#F4F4F4"
+                }}
+                whileHover={{
+                  background: "#FFA476",
+                  scale: 1.02,
+                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                  border:"1px solid #eee",
+                }}
+                whileTap={{
+                  scale: 1,
+                }}
+                transition={{
+                  duration: 0.15,
+                }}
+                onClick={()=>navigate(`/${id}/show-users`)}>
+                Show Users
+              </motion.button>
+      {/* </Flex> */}
     {session?.creatorId == loggedUser?.id ? 
     <>
         <TaskPage/>
         <AddUser/>
-        
     </> : ''}
-    <Button
-      onClick={()=>navigate(`/${id}/show-users`)}
-      size="sm"
-      color={useColorModeValue('white', 'white')}
-      bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
-      border={'2px solid'}
-      borderColor={useColorModeValue('#19A963', '#0d7040')}
-      _hover={{
-      bgColor: useColorModeValue('#2eb573', '#2eb573'),
-      }}
-      rounded={8}
-      p="4"
-      variant="solid"
-      aria-label="add-task"
-          >
-          <Text>Show Users</Text>
-      </Button>
     </Flex>
     
 
-    </Flex>
     <Flex justifyContent={"center"} display={session?.creatorId == loggedUser?.id ? "none" : "flex"}>
       <Cactus userLevel={level} />
     </Flex>
@@ -338,7 +399,7 @@ function TaskIndex() {
         🔥 Streak
         </Flex>
     </Flex>
-      <Level userPoints={level} color={""} size={""} sendLevel={sendLevel} />
+      <Level userPoints={point} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
         <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
@@ -366,8 +427,8 @@ function TaskIndex() {
                         <Text>Create at</Text>
                       </Flex>
                       <Flex flexDirection={'column'} gap={4}>
-                        <Text>{taskStatus == "INPROGRESS" ? "IN PROGRESS" : taskStatus}</Text>
-                        <Text>{assignToId}</Text>
+                        <Text>{taskStatus}</Text>
+                        <Text>{assignTo}</Text>
                         <Text>{taskCreateAt}</Text>
                       </Flex>
                     </Flex>
@@ -451,27 +512,31 @@ function TaskIndex() {
                     </Accordion>
 
                   </ModalBody>
-                  <Divider />
-                  <Box m={5} py={8}>
+                  {/*  column.name == item.status && loggedUser?.id == session?.creatorId */}
+                     {loggedUser?.id != session?.creatorId && 
 
-                  <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)} >
+                       <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
                         <option value='TODO'>TODO</option>
                         <option value='INPROGRESS'>INPROGRESS</option>
                         <option value='COMPLETED'>COMPLETED</option>
+                        {/* taskStatus == "COMPLETED" */}
                   </Select>
-                  </Box>
-
-                  <Divider />
-                  <ModalFooter justifyContent={'center'}>
-                    <Button               
-                      bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
-                      border={'2px solid'}
-                      borderColor={useColorModeValue('#19A963', '#0d7040')}
-                      _hover={{
-                      bgColor: useColorModeValue('#2eb573', '#2eb573'),
-                      }}
-                      onClick={()=> {updateTask(), onClose()}}>Submit</Button>
+                  }
+                  {loggedUser?.id == session?.creatorId && taskStatus == "COMPLETED" &&
+                  <>
+                  <ModalFooter gap={5} justifyContent={'center'}>
+                  <Button colorScheme='green' onClick={()=> {updateTask(), onClose(), addPointToUser()}}>Accept</Button>
+                  <Button  colorScheme='red' onClick={()=> {updateTask(), onClose(), rejectTask()}}>Reject</Button>
                   </ModalFooter>
+                  </>
+                  }
+                   {loggedUser?.id != session?.creatorId && 
+                  <ModalFooter gap={5} justifyContent={'center'}>
+                  <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Save</Button>
+                  </ModalFooter>
+}
+                  <Divider />
+
                 </ModalContent>
         </Modal>
 
@@ -534,10 +599,10 @@ function TaskIndex() {
                               return (
                                 <><Box
                                   onClick={() => {
-                                    const {id, title, status, description, createdDate} = item
+                                    const {id, title, status, description, createdDate, assignToId} = item
                                     const assignTo = item.user.name
                       
-                                    setUseState(id, title, status, assignTo, description, createdDate)
+                                    setUseState(id, title, status, assignTo, description, createdDate, assignToId)
                                     onOpen()
                                     }
                                   }
@@ -595,10 +660,10 @@ function TaskIndex() {
                                 return (
                                   <><Box
                                     onClick={() => {
-                                      const {id, title, status, description, createdDate} = item
+                                      const {id, title, status, description, createdDate, assignToId} = item
                                       const assignTo = item.user.name
                         
-                                      setUseState(id, title, status, assignTo, description, createdDate)
+                                      setUseState(id, title, status, assignTo, description, createdDate,  assignToId)
                                       onOpen()
                                       }
                                     }
