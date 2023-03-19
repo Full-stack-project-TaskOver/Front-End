@@ -79,6 +79,7 @@ function SessionCard(props: sessionCard) {
         duration: 3000,
         position: "top",
       });
+      onClose
       return;
     }
     toast({
@@ -138,7 +139,7 @@ function SessionCard(props: sessionCard) {
     fetchLoggedUser();
   }, []);
 
-  const openModal = () => {
+  const openModal = (type:string ,type2:string, fun:()=> Promise<void>) => {
     return (
       <Modal
         initialFocusRef={initialRef}
@@ -148,14 +149,14 @@ function SessionCard(props: sessionCard) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Are you sure you want to delete {props.title} Session
+            Are you sure you want to {type} {props.title} Session ?
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}></ModalBody>
 
           <ModalFooter>
-            <Button onClick={deleteSessions} colorScheme="red" mr={3}>
-              Delete
+            <Button onClick={fun} colorScheme="red" mr={3}>
+              {type2}
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
@@ -195,7 +196,8 @@ function SessionCard(props: sessionCard) {
             w="0.5rem"
           />
           <MenuList minW={{ base: "4rem", md: "8rem" }}>
-            <MenuItem color={"red"} onClick={leaveSession}>
+          {openModal("leave" ,"Leave", leaveSession )}
+            <MenuItem color={"red"} onClick={onOpen}>
               Leave
             </MenuItem>
           </MenuList>
@@ -217,7 +219,7 @@ function SessionCard(props: sessionCard) {
             w="0.5rem"
           />
           <MenuList minW={{ base: "4rem", md: "8rem" }}>
-            {openModal()}
+            {openModal("delete","Delete",deleteSessions  )}
             <MenuItem
               color={"red"}
               onClick={onOpen}

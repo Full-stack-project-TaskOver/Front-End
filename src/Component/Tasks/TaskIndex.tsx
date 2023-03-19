@@ -140,7 +140,12 @@ function TaskIndex() {
 
         // console.log(data.session[0].task);
         console.log(data);
-        
+        if(tasks && localStorage.getItem('token') != '' ){
+          setTimeout(()=>{
+            fetchTasks()
+          },1000)
+         
+        }
         
         setTasks(data.session[0].task as Task[])
         return data;
@@ -203,6 +208,12 @@ function TaskIndex() {
       if(data.message === 'Session dose not exists'){
         return data.message
       }
+      if(session && localStorage.getItem('token') != '' ){
+        setTimeout(()=>{
+          fetchSession()
+        },1000)
+       
+      }
       
       setSession(data.session)
     };
@@ -248,11 +259,11 @@ function TaskIndex() {
 
     }, []);
 
-    useEffect(() => {
-      updateTask()
-      console.log("hi");
+    // useEffect(() => {
+    //   updateTask()
+    //   console.log("hi");
       
-    }, [taskId]);
+    // }, [taskId]);
 
     
     function rejectTask(){

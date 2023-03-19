@@ -33,8 +33,10 @@ import {
   FiStar,
   FiSettings,
   FiBell,
+
   FiChevronDown,
 } from "react-icons/fi";
+import { VscSignOut } from "react-icons/vsc";
 import {BsPersonCircle} from 'react-icons/bs'
 
 import { FiHome, FiMenu, FiUsers } from "react-icons/fi";
@@ -53,18 +55,22 @@ import Buttons from "./Authentication/Buttons";
 import logo from "../assets/logo3.svg";
 import avatar from "../assets/Avatar.png";
 
+
+
+
 interface LinkItemProps {
   name: string;
   path: string;
   icon: IconType;
 }
 
+
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, path: "Landing" },
   { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
   { name: "Profile", icon: BsPersonCircle, path: "Profile" },
   { name: "Favourites", icon: FiStar, path: "Favourites" },
-  { name: "Settings", icon: FiSettings, path: "Settings" },
+  { name: "Sign Out", icon: VscSignOut, path: "signOut" },
 ];
 
 export default function SidebarWithHeader({
@@ -131,7 +137,9 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           value={link.path}>
           {link.name}
         </NavItem>
+        
       ))}
+
       {/* position={"absolute"} bottom={4} left={4}  */}
       <DarkModeIconButton position={"absolute"} bottom={4} left={9} />
     </Box>
