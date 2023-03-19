@@ -40,7 +40,7 @@ import { VscSignOut } from "react-icons/vsc";
 import {BsPersonCircle} from 'react-icons/bs'
 
 import { FiHome, FiMenu, FiUsers } from "react-icons/fi";
-import { HiHome, HiUserhiy , HiUserGroup } from "react-icons/hi";
+import { HiHome, HiUser , HiUserGroup } from "react-icons/hi";
 import { IoLogOut } from "react-icons/io5";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
