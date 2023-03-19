@@ -46,7 +46,8 @@ function TaskIndex() {
   
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
+
+  const onDragEnd = (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; }) => {
   if (!result.destination) return;
   const { source, destination } = result;
   console.log("source", source);
@@ -157,7 +158,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         const columnsFromBackend = {
           [uuidv4()]: { 
             name: "TODO",
-            items: fetchTasks,
+            items: [],
             color:"orange"
           },
           [uuidv4()]: {
@@ -244,6 +245,39 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
 
     
     console.log( columns);
+
+    const [time, setTime] = useState(0);
+  const [timerStart, setTimerStart] = useState(false);
+  const buttons = [
+    {
+      value: 900,
+      display: "15 minutes",
+    },
+    {
+      value: 1800,
+      display: "30 minutes",
+    },
+    {
+      value: 3600,
+      display: "60 minutes",
+    },
+  ];
+  const toggleTimer = () => {
+    setTimerStart(!timerStart);
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timerStart) {
+        if (time > 0) {
+          setTime(time - 1);
+        } else if (time === 0) {
+          // TODO: Send notification to user.
+          clearInterval(interval);
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timerStart, time]);
     
   return (
     <Container maxWidth="container.xl"  py={10}>
@@ -260,7 +294,14 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     ) : ('')
         }
     </Flex>
-    <Flex justifyContent={'end'} gap={2} >
+    <Flex justifyContent={{base: "center", md:'end'}} gap={2} wrap={'wrap'} >
+
+    {session?.creatorId == loggedUser?.id ? 
+    <>
+        <TaskPage/>
+        <AddUser/>
+        
+    </> : ''}
     <Button
       onClick={()=>navigate(`/${id}/show-users`)}
       size="sm"
@@ -278,11 +319,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
           >
           <Text>Show Users</Text>
       </Button>
-    {session?.creatorId == loggedUser?.id ? 
-    <>
-        <TaskPage/>
-        <AddUser/>
-    </> : ''}
     </Flex>
     
 
@@ -302,13 +338,13 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         🔥 Streak
         </Flex>
     </Flex>
-      <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
+      <Level userPoints={level} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
         <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
                 <ModalOverlay />
 
-                <ModalContent position={'relative'} pt={6} mt={10} mr={10} mb={"8rem"} ml={10} rounded={8}>
+                <ModalContent position={'relative'} pt={6} mt={10} mx={{base:0, md:40}} mb={"8rem"} rounded={8}>
 
                   <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
                     <Text>{session?.title}</Text>
@@ -321,7 +357,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                   <Divider />
 
                   <ModalCloseButton />
-                  <ModalBody px={6}>
+                  <ModalBody >
 
                     <Flex py={6} color={useColorModeValue("gray.500", "gray.400")}>
                       <Flex flexDirection={'column'} pr={"4rem"} gap={4}>
@@ -330,7 +366,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                         <Text>Create at</Text>
                       </Flex>
                       <Flex flexDirection={'column'} gap={4}>
-                        <Text>{taskTitle}</Text>
+                        <Text>{taskStatus == "INPROGRESS" ? "IN PROGRESS" : taskStatus}</Text>
                         <Text>{assignToId}</Text>
                         <Text>{taskCreateAt}</Text>
                       </Flex>
@@ -342,28 +378,99 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
 
 
                     <Accordion defaultIndex={[0]} allowMultiple py={5}>
-                      <AccordionItem border={'none'}>
-                        <AccordionButton>
+                      <AccordionItem border={'none'} >
+                        <AccordionButton rounded={8}>
                           <Box as="span" flex='1' textAlign='left'>
-                            <Heading py={6} as='h2' size='lg'>Pomodoro</Heading>
+                            <Heading py={2} as='h2' size='lg'>Pomodoro</Heading>
                           </Box>
+                          
+
+
                           <AccordionIcon />
                         </AccordionButton>
+                        <AccordionPanel pb={4}>
+                        <Flex
+        background={useColorModeValue('white', "gray.700")}
+        height="100%"
+        alignItems="center"
+        flexDirection="column"
+      >
+        <Text fontWeight="bold" fontSize="35">
+          Pomodoro Timer
+        </Text>
+        <Text fontWeight="bold" fontSize="7xl">
+          {`${
+            Math.floor(time / 60) < 10
+              ? `0${Math.floor(time / 60)}`
+              : `${Math.floor(time / 60)}`
+          }:${time % 60 < 10 ? `0${time % 60}` : time % 60}`}
+        </Text>
+        <Flex>
+          <Button
+            width="7rem"
+            bgColor="red.500"
+            border={'2px solid'}
+            borderColor={"red.700"}
+            color={useColorModeValue('white', 'white')}
+            
+            _hover={{
+              bg: "red.600",
+            }}
+            onClick={toggleTimer}
+          >
+            {!timerStart ? "Start" : "Pause"}
+          </Button>
+          {/* TODO: Add Button to reset timer */}
+        </Flex>
+        <Flex marginTop={10}>
+          {buttons.map(({ value, display }) => (
+            <Button
+              marginX={4}
+              color={useColorModeValue('white', 'white')}
+              bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
+              border={'2px solid'}
+              borderColor={useColorModeValue('#19A963', '#0d7040')}
+              _hover={{
+              bgColor: useColorModeValue('#2eb573', '#2eb573'),
+              }}
+
+              onClick={() => {
+                setTimerStart(false);
+                setTime(value);
+              }}
+            >
+              {display}
+            </Button>
+          ))}
+        </Flex>
+      </Flex>
+                        </AccordionPanel>
+
                       </AccordionItem>
 
                     </Accordion>
 
                   </ModalBody>
+                  <Divider />
+                  <Box m={5} py={8}>
 
-                  <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
+                  <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)} >
                         <option value='TODO'>TODO</option>
                         <option value='INPROGRESS'>INPROGRESS</option>
                         <option value='COMPLETED'>COMPLETED</option>
                   </Select>
+                  </Box>
 
                   <Divider />
                   <ModalFooter justifyContent={'center'}>
-                    <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Submit</Button>
+                    <Button               
+                      bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
+                      border={'2px solid'}
+                      borderColor={useColorModeValue('#19A963', '#0d7040')}
+                      _hover={{
+                      bgColor: useColorModeValue('#2eb573', '#2eb573'),
+                      }}
+                      onClick={()=> {updateTask(), onClose()}}>Submit</Button>
                   </ModalFooter>
                 </ModalContent>
         </Modal>
@@ -384,7 +491,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                     rounded="lg"
                     colorScheme={column.color}
                     >
-                        {column.name}
+                        {column.name == "INPROGRESS" ? "IN PROGRESS" : column.name}
 
                     </Badge>
                 </Heading>
@@ -401,8 +508,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                       background={snapshot.isDraggingOver? 
-                        "#f8f8f8"
-                      : "white"}
+                        useColorModeValue("#f8f8f8", "gray.900")
+                      :useColorModeValue("white", "gray.700")}
                         minH={166}
                         p={4}
                         mt={2}
@@ -440,15 +547,15 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                   style={{
                                     userSelect: "none",
                                     rotate: snapshot.isDragging ? "2deg" : "0deg",
-                                    backgroundColor: snapshot.isDragging
-                                      ? "#f8f8f8"
-                                      : "white",
                                     ...provided.draggableProps.style
                                   }}
                                   rotate={snapshot.isDragging ? "30deg" : "0deg"}
                                   display={'flex'}
                                   flexDirection='column'
                                   //   ref={ref}
+                                  background={snapshot.isDragging? 
+                                    useColorModeValue("#f8f8f8", "gray.800")
+                                  :useColorModeValue("white", "gray.800")}
                                   as="div"
                                   role="group"
                                   position="relative"
@@ -460,7 +567,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                   border='3px solid'
                                   borderColor={useColorModeValue("#f0f0f0", "#242a38")}
                                   cursor="grab"
-                                  bgColor={useColorModeValue("white", "gray.900")}
                                   flexGrow={0}
                                   flexShrink={0}
                                   minH={150}
@@ -471,7 +577,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                     <Text pb={8}>{item.title}</Text>
                                     <Spacer />
                                     {/* {console.log(item)} */}
-                                    <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} />
 
                                   </Box></>
                                     );
@@ -502,13 +607,10 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                     {...provided.dragHandleProps}
                                     style={{
                                       userSelect: "none",
-                                      rotate: snapshot.isDragging ? "2deg" : "0deg",
-                                      backgroundColor: snapshot.isDragging
-                                        ? "#f8f8f8"
-                                        : "white",
                                       ...provided.draggableProps.style
                                     }}
-                                    rotate={snapshot.isDragging ? "30deg" : "0deg"}
+                      
+
                                     display={'flex'}
                                     flexDirection='column'
                                     //   ref={ref}

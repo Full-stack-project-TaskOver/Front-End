@@ -13,6 +13,9 @@ import {
   Icon,
   SimpleGrid,
   useToast,
+  Container,
+  Flex,
+  Img,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -25,7 +28,7 @@ interface User {
 }
 
 export default function ShowUsers() {
-  let { sessionId } = useParams();
+  let { id } = useParams();
   const toast = useToast();
   
   
@@ -34,7 +37,7 @@ export default function ShowUsers() {
   const [users, setUsers] = useState<User[]>([]);
   
   const fetchUsers = async () => {
-    const request = await fetch(`http://localhost:3003/usersAndSession/${sessionId}`, {
+    const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -53,7 +56,7 @@ export default function ShowUsers() {
   const deleteUser = async (userId:string) => {
 
     
-    const request = await fetch(`http://localhost:3003/usersAndSession/${sessionId}/${userId}`, {
+    const request = await fetch(`http://localhost:3003/usersAndSession/${id}/${userId}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json", 
@@ -84,26 +87,31 @@ export default function ShowUsers() {
   }, [])
 
   
-  
+  {console.log(users.length)}
     
   return (
-    <Center py={6}>
+    <Container maxWidth="container.xl"  py={10} >
       <Box textAlign={'center'}>
         <Heading p={6}>Users in Session</Heading>
         <Box>
-        <SimpleGrid m={2.5} columns={{ base: 1, lg: 2, xl: 3 }} spacing={10}>
-          {users.map((user:any, i) => 
+          
+          
+          {users.length != 0 ? users.map((user:any, i) => 
           (
+            
+            <SimpleGrid m={2.5} columns={{ base: 1, lg: 2, xl: 3 }} spacing={10}>
             <Center py={6} key={i}>
               <Box
                 maxW={'320px'}
                 w={'full'}
                 bg={useColorModeValue('white', 'gray.900')}
-                boxShadow={'2xl'}
+                // boxShadow={'2xl'}
                 rounded={'lg'}
                 m={3}
                 p={6}
                 textAlign={'center'}
+                border='3px solid'
+                borderColor={useColorModeValue("#f0f0f0", "#242a38")}
               >
 
                 <Text fontWeight={600} color={'gray.500'} mb={4}></Text>
@@ -135,13 +143,15 @@ export default function ShowUsers() {
                   onClick={() => deleteUser(user.user.id)}
                     flex={1}
                     fontSize={'sm'}
-                    rounded={'full'}
-                    colorScheme="red"
+                    rounded={8}
+                    bgColor="red.500"
+                    border={'2px solid'}
+                    borderColor={"red.700"}
                     color={'white'}
                     
-                    // _hover={{
-                    //   bg: '#008755',
-                    // }}
+                    _hover={{
+                      bg: "red.600",
+                    }}
                     // _focus={{
                     //   bg: '#008755',
                     // }}
@@ -151,11 +161,25 @@ export default function ShowUsers() {
                 </Stack>
               </Box>
             </Center>
-          ))}
-        </SimpleGrid>
+            </SimpleGrid>
+          )):
+          <Flex justifyContent={'center'} alignItems={'center'} flexDirection={'column'}>
+          <Text
+          textAlign={'center'}
+          color={useColorModeValue('gray.500', 'gray.400')}
+          fontWeight={'bolder'}
+          mt={16}
+          mb={4}
+        >
+          Sorry, You don't have any users in this session.
+
+        </Text>
+          <Img src="https://em-content.zobj.net/source/microsoft-teams/337/pensive-face_1f614.png" alt="" height={"5rem"} width={"5rem"}/>
+          </Flex>
+          }
         </Box>
       </Box>
-    </Center>
+    </Container>
   );
 }
 function toast(arg0: { title: any; status: string; duration: number; position: string; }) {
