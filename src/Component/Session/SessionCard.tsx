@@ -174,7 +174,7 @@ function SessionCard(props: sessionCard) {
       border="3px solid"
       borderColor={useColorModeValue("#f0f0f0", "#242a38")}
       shadow="sm"
-      borderRadius={8}
+      borderRadius={15}
       cursor="pointer"
       transition={"200ms"}
       _hover={{
