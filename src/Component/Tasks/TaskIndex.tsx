@@ -1,4 +1,4 @@
-import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge } from '@chakra-ui/react'
+import { Box, Text,Select, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Container, Divider, Flex, Heading, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, SimpleGrid, Spacer, useColorModeValue, useDisclosure, Checkbox, Stack, AccordionButton, Accordion, AccordionItem, AccordionIcon, AccordionPanel, Menu, MenuButton, MenuList, MenuItem, Badge, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { createPath, useParams } from 'react-router-dom';
@@ -45,6 +45,7 @@ interface Session {
 function TaskIndex() {
   
   const { isOpen, onOpen, onClose } = useDisclosure()
+
 
 const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
@@ -101,6 +102,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
 
 
     let { id } = useParams();
+    const initialRef = React.useRef(null)
+    const finalRef = React.useRef(null)
     const [session, setSession] = React.useState<Session>();
     const [loggedUser, setloggedUser] = React.useState<User>();
     const [level, setLevel] = React.useState<number>(0);
@@ -110,16 +113,20 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const [taskId, setTaskId] = React.useState<string>("");
     const [taskTitle, setTaskTitle] = React.useState<string>("");
     const [taskStatus, setTaskStatus] = React.useState<string>("");
+    const [assignTo, setAssignTo] = React.useState<string>("");
     const [assignToId, setAssignToId] = React.useState<string>("");
     const [taskDesc, setTaskDesc] = React.useState<string>("");
     const [taskCreateAt, setTaskCreateAt] = React.useState<string>("");
+    const [point, setPoint] = React.useState<number>();
+   
 
 
-    function setUseState(id:string, title:string, status:string, assignTo:string, taskDesc:string, createAt:string) {
+    function setUseState(id:string, title:string, status:string, assignTo:string, taskDesc:string, createAt:string, assignToId:string) {
+      setAssignToId(assignToId)
       setTaskId(id)
       setTaskTitle(title)
       setTaskStatus(status)
-      setAssignToId(assignTo)
+      setAssignTo(assignTo)
       setTaskDesc(taskDesc)
       setTaskCreateAt(createAt.substring(0,10))
     }
@@ -204,7 +211,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
       }
       
       setSession(data.session)
-    
     };
   
     const fetchLoggedUser = async () => {
@@ -221,12 +227,30 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
       setloggedUser(data.user);
     
     };
+
+    const getPoint = async () => {
+      const request = await fetch(`http://localhost:3003/usersAndSession/point/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      const data = await request.json();
+      if(data.message === 'Session dose not exists'){
+        return data.message
+      }
+
+      setPoint(data.message[0].point)
+
+    };
   
     useEffect(() => {
       fetchTasks()
       fetchSession()
       fetchLoggedUser()
       sendLevel(level);
+      getPoint()
+
     }, []);
 
     useEffect(() => {
@@ -236,8 +260,37 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     }, [taskId]);
 
     
-    console.log( columns);
-    
+    function rejectTask(){
+     setTaskStatus("TODO")
+    }
+
+
+ 
+      // const addPoint = point + 100
+      const addPointToUser = async () => {
+
+        const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
+          method:'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          
+          body:JSON.stringify({
+
+            userId: assignToId,
+            point: 222
+          })
+        });
+        
+        
+      };
+      console.log('$$$$$$$$$$$$');
+      console.log(point);
+      console.log('$$$$$$$$$$$$');
+           
+
+   
   return (
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >
@@ -278,7 +331,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         🔥 Streak
         </Flex>
     </Flex>
-      <Level userPoints={3000} color={""} size={""} sendLevel={sendLevel} />
+      <Level userPoints={point} color={""} size={""} sendLevel={sendLevel} />
     </Box>
           }
         <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
@@ -306,8 +359,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                         <Text>Create at</Text>
                       </Flex>
                       <Flex flexDirection={'column'} gap={4}>
-                        <Text>{taskTitle}</Text>
-                        <Text>{assignToId}</Text>
+                        <Text>{taskStatus}</Text>
+                        <Text>{assignTo}</Text>
                         <Text>{taskCreateAt}</Text>
                       </Flex>
                     </Flex>
@@ -330,17 +383,31 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                     </Accordion>
 
                   </ModalBody>
+                  {/*  column.name == item.status && loggedUser?.id == session?.creatorId */}
+                     {loggedUser?.id != session?.creatorId && 
 
-                  <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
+                       <Select placeholder='Select option'  onChange={(e)=> setTaskStatus(e.target.value)}>
                         <option value='TODO'>TODO</option>
                         <option value='INPROGRESS'>INPROGRESS</option>
                         <option value='COMPLETED'>COMPLETED</option>
+                        {/* taskStatus == "COMPLETED" */}
                   </Select>
-
-                  <Divider />
-                  <ModalFooter justifyContent={'center'}>
-                    <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Submit</Button>
+                  }
+                  {loggedUser?.id == session?.creatorId && taskStatus == "COMPLETED" &&
+                  <>
+                  <ModalFooter gap={5} justifyContent={'center'}>
+                  <Button colorScheme='green' onClick={()=> {updateTask(), onClose(), addPointToUser()}}>Accept</Button>
+                  <Button  colorScheme='red' onClick={()=> {updateTask(), onClose(), rejectTask()}}>Reject</Button>
                   </ModalFooter>
+                  </>
+                  }
+                   {loggedUser?.id != session?.creatorId && 
+                  <ModalFooter gap={5} justifyContent={'center'}>
+                  <Button colorScheme='green' onClick={()=> {updateTask(), onClose()}}>Save</Button>
+                  </ModalFooter>
+}
+                  <Divider />
+
                 </ModalContent>
         </Modal>
 
@@ -403,10 +470,10 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                               return (
                                 <><Box
                                   onClick={() => {
-                                    const {id, title, status, description, createdDate} = item
+                                    const {id, title, status, description, createdDate, assignToId} = item
                                     const assignTo = item.user.name
                       
-                                    setUseState(id, title, status, assignTo, description, createdDate)
+                                    setUseState(id, title, status, assignTo, description, createdDate, assignToId)
                                     onOpen()
                                     }
                                   }
@@ -466,10 +533,10 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
                                 return (
                                   <><Box
                                     onClick={() => {
-                                      const {id, title, status, description, createdDate} = item
+                                      const {id, title, status, description, createdDate, assignToId} = item
                                       const assignTo = item.user.name
                         
-                                      setUseState(id, title, status, assignTo, description, createdDate)
+                                      setUseState(id, title, status, assignTo, description, createdDate,  assignToId)
                                       onOpen()
                                       }
                                     }
