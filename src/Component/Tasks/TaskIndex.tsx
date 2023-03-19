@@ -9,6 +9,7 @@ import Cactus from './Cactus';
 import Level from "../LandingPage/Components/CactusLevel";
 import TaskPage from './TaskPage';
 import './Cactus.css'
+import { motion } from 'framer-motion';
 
 interface Session {
     id:string,
@@ -298,25 +299,47 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         }
     </Flex>
     <Flex justifyContent={'end'} gap={2} >
+    {/* <Flex
+      // height={"2.5rem"}
+      // width={"8rem"}
+      // borderRadius={"5px"}
+      // aria-label="add-task"
+          > */}
+            <motion.button
+                style={{
+                  height:"2.5rem",
+                  width:"8rem",
+                  textAlign: "center",
+                  alignContent: "center",
+                  // marginTop: "1rem",
+                  // fontSize: "1.2rem",
+                  borderColor:"#F0F0F0",
+                  boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
+                  // fontWeight: "500",
+                  borderRadius: "5px",
+                  background:"#FFA476"
+                }}
+                initial={{
+                  color:"#F4F4F4"
+                }}
+                whileHover={{
+                  background: "#FFA476",
+                  scale: 1.02,
+                  boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
+                  border:"1px solid #eee",
+                }}
+                whileTap={{
+                  scale: 1,
+                }}
+                transition={{
+                  duration: 0.15,
+                }}
+                onClick={()=>navigate(`/${id}/show-users`)}>
+                Show Users
+              </motion.button>
+      {/* </Flex> */}
     {session?.creatorId == loggedUser?.id ? 
     <>
-    <Button
-      onClick={()=>navigate(`/${id}/show-users`)}
-      size="sm"
-      color={useColorModeValue('white', 'white')}
-      bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
-      border={'2px solid'}
-      borderColor={useColorModeValue('#19A963', '#0d7040')}
-      _hover={{
-      bgColor: useColorModeValue('#2eb573', '#2eb573'),
-      }}
-      rounded={8}
-      p="4"
-      variant="solid"
-      aria-label="add-task"
-          >
-          <Text>Show Users</Text>
-      </Button>
         <TaskPage/>
         <AddUser/>
     </> : ''}
