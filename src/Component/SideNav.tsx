@@ -214,7 +214,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       />
 
       <Image
-        src={logo}
+        src={useColorModeValue(logo,avatar)}
         maxH={"5rem"}
         maxW="5rem"
         display={{ base: "flex", md: "none" }}></Image>

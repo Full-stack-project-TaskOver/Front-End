@@ -57,7 +57,7 @@ function CactusLevel(props: any) {
           className="level-text-containter"
           justifyContent={"space-between"}>
           <Text px={"0.8rem"}>{currentUserPoints}XP</Text>
-          <Text px={"0.8rem"}>Level {userLevel}</Text>
+          <Text px={"0.8rem"}>Level {userLevel+1}</Text>
         </Flex>
         <Flex
           height={size}
@@ -66,7 +66,7 @@ function CactusLevel(props: any) {
           position={"relative"}>
           <Text
             position="absolute"
-            top="50%"
+            top="50%" 
             left="50%"
             transform={"translate(-50%, -50%)"}>
             Bar Should be here

@@ -416,7 +416,7 @@ function TaskIndex() {
         <Modal onClose={onClose} isOpen={isOpen} size={'full'}>
                 <ModalOverlay />
 
-                <ModalContent position={'relative'} pt={6} mt={10} mx={{base:0, md:40}} mb={"8rem"} rounded={8}>
+                <ModalContent position={'relative'} pt={6} my={{base:0, sm:10}} mx={{base:0, sm:20}} rounded={{base:0, sm:8}}>
 
                   <Box py={2} px={6} color={useColorModeValue("gray.500", "gray.400")}>
                     <Text>{session?.title}</Text>
@@ -449,7 +449,8 @@ function TaskIndex() {
                     <Divider />
 
 
-                    <Accordion defaultIndex={[0]} allowMultiple py={5}>
+                    { loggedUser?.id != session?.creatorId && 
+                      <Accordion defaultIndex={[0]} allowMultiple py={5}>
                       <AccordionItem border={'none'} >
                         <AccordionButton rounded={8}>
                           <Box as="span" flex='1' textAlign='left'>
@@ -520,7 +521,7 @@ function TaskIndex() {
 
                       </AccordionItem>
 
-                    </Accordion>
+                    </Accordion>}
 
                   </ModalBody>
                   {/*  column.name == item.status && loggedUser?.id == session?.creatorId */}
@@ -536,8 +537,26 @@ function TaskIndex() {
                   {loggedUser?.id == session?.creatorId && taskStatus == "COMPLETED" &&
                   <>
                   <ModalFooter gap={5} justifyContent={'center'}>
-                  <Button colorScheme='green' onClick={()=> {updateTask(), onClose(), addPointToUser()}}>Accept</Button>
-                  <Button  colorScheme='red' onClick={()=> {updateTask(), onClose(), rejectTask()}}>Reject</Button>
+                  <Button 
+                    marginX={4}
+                    color={useColorModeValue('white', 'white')}
+                    bgColor={useColorModeValue('#2bcb7d', '#2bcb7d')}
+                    border={'2px solid'}
+                    borderColor={useColorModeValue('#19A963', '#0d7040')}
+                    _hover={{
+                    bgColor: useColorModeValue('#2eb573', '#2eb573'),
+                    }}
+                   onClick={()=> {updateTask(), onClose(), addPointToUser()}}>Accept</Button>
+                  <Button  
+                    bgColor="red.500"
+                    border={'2px solid'}
+                    borderColor={"red.700"}
+                    color={useColorModeValue('white', 'white')}
+                    
+                    _hover={{
+                      bg: "red.600",
+                    }}
+                   onClick={()=> {updateTask(), onClose(), rejectTask()}}>Reject</Button>
                   </ModalFooter>
                   </>
                   }
@@ -712,7 +731,7 @@ function TaskIndex() {
                                       <Text pb={8}>{item.title}</Text>
                                       <Spacer />
                                       {/* {console.log(item)} */}
-                                      <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} />
+                                      {/* <Progress colorScheme='green' height='7px' value={30} rounded={18} mb={2} /> */}
   
                                     </Box></>
                                       );
