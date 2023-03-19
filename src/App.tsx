@@ -11,6 +11,7 @@ import Leaderboard from "./Component/Session/Leaderboard";
 import Level from "./Component/LandingPage/Components/CactusLevel";
 import LandingPage from "./Component/LandingPage/LandingPage";
 import ShowUsers from "./Component/Tasks/ShowUsers";
+import Profile from "./Component/Profile/Profile";
 
 function App() {
   return (
@@ -38,7 +39,11 @@ function App() {
         <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route>
+          <Route
+          path="/Profile"
+          element={<SideNav children={<Profile />} />}></Route>
       </Routes>
+      
     </>
   );
 }

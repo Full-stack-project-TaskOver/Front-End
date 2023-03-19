@@ -35,6 +35,7 @@ import {
   FiBell,
   FiChevronDown,
 } from "react-icons/fi";
+import {BsPersonCircle} from 'react-icons/bs'
 
 import { FiHome, FiMenu, FiUsers } from "react-icons/fi";
 import { IconType } from "react-icons";
@@ -60,7 +61,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, path: "Landing" },
   { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
-  { name: "Explore", icon: FiCompass, path: "Explore" },
+  { name: "Profile", icon: BsPersonCircle, path: "Profile" },
   { name: "Favourites", icon: FiStar, path: "Favourites" },
   { name: "Settings", icon: FiSettings, path: "Settings" },
 ];

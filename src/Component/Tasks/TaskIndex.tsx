@@ -50,7 +50,9 @@ function TaskIndex() {
 const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
   const { source, destination } = result;
-
+  console.log("source", source);
+  console.log("destination", destination);
+  console.log("columns", columns);
   
 
   if (source.droppableId !== destination.droppableId) {
@@ -59,6 +61,9 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const sourceItems = [...sourceColumn.items];
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
+    
+    console.log("sourceItems", sourceItems);
+    console.log("removed", removed);
     
     destItems.splice(destination.index, 0, removed);
     console.log({
