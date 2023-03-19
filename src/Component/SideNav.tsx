@@ -50,6 +50,7 @@ import { ValueTarget } from "framer-motion";
 import DarkModeIconButton from "./Tasks/DarkModeIcon";
 import Buttons from "./Authentication/Buttons";
 import logo from "../assets/logo3.svg";
+import avatar from "../assets/Avatar.png";
 
 interface LinkItemProps {
   name: string;
