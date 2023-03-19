@@ -68,7 +68,7 @@ interface LinkItemProps {
 
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: HiHome, path: "Landing" },
+  { name: "Home", icon: HiHome, path: "" },
   { name: "Sessions", icon: HiUserGroup, path: "Sessions" },
   { name: "Profile", icon: HiUser, path: "Profile" },
   { name: "Sign Out", icon: IoLogOut, path: "signOut" },

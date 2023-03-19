@@ -96,7 +96,6 @@ function SessionOverlay(props: Session) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const options = ["Company", "OpenSource",];
   const [sessionId, setSessionId] = React.useState<string>("");
   const [userId, setUserId] = React.useState<string>();
   const toast = useToast();
@@ -309,16 +308,16 @@ function SessionOverlay(props: Session) {
 
           <ModalContent>
             <Text px={6} pt={3} color="gray.400">
-              Sessions /{" "}
+              {/* Sessions /{" "} */}
               <Text as="span" color={useColorModeValue("gray.800", "gray.100")}>
                 {" "}
-                Create Session{" "}
+                {/* Create Session{" "} */}
               </Text>
             </Text>
 
             <ModalHeader px={6} pt={9} color={"gray.700"}>
               <Text color={useColorModeValue("gray.800", "gray.100")}>
-                This Session {session.type == "Personal" ? "is" : "for"} a ..{" "}
+                Create New Session 
                 <Text
                   as={"span"}
                   color={useColorModeValue("black", "gray.100")}>

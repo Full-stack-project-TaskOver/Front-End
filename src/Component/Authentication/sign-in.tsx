@@ -94,7 +94,6 @@ export default function SimpleCard() {
                 align={"start"}
                 justify={"space-between"}>
                 {/* <Checkbox>Remember me</Checkbox> */}
-                <Link color={"#ff9966"}>Forgot password?</Link>
               </Stack>
               <motion.button
                 style={{

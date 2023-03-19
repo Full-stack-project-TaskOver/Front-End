@@ -44,7 +44,7 @@ function CactusLevel(props: any) {
 
   // Sending the level to the parent
   useEffect(() => {
-    props.sendLevel(userLevel);
+    props.sendLevel(userLevel + 1);
   });
 
   return (
