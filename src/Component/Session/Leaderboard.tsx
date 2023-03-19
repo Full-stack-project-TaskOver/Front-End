@@ -48,7 +48,7 @@ function Leaderboard() {
   }
 
   return (
-    <Box px={{base:0, md:'6rem'}}>
+    <Box px={{base:0, md:'6rem'}} mb="6rem">
       <Heading as={'h1'} fontSize={'3rem'} my={'6rem'} textAlign={'center'}>
         Leaderboard 
       </Heading>

@@ -13,23 +13,6 @@ function Buttons() {
   
     const [user, setUser] = React.useState<string>("");
   
-  const getUserById = async () => {
-     const response = await fetch("http://localhost:3003/user", {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    }) 
-    const data = await response.json()
-    const {name} = data.user
-    console.log(name);
-    
-
-      setUser(name)
-    
-    
-    // const data = await request.json();
-  };
   
   useEffect(() => {
     const getUserById = async () => {
@@ -40,8 +23,10 @@ function Buttons() {
        },
      }) 
      const data = await response.json()
+    //  console.log(data);
+     
      const {name} = data.user
-     console.log(name);
+    //  console.log(name);
      
  
        setUser(name)
@@ -49,14 +34,14 @@ function Buttons() {
      
      // const data = await request.json();
    };
-    
+    getUserById()
     
   }, []);
   
   const navigate = useNavigate();
 
   const signOut = () =>{
-    localStorage.removeItem("token")
+    localStorage.setItem("token" , '')
     navigate('/')
   }
   function Profile(){

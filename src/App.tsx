@@ -16,10 +16,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<SideNav children={<LandingPage />} />}></Route>
+        <Route
+          path="/"
+          element={<SideNav children={<LandingPage />} />}></Route>
         <Route path="sign-up" element={signUp()}></Route>
         <Route path="sign-in" element={signIn()}></Route>
-        <Route path="/" element={<SideNav children={<TaskIndex />} />}></Route>
         <Route
           path="/:id"
           element={<SideNav children={<TaskIndex />} />}></Route>
@@ -30,12 +31,13 @@ function App() {
         <Route
           path="Sessions"
           element={<SideNav children={<SessionsIndex />} />}></Route>
+        {/* <Route
+          path="/leaderboard/:id"
+          element={<SideNav children={<Leaderboard />} />}></Route> */}
+        <Route path="Landing" element={<LandingPage />}></Route>
         <Route
           path="/leaderboard/:id"
           element={<SideNav children={<Leaderboard />} />}></Route>
-        {/* <Route
-          path="Landing"
-          element={<SideNav children={<LandingPage />} />}></Route> */}
       </Routes>
     </>
   );

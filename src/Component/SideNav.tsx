@@ -47,8 +47,9 @@ import { RiTeamLine } from "react-icons/Ri";
 
 import { Route, Link, useLocation, useNavigate } from "react-router-dom";
 import { ValueTarget } from "framer-motion";
-import DarkModeIconButton from './Tasks/DarkModeIcon';
-import Buttons from './Authentication/Buttons';
+import DarkModeIconButton from "./Tasks/DarkModeIcon";
+import Buttons from "./Authentication/Buttons";
+import logo from "../assets/logo.svg";
 
 interface LinkItemProps {
   name: string;
@@ -57,7 +58,7 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, path: "" },
+  { name: "Home", icon: FiHome, path: "Landing" },
   { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
   { name: "Explore", icon: FiCompass, path: "Explore" },
   { name: "Favourites", icon: FiStar, path: "Favourites" },
@@ -65,7 +66,6 @@ const LinkItems: Array<LinkItemProps> = [
 ];
 
 export default function SidebarWithHeader({
-  
   children,
 }: {
   children: ReactNode;
@@ -91,7 +91,7 @@ export default function SidebarWithHeader({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: '7rem' }} p="4">
+      <Box ml={{ base: 0, md: "7rem" }} p="4">
         <Box height="20" />
         {children}
       </Box>
@@ -104,32 +104,34 @@ interface SidebarProps extends BoxProps {
 }
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
-
   return (
     <Box
       transition="3s ease"
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: '7rem' }}
+      w={{ base: "full", md: "7rem" }}
       pos="fixed"
       h="full"
       zIndex={10}
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" >
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <Spacer/>
+      <Flex h="20" alignItems="center" mx="3">
+        <Image src={logo} maxH={"10rem"} maxW="8rem"></Image>
+        <Spacer />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem p={".8rem"} m={"1.3rem"} key={link.name} icon={link.icon} value={link.path}>
+        <NavItem
+          p={".8rem"}
+          m={"1.3rem"}
+          key={link.name}
+          icon={link.icon}
+          value={link.path}>
           {link.name}
         </NavItem>
       ))}
       {/* position={"absolute"} bottom={4} left={4}  */}
-          <DarkModeIconButton position={"absolute"} bottom={4} left={9}/>
+      <DarkModeIconButton position={"absolute"} bottom={4} left={9} />
     </Box>
   );
 };
@@ -140,48 +142,37 @@ interface NavItemProps extends FlexProps {
   value: ValueTarget;
 }
 const NavItem = ({ icon, children, value, ...rest }: NavItemProps) => {
-  // const navigate = useNavigate();
-  // useEffect(()=>{
-  //   console.log("hi");
-    
-
-    
-  //   const token = localStorage.getItem('token')
-  //   console.log(token);
-  //     !token && navigate("/sign-in")
-  //   },[])
-
   return (
-    <Tooltip label={children} fontSize='md'>
-
-    <Link to={`/${value}`} style={{ textDecoration: "none" }}>
-      <Flex
-      flexDirection={'column'}
-        align="center"
-        borderRadius="1.5rem"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: useColorModeValue("gray.100", "gray.800"),
-          boxShadow: "sm",
-          // color: "black",
-        }}
-        transition={"250ms"}
-        {...rest}>
-        {icon && (
-          <Icon
-          my="3"
-            fontSize="16"
-            _groupHover={
-              {
-                // color: "black",
+    <Tooltip label={children} fontSize="md">
+      <Link to={`/${value}`} style={{ textDecoration: "none" }}>
+        <Flex
+          flexDirection={"column"}
+          align="center"
+          borderRadius="1.5rem"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: useColorModeValue("gray.100", "gray.800"),
+            boxShadow: "sm",
+            // color: "black",
+          }}
+          transition={"250ms"}
+          {...rest}>
+          {icon && (
+            <Icon
+              my="3"
+              fontSize="16"
+              _groupHover={
+                {
+                  // color: "black",
+                }
               }
-            }
-            as={icon}
-          />
-        )}
-      </Flex>
-    </Link>
+              as={icon}
+            />
+          )}
+          <Text display={{ base: "flex", md: "none" }}>{children}</Text>
+        </Flex>
+      </Link>
     </Tooltip>
   );
 };
@@ -190,8 +181,6 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-
-
   return (
     <Flex
       position={"fixed"}
@@ -213,30 +202,21 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold">
-        Logo
-      </Text>
+      <Image
+        src={logo}
+        maxH={"10rem"}
+        maxW="8rem"
+        display={{ base: "flex", md: "none" }}></Image>
 
-      < Buttons/>
-
-
+      <Buttons />
 
       <HStack spacing={{ base: "0", md: "6" }}>
-
         <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
         />
-
-        
-
-
       </HStack>
     </Flex>
   );
