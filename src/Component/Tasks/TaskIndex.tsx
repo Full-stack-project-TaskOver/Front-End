@@ -139,7 +139,7 @@ function TaskIndex() {
         }
 
         // console.log(data.session[0].task);
-        console.log(data);
+        // console.log(data);
         if(tasks && localStorage.getItem('token') != '' ){
           setTimeout(()=>{
             fetchTasks()
@@ -151,7 +151,7 @@ function TaskIndex() {
         return data;
       };
 
-      console.log(tasks,"tasks");
+      // console.log(tasks,"tasks");
       
         const columnsFromBackend = {
           [uuidv4()]: { 
@@ -174,7 +174,7 @@ function TaskIndex() {
 
         const [columns, setColumns] = useState(columnsFromBackend);
         
-        console.log(columns);
+        // console.log(columns);
         
         const updateTask = async () => {
 
@@ -288,9 +288,9 @@ function TaskIndex() {
         const data = await request.json()
         
       };
-      console.log('$$$$$$$$$$$$');
-      console.log(point);
-      console.log('$$$$$$$$$$$$');
+      // console.log('$$$$$$$$$$$$');
+      // console.log(point);
+      // console.log('$$$$$$$$$$$$');
            
 
    

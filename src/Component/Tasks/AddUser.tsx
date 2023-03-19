@@ -82,8 +82,8 @@ function AddUser() {
       position: "top",
     });
     onClose();
-    console.log(await request.json());
-    console.log(request.status);
+    // console.log(await request.json());
+    // console.log(request.status);
   };
 
   // console.log(userId);

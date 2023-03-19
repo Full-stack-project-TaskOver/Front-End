@@ -30,11 +30,11 @@ function CactusLevel(props: any) {
   pointsLeft = 500 - currentUserPoints;
   levelPercentage = (currentUserPoints / 500) * 100;
 
-  console.log("Level: ", userLevel);
-  console.log("User Points: ", userPoints);
-  console.log("Current User Points: ", currentUserPoints);
-  console.log("Points Left: ", pointsLeft);
-  console.log("%: ", levelPercentage);
+  // console.log("Level: ", userLevel);
+  // console.log("User Points: ", userPoints);
+  // console.log("Current User Points: ", currentUserPoints);
+  // console.log("Points Left: ", pointsLeft);
+  // console.log("%: ", levelPercentage);
 
   const defaultLevelColor = "linear-gradient(to right, #f12711, #f5af19)";
   color = color.trim() == "" ? defaultLevelColor : color;

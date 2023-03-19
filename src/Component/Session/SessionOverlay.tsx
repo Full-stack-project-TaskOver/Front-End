@@ -96,7 +96,7 @@ function SessionOverlay(props: Session) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const options = ["Company", "OpenSource", "Family", "Personal"];
+  const options = ["Company", "OpenSource",];
   const [sessionId, setSessionId] = React.useState<string>("");
   const [userId, setUserId] = React.useState<string>();
   const toast = useToast();
@@ -168,8 +168,8 @@ function SessionOverlay(props: Session) {
   const handleChange = (value: string) => {
     session.type = value;
     session.imgPath = (value + ".png").toLowerCase();
-    console.log(session.type);
-    console.log(session.imgPath);
+    // console.log(session.type);
+    // console.log(session.imgPath);
   };
 
   // To read the radio buttons value in every change.
@@ -336,14 +336,7 @@ function SessionOverlay(props: Session) {
                 justifyContent="center"
                 gap={5}
                 columns={{ base: 2, md: 4 }}>
-                {options.map((value) => {
-                  const radio = getRadioProps({ value });
-                  return (
-                    <RadioCard key={value} {...radio}>
-                      {value}
-                    </RadioCard>
-                  );
-                })}
+                
               </SimpleGrid>
               <VStack spacing={3} p={6}>
                 <Text alignSelf={"start"}>

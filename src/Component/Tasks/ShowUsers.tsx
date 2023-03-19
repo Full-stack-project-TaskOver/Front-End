@@ -81,7 +81,7 @@ export default function ShowUsers() {
     if(data.message === 'There is no Users in Sessions'){
       return data.message
     }
-    console.log(Object.values(data.message));
+    // console.log(Object.values(data.message));
     
     setUsers(Object.values(data.message) as User[])
     
@@ -121,7 +121,7 @@ export default function ShowUsers() {
   }, [])
 
   
-  {console.log(users.length)}
+  // {console.log(users.length)}
     
   return (
     <Container maxWidth="container.xl"  py={10} >
