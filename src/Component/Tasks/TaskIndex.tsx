@@ -266,9 +266,7 @@ function TaskIndex() {
     // }, [taskId]);
 
     
-    function rejectTask(){
-     setTaskStatus("TODO")
-    }
+   
 
 
  
@@ -328,7 +326,9 @@ function TaskIndex() {
     }, 1000);
     return () => clearInterval(interval);
   }, [timerStart, time]);
-    
+  function rejectTask(){
+    setTaskStatus("TODO")
+  }
   return (
     <Container maxWidth="container.xl"  py={10}>
     <Flex justifyContent={'space-between'} flexWrap={'wrap'} >

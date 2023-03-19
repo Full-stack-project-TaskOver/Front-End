@@ -66,11 +66,11 @@ interface LinkItemProps {
 
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, path: "Landing" },
+  { name: "Home", icon: FiHome, path: "" },
   { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
   { name: "Profile", icon: BsPersonCircle, path: "Profile" },
   { name: "Favourites", icon: FiStar, path: "Favourites" },
-  { name: "Sign Out", icon: VscSignOut, path: "signOut" },
+  // { name: "Sign Out", icon: VscSignOut, path: "signOut" },
 ];
 
 export default function SidebarWithHeader({
