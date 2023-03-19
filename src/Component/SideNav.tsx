@@ -40,6 +40,8 @@ import { VscSignOut } from "react-icons/vsc";
 import {BsPersonCircle} from 'react-icons/bs'
 
 import { FiHome, FiMenu, FiUsers } from "react-icons/fi";
+import { HiHome, HiUserhiy , HiUserGroup } from "react-icons/hi";
+import { IoLogOut } from "react-icons/io5";
 import { IconType } from "react-icons";
 import { ReactText } from "react";
 
@@ -66,11 +68,10 @@ interface LinkItemProps {
 
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, path: "Landing" },
-  { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
-  { name: "Profile", icon: BsPersonCircle, path: "Profile" },
-  { name: "Favourites", icon: FiStar, path: "Favourites" },
-  { name: "Sign Out", icon: VscSignOut, path: "signOut" },
+  { name: "Home", icon: HiHome, path: "Landing" },
+  { name: "Sessions", icon: HiUserGroup, path: "Sessions" },
+  { name: "Profile", icon: HiUser, path: "Profile" },
+  { name: "Sign Out", icon: IoLogOut, path: "signOut" },
 ];
 
 export default function SidebarWithHeader({
