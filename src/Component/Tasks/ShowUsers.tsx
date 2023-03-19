@@ -13,6 +13,13 @@ import {
   Icon,
   SimpleGrid,
   useToast,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -28,10 +35,37 @@ export default function ShowUsers() {
   let { id } = useParams();
   const toast = useToast();
   
-  
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
   
   const [users, setUsers] = useState<User[]>([]);
+
+  const openModal = (id:string) => {
+    return (
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Are you sure you want to delete User ?
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}></ModalBody>
+
+          <ModalFooter>
+            <Button onClick={()=> deleteUser(id)} colorScheme="red" mr={3}>
+              Delete
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  };
   
   const fetchUsers = async () => {
     const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
@@ -131,21 +165,22 @@ export default function ShowUsers() {
                   </Badge>
                 </Stack>
                 <Stack mt={8} direction={'row'} spacing={4}>
+                  {openModal(user.user.id)}
                   <Button
-                  onClick={() => deleteUser(user.user.id)}
-                    flex={1}
-                    fontSize={'sm'}
-                    rounded={'full'}
-                    colorScheme="red"
-                    color={'white'}
-                    
-                    // _hover={{
+                  onClick={onOpen}
+                  flex={1}
+                  fontSize={'sm'}
+                  rounded={'full'}
+                  colorScheme="red"
+                  color={'white'}
+                  
+                  // _hover={{
                     //   bg: '#008755',
                     // }}
                     // _focus={{
                     //   bg: '#008755',
                     // }}
-                  >
+                    >
                     Delete
                   </Button>
                 </Stack>
