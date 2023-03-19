@@ -50,9 +50,7 @@ function TaskIndex() {
 const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColumns: { (value: React.SetStateAction<{ [x: string]: { name: string; items: () => Promise<any>; color: string; } | { name: string; items: never[]; color: string; }; }>): void; (arg0: any): void; })=> {
   if (!result.destination) return;
   const { source, destination } = result;
-  console.log("source", source);
-  console.log("destination", destination);
-  console.log("columns", columns);
+
   
 
   if (source.droppableId !== destination.droppableId) {
@@ -62,21 +60,10 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
     
-    console.log("sourceItems", sourceItems);
-    console.log("removed", removed);
+
     
     destItems.splice(destination.index, 0, removed);
-    console.log({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems
-      }
-    });
+
     
     setColumns({
       ...columns,
@@ -123,7 +110,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const [assignToId, setAssignToId] = React.useState<string>("");
     const [taskDesc, setTaskDesc] = React.useState<string>("");
     const [taskCreateAt, setTaskCreateAt] = React.useState<string>("");
-    const [point, setPoint] = React.useState<number>();
+    const [point, setPoint] = React.useState<number>(0);
    
 
 
@@ -137,7 +124,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
       setTaskCreateAt(createAt.substring(0,10))
     }
 
-    const fetchTasks:any = async () => {
+    const fetchTasks = async () => {
       
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
         headers: {
@@ -235,7 +222,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     };
 
     const getPoint = async () => {
-      const request = await fetch(`http://localhost:3003/usersAndSession/point/${id}`, {
+      
+      const request = await fetch(`http://localhost:3003/usersAndSession/getPoint/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -274,21 +262,18 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
  
       // const addPoint = point + 100
       const addPointToUser = async () => {
-
+             
         const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
           method:'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-          
           body:JSON.stringify({
-
-            userId: assignToId,
-            point: 222
+            assignToId
           })
         });
-        
+        const data = await request.json()
         
       };
       console.log('$$$$$$$$$$$$');
@@ -313,6 +298,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
         }
     </Flex>
     <Flex justifyContent={'end'} gap={2} >
+    {session?.creatorId == loggedUser?.id ? 
+    <>
     <Button
       onClick={()=>navigate(`/${id}/show-users`)}
       size="sm"
@@ -330,8 +317,6 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
           >
           <Text>Show Users</Text>
       </Button>
-    {session?.creatorId == loggedUser?.id ? 
-    <>
         <TaskPage/>
         <AddUser/>
     </> : ''}

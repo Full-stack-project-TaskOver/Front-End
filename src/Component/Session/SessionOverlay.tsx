@@ -168,7 +168,6 @@ useEffect(() => {
 
 
 
-  const navigate = useNavigate();
 
   // console.log(setDescription);
   

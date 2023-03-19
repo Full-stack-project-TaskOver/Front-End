@@ -49,23 +49,7 @@ export default function ShowUsers() {
     setUsers(Object.values(data.message) as User[])
     
   };
-  // const fetchUsers = async () => {
-  //   const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: "Bearer " + localStorage.getItem("token"),
-  //     },
-  //   });
-  //   const data = await request.json();
-  //   if(data.message === 'There is no Users in Sessions'){
-  //     return data.message
-  //   }
-    
-  //   setUsers(Object.values(data)[0] as User[])
-  //   // console.log(data);
-    
-  // };
-  
+
   const deleteUser = async (userId:string) => {
 
     
@@ -76,7 +60,7 @@ export default function ShowUsers() {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const data = await request.json()
+    const data = await request.json()    
     if (request.status !== 200) {
       toast({
         title: data.message,
