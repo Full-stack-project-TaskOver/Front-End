@@ -52,22 +52,20 @@ let session: sessionType = {
 };
 
 interface Session {
-  title:string
-  method:string
+  title: string;
+  method: string;
 }
 
 // Radio Button
 function RadioCard(props: any) {
   const { getInputProps, getCheckboxProps } = useRadio(props);
 
-  
-
   const input = getInputProps();
 
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label" >
+    <Box as="label">
       <input {...input} />
 
       <Box
@@ -79,14 +77,13 @@ function RadioCard(props: any) {
         backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
         transition={"200ms"}
         textAlign="center"
-        outline='3px solid'
+        outline="3px solid"
         outlineColor={useColorModeValue("#f0f0f0", "gray.600")}
         _checked={{
           color: useColorModeValue("black", "white"),
           backgroundColor: useColorModeValue("#f8f8f8", "#222a3a"),
-          outlineColor: useColorModeValue("#d3d3d1", "gray.500")
+          outlineColor: useColorModeValue("#d3d3d1", "gray.500"),
         }}
-
         px={{ base: 4, md: 5 }}
         py={{ base: 3, md: 4 }}>
         {props.children}
@@ -95,49 +92,49 @@ function RadioCard(props: any) {
   );
 }
 
-function SessionOverlay(props:Session) {
+function SessionOverlay(props: Session) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const options = ["Company", "OpenSource", "Family", "Personal"];
-  const [sessionId, setSessionId] = React.useState<string>('');
+  const [sessionId, setSessionId] = React.useState<string>("");
   const [userId, setUserId] = React.useState<string>();
   const toast = useToast();
 
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
 
-
-const fetchLoggedUser = async () => {
-  if(localStorage.getItem('token') == '')
-    return
-  const request = await fetch(`http://localhost:3003/user`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-  });
-  const data = await request.json();
-  if(data.message === 'user not found'){
-    return 'You are not authorized , please log in'
-  }
+  const fetchLoggedUser = async () => {
+    if (localStorage.getItem("token") == "") return;
+    const request = await fetch(`http://localhost:3003/user`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
+    const data = await request.json();
+    if (data.message === "user not found") {
+      return "You are not authorized , please log in";
+    }
     setUserId(data.user.id);
-};
+  };
 
-
-const joinSession = async () => {
-  const request = await fetch("http://localhost:3003/usersAndSession/join-session", {
-    method:'POST',
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token"),
-    },
-    body:JSON.stringify({
-        userId,
-        sessionId,
-   })
-  });
-  const data = await request.json()
+  const joinSession = async () => {
+    const request = await fetch(
+      "http://localhost:3003/usersAndSession/join-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          userId,
+          sessionId,
+        }),
+      }
+    );
+    const data = await request.json();
     if (request.status !== 200) {
       toast({
         title: data.message,
@@ -148,30 +145,25 @@ const joinSession = async () => {
       return;
     }
     toast({
-      title:"Join Session successfully!",
+      title: "Join Session successfully!",
       status: "success",
       duration: 3000,
       position: "top",
     });
-    onClose()
-  console.log(await request.json());
+    onClose();
+    console.log(await request.json());
+  };
 
-};
+  // console.log(userId);
+  // console.log(sessionId);
 
-// console.log(userId);
-// console.log(sessionId);
+  useEffect(() => {
+    fetchLoggedUser();
+  }, []);
 
-
-useEffect(() => {
-  fetchLoggedUser()
-}, []);
-
-
-
-  const navigate = useNavigate();
 
   // console.log(setDescription);
-  
+
   // To handle the radio button value.
   const handleChange = (value: string) => {
     session.type = value;
@@ -196,7 +188,7 @@ useEffect(() => {
   // };
 
   const addSession = async () => {
-    const request = await fetch('http://localhost:3003/session', {
+    const request = await fetch("http://localhost:3003/session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -205,15 +197,13 @@ useEffect(() => {
       body: JSON.stringify({
         title,
         description,
-        type: value
-
-      })
-      
+        type: value,
+      }),
     });
 
     if (request.status !== 200) {
       toast({
-        title: 'Name is required',
+        title: "Name is required",
         status: "error",
         duration: 3000,
         position: "top",
@@ -221,15 +211,14 @@ useEffect(() => {
       return;
     }
     toast({
-      title:"Session added successfully!",
+      title: "Session added successfully!",
       status: "success",
       duration: 3000,
       position: "top",
     });
-    onClose()
-    
+    onClose();
+
     console.log(await request.json());
-    
   };
 
   return (
@@ -242,7 +231,7 @@ useEffect(() => {
         backgroundColor={useColorModeValue("white", "gray.900")}
         shadow="sm"
         borderRadius={15}
-        border={'3px dashed '}
+        border={"3px dashed "}
         borderColor={useColorModeValue("#eae7e4", "#242a38")}
         cursor="pointer"
         transition={"200ms"}
@@ -268,125 +257,150 @@ useEffect(() => {
           }}
         />
       </Card>
-      {props.method === 'join' ? <Modal
-      initialFocusRef={initialRef}
-      finalFocusRef={finalRef}
-      isOpen={isOpen}
-      onClose={onClose}
-    >
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Enter sessionID to join session</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <FormControl>
-            <FormLabel>Session ID</FormLabel>
-            <Input required ref={initialRef} placeholder='Enter session id' onChange={(e)=> setSessionId(e.target.value)}/>
-          </FormControl>
-        </ModalBody>
+      {props.method === "join" ? (
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isOpen}
+          onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Enter sessionID to join session</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Session ID</FormLabel>
+                <Input
+                  required
+                  ref={initialRef}
+                  placeholder="Enter session id"
+                  onChange={(e) => setSessionId(e.target.value)}
+                />
+              </FormControl>
+            </ModalBody>
 
-        <ModalFooter>
-          <Button onClick={joinSession} colorScheme="blue" mr={3}>
-            Join
-          </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal> :''
-      }
-      
-      {props.method === 'add' ? <Modal
-        isCentered
-        onClose={onClose}
-        isOpen={isOpen}
-        size={{ base: "xs", md: "3xl" }}
-        motionPreset="scale">
-        <ModalOverlay />
+            <ModalFooter>
+              <Button
+                onClick={joinSession}
+                backgroundColor={"#FFA476"}
+                color="#fff"
+                _hover={{
+                  backgroundColor: "#FFB189",
+                }}
+                mr={3}>
+                Join
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      ) : (
+        ""
+      )}
 
-        <ModalContent>
-          <Text px={6} pt={3} color="gray.400">
-            Sessions /{" "}
-            <Text as="span" color={useColorModeValue("gray.800", "gray.100")}>
-              {" "} Create Session {" "}
-            </Text>
-          </Text>
+      {props.method === "add" ? (
+        <Modal
+          isCentered
+          onClose={onClose}
+          isOpen={isOpen}
+          size={{ base: "xs", md: "3xl" }}
+          motionPreset="scale">
+          <ModalOverlay />
 
-          <ModalHeader px={6} pt={9} color={"gray.700"}>
-            <Text color={useColorModeValue("gray.800", "gray.100")}>
-              This Session {session.type == "Personal" ? "is" : "for"} a ..{" "}
-              <Text as={"span"} color={useColorModeValue("black", "gray.100")}>
-                {session.type}
+          <ModalContent>
+            <Text px={6} pt={3} color="gray.400">
+              Sessions /{" "}
+              <Text as="span" color={useColorModeValue("gray.800", "gray.100")}>
+                {" "}
+                Create Session{" "}
               </Text>
             </Text>
-          </ModalHeader>
 
-          <ModalCloseButton />
-
-          <ModalBody pt={1} justifyItems="center">
-            {/* Radio Cards Here */}
-            <SimpleGrid
-              {...group}
-              justifyContent="center"
-              gap={5}
-              columns={{ base: 2, md: 4 }}>
-              {options.map((value) => {
-                const radio = getRadioProps({ value });
-                return (
-                  <RadioCard key={value} {...radio}>
-                    {value}
-                  </RadioCard>
-                );
-              })}
-            </SimpleGrid>
-            <VStack spacing={3} p={6}>
-              <Text alignSelf={"start"}>
-                Title
-                <Text as={"span"} color={"red.600"}>
-                  *
+            <ModalHeader px={6} pt={9} color={"gray.700"}>
+              <Text color={useColorModeValue("gray.800", "gray.100")}>
+                This Session {session.type == "Personal" ? "is" : "for"} a ..{" "}
+                <Text
+                  as={"span"}
+                  color={useColorModeValue("black", "gray.100")}>
+                  {session.type}
                 </Text>
               </Text>
-              <Input
-                variant="outline"
-                placeholder="Enter Title Here"
-                required={true}
-                onChange={(e)=> setTitle(e.target.value)}
-                border="3px solid"
-                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
-                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
-              />
+            </ModalHeader>
 
-              <Text alignSelf={"start"}>Description</Text>
-              <Textarea
-                variant="outline"
-                placeholder="Enter Your Description Here"
-                size={"sm"}
-                onChange={(e) => {
-                  setDescription(e.target.value);
-                }}
-                borderRadius={'0.375rem 0.375rem 0 0.375rem'}
-                border="3px solid"
-                borderColor={useColorModeValue("#f0f0f0", "gray.600")}
-                backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
-              />
-            </VStack>
-          </ModalBody>
+            <ModalCloseButton />
 
-          <ModalFooter>
-            {/* <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <ModalBody pt={1} justifyItems="center">
+              {/* Radio Cards Here */}
+              <SimpleGrid
+                {...group}
+                justifyContent="center"
+                gap={5}
+                columns={{ base: 2, md: 4 }}>
+                {options.map((value) => {
+                  const radio = getRadioProps({ value });
+                  return (
+                    <RadioCard key={value} {...radio}>
+                      {value}
+                    </RadioCard>
+                  );
+                })}
+              </SimpleGrid>
+              <VStack spacing={3} p={6}>
+                <Text alignSelf={"start"}>
+                  Title
+                  <Text as={"span"} color={"red.600"}>
+                    *
+                  </Text>
+                </Text>
+                <Input
+                  variant="outline"
+                  placeholder="Enter Title Here"
+                  required={true}
+                  onChange={(e) => setTitle(e.target.value)}
+                  border="3px solid"
+                  borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                  backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
+                />
+
+                <Text alignSelf={"start"}>Description</Text>
+                <Textarea
+                  variant="outline"
+                  placeholder="Enter Your Description Here"
+                  size={"sm"}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                  borderRadius={"0.375rem 0.375rem 0 0.375rem"}
+                  border="3px solid"
+                  borderColor={useColorModeValue("#f0f0f0", "gray.600")}
+                  backgroundColor={useColorModeValue("#fdfdfd", "gray.800")}
+                />
+              </VStack>
+            </ModalBody>
+
+            <ModalFooter>
+              {/* <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button> */}
 
-            <Button size={"lg"} colorScheme="blue" onClick={addSession}>
-              Create Session
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal> :''}
-      
+              <Button
+                size={"lg"}
+                backgroundColor={"#FFA476"}
+                color="#fff"
+                _hover={{
+                  backgroundColor: "#FFB189",
+                }}
+                onClick={addSession}>
+                Create Session
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      ) : (
+        ""
+      )}
     </>
   );
 }
 
 export default SessionOverlay;
-
-

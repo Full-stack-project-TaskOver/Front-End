@@ -37,6 +37,7 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { VscSignOut } from "react-icons/vsc";
+import {BsPersonCircle} from 'react-icons/bs'
 
 import { FiHome, FiMenu, FiUsers } from "react-icons/fi";
 import { IconType } from "react-icons";
@@ -51,7 +52,8 @@ import { Route, Link, useLocation, useNavigate } from "react-router-dom";
 import { ValueTarget } from "framer-motion";
 import DarkModeIconButton from "./Tasks/DarkModeIcon";
 import Buttons from "./Authentication/Buttons";
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo3.svg";
+import avatar from "../assets/Avatar.png";
 
 
 
@@ -66,7 +68,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: "Home", icon: FiHome, path: "Landing" },
   { name: "Sessions", icon: FiTrendingUp, path: "Sessions" },
-  { name: "Explore", icon: FiCompass, path: "Explore" },
+  { name: "Profile", icon: BsPersonCircle, path: "Profile" },
   { name: "Favourites", icon: FiStar, path: "Favourites" },
   { name: "Sign Out", icon: VscSignOut, path: "signOut" },
 ];
@@ -122,7 +124,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       zIndex={10}
       {...rest}>
       <Flex h="20" alignItems="center" mx="3">
-        <Image src={logo} maxH={"10rem"} maxW="8rem"></Image>
+        <Image src={logo} maxH={"5rem"} maxW="5rem"></Image>
         <Spacer />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
@@ -212,8 +214,8 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 
       <Image
         src={logo}
-        maxH={"10rem"}
-        maxW="8rem"
+        maxH={"5rem"}
+        maxW="5rem"
         display={{ base: "flex", md: "none" }}></Image>
 
       <Buttons />

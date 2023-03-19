@@ -25,7 +25,7 @@ interface User {
 }
 
 export default function ShowUsers() {
-  let { sessionId } = useParams();
+  let { id } = useParams();
   const toast = useToast();
   
   
@@ -34,7 +34,7 @@ export default function ShowUsers() {
   const [users, setUsers] = useState<User[]>([]);
   
   const fetchUsers = async () => {
-    const request = await fetch(`http://localhost:3003/usersAndSession/${sessionId}`, {
+    const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: "Bearer " + localStorage.getItem("token"),
@@ -44,23 +44,23 @@ export default function ShowUsers() {
     if(data.message === 'There is no Users in Sessions'){
       return data.message
     }
+    console.log(Object.values(data.message));
     
     setUsers(Object.values(data.message) as User[])
     
   };
 
-  
   const deleteUser = async (userId:string) => {
 
     
-    const request = await fetch(`http://localhost:3003/usersAndSession/${sessionId}/${userId}`, {
+    const request = await fetch(`http://localhost:3003/usersAndSession/${id}/${userId}`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json", 
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
-    const data = await request.json()
+    const data = await request.json()    
     if (request.status !== 200) {
       toast({
         title: data.message,

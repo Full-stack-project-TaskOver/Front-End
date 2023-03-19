@@ -61,18 +61,10 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const destItems = [...destColumn.items];
     const [removed] = sourceItems.splice(source.index, 1);
     
+
+    
     destItems.splice(destination.index, 0, removed);
-    console.log({
-      ...columns,
-      [source.droppableId]: {
-        ...sourceColumn,
-        items: sourceItems
-      },
-      [destination.droppableId]: {
-        ...destColumn,
-        items: destItems
-      }
-    });
+
     
     setColumns({
       ...columns,
@@ -119,7 +111,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     const [assignToId, setAssignToId] = React.useState<string>("");
     const [taskDesc, setTaskDesc] = React.useState<string>("");
     const [taskCreateAt, setTaskCreateAt] = React.useState<string>("");
-    const [point, setPoint] = React.useState<number>();
+    const [point, setPoint] = React.useState<number>(0);
    
 
 
@@ -133,7 +125,7 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
       setTaskCreateAt(createAt.substring(0,10))
     }
 
-    const fetchTasks:any = async () => {
+    const fetchTasks = async () => {
       
       const request = await fetch(`http://localhost:3003/task/all-task/${id}`, {
         headers: {
@@ -231,7 +223,8 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
     };
 
     const getPoint = async () => {
-      const request = await fetch(`http://localhost:3003/usersAndSession/point/${id}`, {
+      
+      const request = await fetch(`http://localhost:3003/usersAndSession/getPoint/${id}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -270,21 +263,18 @@ const onDragEnd =  (result: DropResult, columns: { [x: string]: any; }, setColum
  
       // const addPoint = point + 100
       const addPointToUser = async () => {
-
+             
         const request = await fetch(`http://localhost:3003/usersAndSession/${id}`, {
           method:'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
-          
           body:JSON.stringify({
-
-            userId: assignToId,
-            point: 222
+            assignToId
           })
         });
-        
+        const data = await request.json()
         
       };
       console.log('$$$$$$$$$$$$');
