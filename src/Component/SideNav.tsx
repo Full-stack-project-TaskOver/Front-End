@@ -48,7 +48,6 @@ import { ReactText } from "react";
 import { BiBuildingHouse } from "react-icons/bi";
 import { CiHospital1, CiGlobe } from "react-icons/ci";
 import { BsCardText } from "react-icons/bs";
-import { RiTeamLine } from "react-icons/Ri";
 
 import { Route, Link, useLocation, useNavigate } from "react-router-dom";
 import { ValueTarget } from "framer-motion";
